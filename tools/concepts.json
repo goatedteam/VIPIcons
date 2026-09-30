@@ -1,0 +1,59 @@
+{
+  "style_brief": "Create ONE game icon asset for the VIP rewards panel of Goated, a crypto casino.\n\nThe attached images are Goated's official art. Use them as the STYLE reference and match that style exactly: hand-painted, stylized 2.5D premium mobile-game asset; bold dark ink outlines with varied line weight (thicker on the silhouette, thinner on interior details); cel-shaded value blocks with soft gradient blending; chunky, slightly exaggerated proportions with beveled edges; subtle painterly surface texture (wood grain, weave, worn metal); warm top-left key light with crisp specular highlights. Do not reproduce the reference objects themselves unless the subject below asks for them.\n\nBrand details: Goated coins are thick gold coins (#F6C53A to #D9771A) embossed with the Goated ram-horn glyph, two angular horn shapes exactly as on the coin and chip references. The brand accent colour is neon lime (#D4FF00). Premium objects use deep slate navy.\n\nSUBJECT: {subject}\n\nCOMPOSITION: a single hero object group, centred, in a 3/4 view, filling about 80% of a square canvas with even padding, entirely inside the frame, nothing cropped. It must read clearly at 96px.\nBACKGROUND: plain, flat, solid light grey (#D0D0D0), perfectly uniform. No gradient, no floor, no scene, no cast shadow on the background, no vignette, and no glow halo spilling onto the background.\nNo text, letters or numbers anywhere; no UI, no frame, no watermark.",
+  "bonuses": {
+    "daily": {
+      "title": "Daily Bonus",
+      "A": {"name": "Daily Coin Pouch", "refs": ["money_bag", "coin"], "subject": "A small, cinched burlap coin pouch tied with rope, with the Goated ram-horn glyph stamped on the front in dark purple ink, and three or four Goated gold coins spilling out at its base. It is smaller and humbler than a big money sack: a modest daily reward."},
+      "B": {"name": "Tear-off Day Calendar", "refs": ["calendar", "coin"], "subject": "A compact tear-off desk calendar in Goated's calendar style (red header band, two silver binder rings, slate-navy backing). Its top page is curling and peeling back to reveal a single shiny Goated gold coin tucked underneath, and a small neon-lime tab sticks out of the side marking today. The page surface is blank, with no numbers or text."},
+      "C": {"name": "Morning Mug of Coins", "refs": ["coin", "chip_lime"], "subject": "A chunky ceramic mug in deep slate navy with a neon-lime rim and handle, overflowing with Goated gold coins instead of coffee, with a curl of golden sparkle 'steam' rising from the top."}
+    },
+    "weekly": {
+      "title": "Weekly Bonus",
+      "A": {"name": "Classic Goated Chest", "refs": ["chest_open", "coin"], "subject": "Goated's classic treasure chest (red-brown wooden planks, heavy light-grey steel bands, brass keyhole lock plate), lid open and heaped high with Goated gold coins, with a warm golden glow rising from the coins. A couple of coins have spilled out onto the ground in front."},
+      "B": {"name": "Week Calendar Strip", "refs": ["calendar", "coin"], "subject": "Goated's spiral desk calendar (red header band, silver binder rings, slate-navy backing, pale grid of day cells) where one full horizontal row of seven cells is highlighted in neon lime to mark the week. A short stack of Goated gold coins stands in front of the calendar's lower corner. No numbers or text."},
+      "C": {"name": "Goated Gift Box", "refs": ["gift_box", "coin"], "subject": "Goated's slate-navy gift box with a mustard-gold ribbon and bow, its lid popping off and tilted upward, with Goated gold coins and a burst of neon-lime light shooting out of the open box."}
+    },
+    "monthly": {
+      "title": "Monthly Bonus",
+      "A": {"name": "Royal Vault Chest", "refs": ["chest_open", "coin", "chip_lime"], "subject": "A large, ornate premium treasure chest built from dark slate-navy wood with thick gold trim, gold corner caps and a round gold medallion embossed with the Goated ram-horn glyph on the front. The lid is open and overflowing with Goated gold coins mixed with large faceted gems (sapphire blue, amber gold and emerald green), with a strong golden glow from inside. It should feel clearly bigger and richer than a normal chest."},
+      "B": {"name": "Month Calendar + Wax Seal", "refs": ["calendar", "envelope", "coin"], "subject": "A large, thick tear-off desk calendar in Goated's calendar style (red header band, silver rings, slate-navy backing) with a big gold wax seal embossed with the Goated ram-horn glyph pressed onto the blank front page, with two short gold ribbons hanging below the seal. A generous pile of Goated gold coins sits at the calendar's base. No numbers or text."},
+      "C": {"name": "Bank Vault Door", "refs": ["chest_open", "coin"], "subject": "A heavy, round steel bank-vault door in worn light-grey steel with rivets, a big spoked wheel handle and bolt pins, swung partly open, with warm golden light and Goated gold coins pouring out through the gap."}
+    },
+    "vip": {
+      "title": "VIP Bonus",
+      "A": {"name": "Goated Crown", "refs": ["coin", "chip_lime"], "subject": "A chunky, hand-painted gold royal crown with five pointed tips topped by small gold balls, set with faceted ruby-red and sapphire-blue gems around the band and one large neon-lime faceted gem at the centre front."},
+      "B": {"name": "VIP Invitation Envelope", "refs": ["envelope", "coin"], "subject": "Goated's deep slate-navy paper envelope, tilted at a dynamic angle, sealed with a neon-lime wax seal embossed with the Goated ram-horn glyph with a small blue ribbon, and a shiny gold card peeking out from the top of the flap."},
+      "C": {"name": "Crowned VIP Chip", "refs": ["chip_lime", "coin"], "subject": "Goated's charcoal-grey and neon-lime casino chip with white edge stripes and the neon-lime ram-horn glyph in the centre, standing upright on its edge and slightly turned, with a small gold crown perched at a jaunty angle on its top edge."}
+    },
+    "rakeback": {
+      "title": "Instant Rakeback",
+      "A": {"name": "Goated Rake", "refs": ["coin", "chip_lime"], "subject": "A garden rake with a warm wooden handle and a chunky neon-lime rake head, set diagonally and raking in a small pile of Goated gold coins towards the viewer."},
+      "B": {"name": "Croupier's Table Rake", "refs": ["chip_lime", "coin"], "subject": "A casino croupier's rake stick (long slim polished wooden pole with a flat L-shaped paddle at the end, trimmed in gold), sweeping a small pile of Goated casino chips (red-and-white chips and charcoal-and-lime chips, each with the ram-horn glyph) plus a couple of gold coins."},
+      "C": {"name": "Coin Magnet", "refs": ["coin"], "subject": "A classic horseshoe magnet, red with light-grey steel tips, tilted diagonally, with three or four Goated gold coins flying back towards its tips, trailed by short neon-lime motion streaks and small sparkles."}
+    },
+    "lossback": {
+      "title": "Lossback",
+      "A": {"name": "Return Arrow + Coins", "refs": ["coin", "chip_lime"], "subject": "A thick, chunky, curved neon-lime arrow with a bevelled 3D edge, looping almost fully around in a circle (counter-clockwise, like a 'return' symbol), wrapped around a tidy stack of Goated gold coins in the middle."},
+      "B": {"name": "Boomerang", "refs": ["coin"], "subject": "A chunky wooden boomerang with two neon-lime painted stripes, mid-flight and curving back, trailing three Goated gold coins and a short swoosh trail."},
+      "C": {"name": "Life Ring", "refs": ["coin", "chip_lime"], "subject": "A life preserver ring with alternating deep slate-navy and neon-lime segments, wrapped with light rope around the outside, lying at a 3/4 angle with a neat pile of Goated gold coins nested in its centre."}
+    },
+    "reload": {
+      "title": "Reload",
+      "A": {"name": "Refresh Ring + Goated Coin", "refs": ["coin"], "subject": "Two chunky, bevelled neon-lime curved arrows forming a circular refresh/reload loop, framing one large, thick Goated gold coin embossed with the ram-horn glyph at the centre."},
+      "B": {"name": "Coin Battery", "refs": ["coin", "chip_lime"], "subject": "A chunky battery with a slate-navy casing and a clear window showing a neon-lime charge level mostly full, capped at the top with a Goated gold coin as its terminal, with small lime energy sparks around it."},
+      "C": {"name": "Chip Rack Refill", "refs": ["chip_lime", "coin"], "subject": "A casino chip rack/tray with rounded slots, half full of stacked Goated casino chips (red-and-white and charcoal-and-lime chips with the ram-horn glyph), with a few more chips dropping into the rack from above."}
+    },
+    "levelup": {
+      "title": "Level Up Bonus",
+      "A": {"name": "Power Bolt", "refs": ["coin", "chip_lime"], "subject": "A chunky, bevelled lightning bolt in rich amber-gold shading to orange, with a bright specular edge, surrounded by a few small gold stars and neon-lime sparks."},
+      "B": {"name": "Rank Shield", "refs": ["coin", "chip_lime"], "subject": "A heraldic shield with a steel-grey body and thick gold rim, carrying three stacked neon-lime upward chevrons (rank stripes) on its face, with a gold star mounted on the top of the shield."},
+      "C": {"name": "Level-Up Potion", "refs": ["coin", "chip_lime"], "subject": "A round-bottomed glass potion flask filled with glowing, bubbling neon-lime liquid, stoppered with a cork, with a small gold label on the front embossed with the Goated ram-horn glyph, and a few lime bubbles rising from the neck."}
+    },
+    "tierup": {
+      "title": "Tier Up Bonus",
+      "A": {"name": "Lime Arrow + Coin Stacks", "refs": ["coin", "chip_lime"], "subject": "A big, chunky, bevelled neon-lime 3D arrow pointing straight up, bursting upward out of a cluster of Goated gold coin stacks at its base, with three small lime stars around it."},
+      "B": {"name": "Coin Staircase", "refs": ["coin"], "subject": "Three stacks of Goated gold coins of clearly increasing height (short, medium, tall) arranged left to right like a staircase, with a chunky neon-lime arrow climbing up and over them, pointing up-right."},
+      "C": {"name": "Goated Rocket", "refs": ["coin", "chip_lime"], "subject": "A chunky cartoon rocket with a deep slate-navy body, neon-lime fins and nose cone, and a round porthole showing the Goated ram-horn glyph, launching diagonally upward off a small pile of Goated gold coins with a golden flame and small sparks beneath it."}
+    }
+  }
+}
