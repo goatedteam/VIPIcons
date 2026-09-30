@@ -4,7 +4,10 @@
   python tools/run_finals.py selections.json [bonus ...]
 
 selections.json maps bonus -> {"round": "round2" (omit for round 1), "pick": "1",
-"notes": "optional tweaks"}. The chosen variant is passed as the primary reference,
+"notes": "optional tweaks", "subject": "optional replacement subject",
+"refs": ["optional replacement style refs"]}. Use "subject"/"refs" when the change
+is structural (swapping out an object), since the concept's subject would otherwise
+pull the old object back in. The chosen variant is passed as the primary reference,
 together with that concept's style references, and re-rendered at 2K. Writes:
   final/flat/<bonus>.png   2K on a flat #D0D0D0 background
   final/<bonus>.png        transparent cutout, trimmed to a padded square
@@ -32,7 +35,7 @@ Keep every secondary effect (sparks, stars, motion streaks, steam, light rays) t
 
 The remaining attached images are Goated's official art, supplied as the style reference: {style}
 
-SUBJECT (for context): {subject}
+SUBJECT (where this text differs from the concept image, follow this text): {subject}
 {notes}
 COMPOSITION: centred, filling about 80% of a square canvas with even padding, nothing cropped.
 BACKGROUND: plain, flat, solid light grey (#D0D0D0), perfectly uniform. No gradient, no floor, no cast shadow on the background, no vignette, and no glow halo on the background.
@@ -51,8 +54,11 @@ def concept(rnd, key, pick):
     return variant, subject, [ref_path(r) for r in c["refs"]]
 
 
-def final(key, rnd, pick, notes):
-    variant, subject, style_refs = concept(rnd, key, pick)
+def final(key, rnd, pick, notes, subject=None, refs=None):
+    variant, concept_subject, style_refs = concept(rnd, key, pick)
+    subject = subject or concept_subject
+    if refs:
+        style_refs = [ref_path(r) for r in refs]
     prompt = FINAL_BRIEF.format(style=STYLE, subject=subject,
                                 notes=f"ART DIRECTION NOTES (apply these): {notes}\n" if notes else "")
     png = generate(prompt, [variant] + style_refs, "gemini-3-pro-image", "2K")
@@ -70,5 +76,5 @@ if __name__ == "__main__":
     for key, s in sel.items():
         if only and key not in only:
             continue
-        final(key, s.get("round"), s["pick"], s.get("notes", ""))
+        final(key, s.get("round"), s["pick"], s.get("notes", ""), s.get("subject"), s.get("refs"))
         print("done", key, flush=True)
