@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Step 4: generate final icons from the selected variants.
+"""Final step: generate final icons from the selected variants.
 
   python tools/run_finals.py selections.json [bonus ...]
 
-selections.json maps bonus -> {"pick": "A"|"B"|"C", "notes": "optional tweaks"}.
-For each bonus, the chosen variant is passed as the primary reference, together
-with the Goated style references, and re-rendered at 2K. Writes:
+selections.json maps bonus -> {"round": "round2" (omit for round 1), "pick": "1",
+"notes": "optional tweaks"}. The chosen variant is passed as the primary reference,
+together with that concept's style references, and re-rendered at 2K. Writes:
   final/flat/<bonus>.png   2K on a flat #D0D0D0 background
   final/<bonus>.png        transparent cutout, trimmed to a padded square
 """
@@ -19,9 +19,10 @@ from PIL import Image
 
 sys.path.insert(0, os.path.dirname(__file__))
 from generate import generate  # noqa: E402
+from run_variants import ref_path  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CFG = json.load(open(os.path.join(ROOT, "tools", "concepts.json")))
+CONFIGS = {None: "concepts.json", "round2": "concepts_r2.json"}
 
 FINAL_BRIEF = """The FIRST attached image is the approved concept sketch for this icon. Re-render it as the final, production-quality asset.
 
@@ -41,13 +42,20 @@ STYLE = ("hand-painted stylized 2.5D premium mobile-game asset, bold dark ink ou
          "cel-shaded value blocks with soft gradient blending, chunky proportions, warm top-left key light.")
 
 
-def final(key, pick, notes):
-    c = CFG["bonuses"][key][pick]
-    refs = [os.path.join(ROOT, "variants", key, f"{pick}.png")]
-    refs += [os.path.join(ROOT, "reference", "style", r + ".png") for r in c["refs"]]
-    prompt = FINAL_BRIEF.format(style=STYLE, subject=c["subject"],
+def concept(rnd, key, pick):
+    cfg = json.load(open(os.path.join(ROOT, "tools", CONFIGS[rnd])))
+    b = cfg["bonuses"][key]
+    c = b["variants"][pick] if rnd else b[pick]
+    subject = c["subject"] + (cfg.get("tier_note", "") if c.get("tier") else "")
+    variant = os.path.join(ROOT, "variants", *([rnd] if rnd else []), key, f"{pick}.png")
+    return variant, subject, [ref_path(r) for r in c["refs"]]
+
+
+def final(key, rnd, pick, notes):
+    variant, subject, style_refs = concept(rnd, key, pick)
+    prompt = FINAL_BRIEF.format(style=STYLE, subject=subject,
                                 notes=f"ART DIRECTION NOTES (apply these): {notes}\n" if notes else "")
-    png = generate(prompt, refs, "gemini-3-pro-image", "2K")
+    png = generate(prompt, [variant] + style_refs, "gemini-3-pro-image", "2K")
     flat = os.path.join(ROOT, "final", "flat", f"{key}.png")
     os.makedirs(os.path.dirname(flat), exist_ok=True)
     Image.open(io.BytesIO(png)).save(flat, "PNG")
@@ -62,5 +70,5 @@ if __name__ == "__main__":
     for key, s in sel.items():
         if only and key not in only:
             continue
-        final(key, s["pick"], s.get("notes", ""))
+        final(key, s.get("round"), s["pick"], s.get("notes", ""))
         print("done", key, flush=True)

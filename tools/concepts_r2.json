@@ -1,0 +1,79 @@
+{
+  "round": "round2",
+  "base_prefix": "The FIRST attached image is the APPROVED design for this icon, chosen by the art director. Treat it as the master: keep its object design, materials, colours, proportions and rendering style, and apply only the changes described in the subject below.\n\n",
+  "tier_note": "\n\nGOATED VIP TIER ICONS: these are Goated's official VIP rank emblems, shown flat in the tier reference image. Keep each emblem's exact shape and colour, but repaint it as a chunky, bevelled, faceted gem or metal token in the same hand-painted ink-outlined style: Copper = copper-orange disc; Bronze = bronze-brown square; Silver = silver triangle; Gold = gold rhombus/diamond shape; Platinum = pale platinum pentagon; Pearl = iridescent lilac-white pearl sphere; Sapphire = bright blue octahedral gem; Emerald = green hexagonal gem; Diamond = white brilliant-cut diamond. Do NOT use coins.",
+  "bonuses": {
+    "daily": {
+      "title": "Daily Bonus",
+      "variants": {
+        "1": {"name": "Daily Supply Drop", "refs": ["coin", "chip_lime", "art:Banner_02_a.png"], "subject": "A 'daily drop': a small wooden supply crate (warm wood, like Goated's parachute crate reference) with the Goated ram-horn glyph branded on its side, floating down under a round parachute with alternating neon-lime and charcoal panels, attached by thin white cords. The crate is small and compact, a modest daily reward. The parachute, cords and crate form one connected object."},
+        "2": {"name": "Daily Coffer", "refs": ["chest_open", "coin"], "subject": "A SMALL, compact wooden coffer / lockbox, the little sibling of Goated's big treasure chest: the same red-brown wood planks, light-grey steel corner bands and brass keyhole plate, but a short, boxy, cute proportion (about half the size of a chest), with a slightly domed lid cracked open and a warm golden glow and a few gold coins visible inside. Clearly smaller and humbler than a full treasure chest."},
+        "3": {"name": "Goat Bank", "refs": ["coin", "chip_lime"], "subject": "A 'goat bank': a chunky, glossy ceramic piggy-bank-style money bank shaped like a stylised goat, in deep slate navy with neon-lime curled ram horns, a small neon-lime hoof trim and a coin slot on its back with one Goated gold coin half-inserted into the slot. Friendly, cute and chunky, standing in a 3/4 view."}
+      }
+    },
+    "weekly": {
+      "title": "Weekly Bonus",
+      "variants": {
+        "1": {"name": "Chest A: Closed, Glowing Seams", "base": "variants/weekly/A.png", "refs": ["chest_open", "art:Chest B_front closed.png"], "subject": "The same Goated treasure chest, but with the lid CLOSED and a bright warm golden light leaking out through the seam between lid and body (like the glowing closed chest reference). A few Goated gold coins sit in front of it, touching its base. 3/4 view from the front-left."},
+        "2": {"name": "Chest A: Overflowing, Right View", "base": "variants/weekly/A.png", "refs": ["art:Chest B_right opened.png", "coin"], "subject": "The same Goated treasure chest, seen in a 3/4 view from the front-RIGHT, lid wide open and overflowing: coins heaped above the rim with a few spilling over the front edge and piling at the base (touching the chest), plus a strong warm golden glow rising from the coins."},
+        "3": {"name": "Chest A: Lime Treasure", "base": "variants/weekly/A.png", "refs": ["coin", "chip_lime"], "subject": "The same Goated treasure chest with its lid open and full of Goated gold coins, but the glow rising from inside is Goated neon lime (#D4FF00) instead of gold, with a few lime sparkles touching the rim. The brass lock plate is embossed with the Goated ram-horn glyph."}
+      }
+    },
+    "monthly": {
+      "title": "Monthly Bonus",
+      "variants": {
+        "1": {"name": "Royal Chest: Mirrored", "base": "reference/derived/monthly_A_flipped.png", "refs": ["coin", "chip_lime"], "subject": "Reproduce the approved royal chest exactly as shown in the first image, which is already mirrored horizontally (the open lid's hinge side and the viewing angle are flipped left-to-right compared with the original). Keep this mirrored orientation. Polish the linework and shading only."},
+        "2": {"name": "Royal Chest: Mirrored, Richer Hoard", "base": "reference/derived/monthly_A_flipped.png", "refs": ["coin", "art:Banner_03_a.png", "art:Banner_03_d.png"], "subject": "The same mirrored royal chest (keep the mirrored orientation of the first image), but with an even richer hoard: coins heaped above the rim mixed with several large faceted gems (sapphire blue, emerald green, amber gold, in the style of the gem references), a string of pearls draped over the front edge, and strong golden light rays rising from inside."},
+        "3": {"name": "Royal Chest: Mirrored, Lime Accents", "base": "reference/derived/monthly_A_flipped.png", "refs": ["coin", "chip_lime"], "subject": "The same mirrored royal chest (keep the mirrored orientation of the first image), with Goated brand accents: the ram-horn medallion on the front is gold with a neon-lime inlaid glyph, small neon-lime gems are set into the gold corner caps, and one large glowing neon-lime gem sits on top of the coin pile."}
+      }
+    },
+    "vip": {
+      "title": "VIP Bonus",
+      "variants": {
+        "1": {"name": "Crown on Velvet Cushion", "base": "variants/vip/A.png", "refs": ["coin"], "subject": "The same Goated gold crown with its red, blue and central neon-lime gems, resting on a plump deep slate-navy velvet cushion with gold piping and gold tassels at the corners. The crown sits slightly tilted on the cushion."},
+        "2": {"name": "Ram-Horn Crown", "base": "variants/vip/A.png", "refs": ["coin", "chip_lime"], "subject": "The same Goated gold crown, but the centre front features a large gold emblem of the Goated ram-horn glyph (two angular horn shapes, exactly as on the coin reference) with the large neon-lime gem set just beneath it. The crown is shown at a slight dynamic tilt with a crisp sparkle touching one tip."},
+        "3": {"name": "Tier-Gem Crown", "base": "variants/vip/A.png", "refs": ["tiers:all"], "subject": "The same Goated gold crown, but its gems are the Goated VIP tier emblems set into the band and tips as jewels: a blue Sapphire octahedral gem, a green Emerald hexagonal gem, a lilac-white Pearl, and a large white brilliant-cut Diamond at the centre front."}
+      }
+    },
+    "rakeback": {
+      "title": "Instant Rakeback",
+      "variants": {
+        "1": {"name": "Rake, No Coins", "base": "variants/rakeback/A.png", "refs": ["chip_lime"], "subject": "The same rake (warm wooden handle, chunky neon-lime rake head) in the same diagonal pose, but with NO coins and nothing else in the image: the rake alone."},
+        "2": {"name": "Rake, Sweeping Motion", "base": "variants/rakeback/A.png", "refs": ["chip_lime"], "subject": "The same rake (warm wooden handle, chunky neon-lime rake head), with NO coins, angled dynamically as if mid-sweep, with a short neon-lime swoosh arc trailing from and touching the rake head to suggest instant speed."},
+        "3": {"name": "Premium Goated Rake", "base": "variants/rakeback/A.png", "refs": ["coin", "chip_lime"], "subject": "The same rake with NO coins, upgraded: the neon-lime rake head has the Goated ram-horn glyph embossed on its crossbar, and a polished gold ferrule/collar joins the head to the warm wooden handle, with a gold end cap on the handle."}
+      }
+    },
+    "lossback": {
+      "title": "Lossback",
+      "variants": {
+        "1": {"name": "Return Arrow + Shield", "refs": ["chip_lime", "coin"], "subject": "A chunky steel-and-gold heraldic shield (steel-grey face, thick gold rim) with a thick, bevelled neon-lime circular arrow wrapping around it, looping counter-clockwise like a 'return' symbol. The shield face carries the Goated ram-horn glyph in gold. Message: your losses are protected and come back."},
+        "2": {"name": "Return Arrow + Goated Chip", "refs": ["chip_lime"], "subject": "Goated's charcoal-grey and neon-lime casino chip with white edge stripes and the lime ram-horn glyph (exactly as in the chip reference), tilted in a 3/4 view, with a thick bevelled neon-lime circular arrow looping around it counter-clockwise like a 'return' symbol, passing in front of and behind the chip."},
+        "3": {"name": "Re-roll Dice", "refs": ["art:Dice_left.png", "chip_lime"], "subject": "A chunky white casino die in Goated's dice style (off-white with dark navy pips, ink outline), with a thick bevelled neon-lime circular arrow looping around it counter-clockwise like a 're-roll / second chance' symbol, passing in front of and behind the die."}
+      }
+    },
+    "reload": {
+      "title": "Reload",
+      "variants": {
+        "1": {"name": "Battery, Classic Terminal", "base": "variants/reload/B.png", "refs": ["chip_lime"], "subject": "The same chunky slate-navy battery with the glowing neon-lime charge, but with NO coin: the top is a normal battery terminal (a short raised metal cap in brushed steel). The Goated ram-horn glyph is subtly etched in white on the glass charge window. A couple of small lime sparks touch the terminal."},
+        "2": {"name": "Battery, Charge Bars", "base": "variants/reload/B.png", "refs": ["chip_lime"], "subject": "The same chunky slate-navy battery with NO coin (a normal brushed-steel terminal cap on top). Instead of liquid, the window shows four stacked neon-lime charge bars, three lit and glowing, the top one dim, with a small lime lightning-bolt symbol on the casing above the bars."},
+        "3": {"name": "Battery + Reload Arrow", "base": "variants/reload/B.png", "refs": ["chip_lime"], "subject": "The same chunky slate-navy battery with the glowing neon-lime charge and NO coin (a normal brushed-steel terminal cap on top), tilted slightly, with a thick bevelled neon-lime circular 'reload' arrow looping around its middle, passing in front of and behind the battery."}
+      }
+    },
+    "levelup": {
+      "title": "Level Up Bonus",
+      "variants": {
+        "1": {"name": "Rank Shield, Refined", "base": "variants/levelup/B.png", "refs": ["coin", "chip_lime"], "subject": "The same rank shield (steel-grey face, thick gold rim, three glowing neon-lime chevrons pointing up, gold star on top), refined: deeper bevels on the rim, the chevrons stepped out in 3D, and a small sparkle touching the star."},
+        "2": {"name": "Winged Rank Shield", "base": "variants/levelup/B.png", "refs": ["coin", "chip_lime"], "subject": "The same rank shield (steel-grey face, thick gold rim, three glowing neon-lime chevrons, gold star on top), now with a pair of chunky stylised gold wings spreading from either side of the shield, feathers outlined in ink. It reads as 'ascend'."},
+        "3": {"name": "Laurel Rank Shield", "base": "variants/levelup/B.png", "refs": ["coin", "chip_lime"], "subject": "The same rank shield (steel-grey face, thick gold rim, three glowing neon-lime chevrons, gold star on top), framed by two gold laurel branches curving up around its lower sides and meeting beneath the shield point."}
+      }
+    },
+    "tierup": {
+      "title": "Tier Up Bonus",
+      "variants": {
+        "1": {"name": "Tier Staircase", "base": "variants/tierup/B.png", "refs": ["tiers:bronze_silver_gold"], "tier": true, "subject": "The same concept as the first image (a staircase with a neon-lime arrow climbing it) but with NO coins: three chunky slate-navy stone steps of increasing height, left to right, each topped by a Goated VIP tier emblem that also grows in size: the Bronze square on the lowest step, the Silver triangle on the middle step and the Gold rhombus on the top step. A thick bevelled neon-lime arrow climbs up and over them, pointing up-right."},
+        "2": {"name": "Tier Rocket", "base": "variants/tierup/C.png", "refs": ["tiers:sapphire_emerald_diamond", "coin"], "tier": true, "subject": "The same Goated rocket as the first image (slate-navy body, neon-lime fins and nose cone) launching diagonally upward with a golden flame, but with NO coins. The porthole shows a white brilliant-cut Diamond tier emblem, and the Sapphire and Emerald tier emblems tumble upward in the flame trail, touching the flame."},
+        "3": {"name": "Rocket Over Tier Steps", "base": "variants/tierup/C.png", "refs": ["tiers:bronze_silver_gold"], "tier": true, "subject": "A combination of both approved ideas, with NO coins: the Goated rocket from the first image (slate-navy body, neon-lime fins and nose cone, golden flame) blasting off diagonally upward from the top of a small staircase of three Goated VIP tier emblems of increasing size, the Bronze square, Silver triangle and Gold rhombus, stacked like steps. The flame touches the top emblem."}
+      }
+    }
+  }
+}

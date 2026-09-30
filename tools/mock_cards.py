@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Render icons inside a replica of Goated's VIP bonus modal card.
 
-  python tools/mock_cards.py --cut-dir DIR --out-dir DIR [--current-dir DIR]
+  python tools/mock_cards.py --cut-dir DIR --out-dir DIR [--current-dir DIR] [--config FILE]
 
-For every bonus in concepts.json, writes <out-dir>/<bonus>.png: a row of cards
-(current live icon, if given, then variants A/B/C) at 2x scale.
+For every bonus in the concepts file, writes <out-dir>/<bonus>.png: a row of cards
+(current live icon, if given, then each variant) at 2x scale.
 """
 import argparse
 import json
@@ -13,7 +13,6 @@ import os
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CFG = json.load(open(os.path.join(ROOT, "tools", "concepts.json")))
 X = 2  # render scale
 W, H = 332 * X, 352 * X
 CARD_BG, BORDER, BTN, MUTED = (29, 27, 41), (68, 64, 84), (215, 255, 0), (150, 148, 165)
@@ -26,6 +25,12 @@ CURRENT = {
     "daily": "Group 24518130.png", "vip": "Group 24518131.png", "lossback": "Group 24518132.png",
     "reload": "Group 24518133.png", "levelup": "Group 24518134.png", "tierup": "Group 24518135.png",
 }
+
+
+def concepts(cfg, key):
+    """{variant id: concept} for round 1 (A/B/C) and later rounds (variants map)."""
+    b = cfg["bonuses"][key]
+    return b["variants"] if cfg.get("round") else {v: b[v] for v in "ABC"}
 
 
 def card(title, icon, caption):
@@ -44,23 +49,23 @@ def card(title, icon, caption):
     return c
 
 
-def board(key, cut_dir, current_dir):
-    b = CFG["bonuses"][key]
+def board(cfg, key, cut_dir, current_dir):
+    b = cfg["bonuses"][key]
     cells = []
     if current_dir:
         cur = Image.open(os.path.join(current_dir, CURRENT[key])).convert("RGBA").resize((W, H), Image.LANCZOS)
         cells.append(("CURRENT", cur))
-    for v in "ABC":
+    for v, c in concepts(cfg, key).items():
         p = os.path.join(cut_dir, key, f"{v}.png")
         if os.path.exists(p):
-            cells.append((f"{v} · {b[v]['name']}", card(b["title"], Image.open(p).convert("RGBA"), "Expires in 4 hours")))
+            cells.append((f"{v} · {c['name']}", card(b["title"], Image.open(p).convert("RGBA"), "Expires in 4 hours")))
     gap, head = 24 * X, 34 * X
     out = Image.new("RGB", (len(cells) * (W + gap) + gap, H + head + gap), (15, 14, 21))
     d = ImageDraw.Draw(out)
     lf = ImageFont.truetype(BOLD, 13 * X)
     for i, (label, im) in enumerate(cells):
         x = gap + i * (W + gap)
-        d.text((x + 4, gap // 2 + 4), label, font=lf, fill=(215, 255, 0) if label[0] in "ABC" else (170, 170, 185))
+        d.text((x + 4, gap // 2 + 4), label, font=lf, fill=(215, 255, 0) if label != "CURRENT" else (170, 170, 185))
         out.paste(im, (x, head + gap // 2), im)
     return out
 
@@ -70,9 +75,11 @@ if __name__ == "__main__":
     ap.add_argument("--cut-dir", required=True)
     ap.add_argument("--out-dir", required=True)
     ap.add_argument("--current-dir")
+    ap.add_argument("--config", default=os.path.join(ROOT, "tools", "concepts.json"))
     a = ap.parse_args()
+    cfg = json.load(open(a.config))
     os.makedirs(a.out_dir, exist_ok=True)
-    for key in CFG["bonuses"]:
+    for key in cfg["bonuses"]:
         dst = os.path.join(a.out_dir, f"{key}.png")
-        board(key, a.cut_dir, a.current_dir).save(dst, optimize=True)
+        board(cfg, key, a.cut_dir, a.current_dir).save(dst, optimize=True)
         print("wrote", dst)

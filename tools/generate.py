@@ -13,6 +13,7 @@ import base64
 import io
 import json
 import os
+import re
 import sys
 import time
 import urllib.error
@@ -33,7 +34,7 @@ def encode_ref(path, max_side=768, bg=(208, 208, 208)):
     return {"inline_data": {"mime_type": "image/png", "data": base64.b64encode(buf.getvalue()).decode()}}
 
 
-def generate(prompt, refs, model, size, aspect="1:1", retries=3):
+def generate(prompt, refs, model, size, aspect="1:1", retries=5):
     parts = [encode_ref(r) for r in refs] + [{"text": prompt}]
     body = {
         "contents": [{"role": "user", "parts": parts}],
@@ -59,10 +60,15 @@ def generate(prompt, refs, model, size, aspect="1:1", retries=3):
             raise RuntimeError("no image in response: " + json.dumps(data)[:800])
         except (urllib.error.URLError, RuntimeError) as e:
             detail = e.read().decode()[:800] if isinstance(e, urllib.error.HTTPError) else str(e)
-            print(f"attempt {attempt + 1} failed: {detail}", file=sys.stderr)
             if attempt == retries - 1:
+                print(f"attempt {attempt + 1} failed: {detail}", file=sys.stderr)
                 raise
-            time.sleep(2 ** (attempt + 2))
+            # 429s carry "retry in N.Ns"; the per-model quota is per minute
+            wait = re.search(r"retry in ([\d.]+)s", detail)
+            delay = float(wait.group(1)) + 2 if wait else 2 ** (attempt + 2)
+            print(f"attempt {attempt + 1} failed ({getattr(e, 'code', 'error')}), retrying in {delay:.0f}s",
+                  file=sys.stderr)
+            time.sleep(delay)
 
 
 def main():
