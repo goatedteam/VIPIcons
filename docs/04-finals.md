@@ -17,6 +17,10 @@ Selections: `selections.json` · Generator: `tools/run_finals.py` · Previews: `
 ## How the finals were made
 
 1. The approved variant was sent to **Nano Banana Pro** (`gemini-3-pro-image`) as the master reference, alongside the Goated style references, with a brief to keep the design and polish the linework, shading and ram-horn glyphs. For Lossback and Tier Up, `selections.json` replaces the concept subject so the removed objects don't creep back in.
+   The first pass drifted on three icons because the brief asked for ram-horn glyphs "on every coin, chip
+   or seal". The model added glyphs to the VIP crown, the Reload battery and the Level Up shield, and dropped
+   a chevron (3 → 2). The brief now says to keep element counts exactly and add nothing that isn't in the
+   concept, and those three were re-rendered. Every final was checked side by side against its approved variant.
 2. Rendered at **2048×2048** on flat `#D0D0D0` → `final/flat/<bonus>.png`.
 3. Background removed with **BiRefNet** (`birefnet-general`), trimmed and re-centred on a square canvas with 6% padding → `final/<bonus>.png` (RGBA, about 2000px).
 4. 512×512 copies for web use → `final/512/<bonus>.png`.

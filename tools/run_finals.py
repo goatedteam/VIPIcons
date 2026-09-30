@@ -29,8 +29,9 @@ CONFIGS = {None: "concepts.json", "round2": "concepts_r2.json"}
 
 FINAL_BRIEF = """The FIRST attached image is the approved concept sketch for this icon. Re-render it as the final, production-quality asset.
 
-PRESERVE from the concept: the subject, its design, colours, silhouette, composition and camera angle.
-IMPROVE: cleaner and more confident ink linework, richer cel-shaded modelling, crisper specular highlights, more refined painterly texture, and consistent Goated ram-horn glyphs on every coin, chip or seal. The glyph must match the one on the coin reference exactly.
+PRESERVE from the concept: the subject, its design, colours, silhouette, composition and camera angle, and the exact number of every repeated element (chevrons, gems, bars, stars, tips).
+IMPROVE: cleaner and more confident ink linework, richer cel-shaded modelling, crisper specular highlights and more refined painterly texture. Where a Goated ram-horn glyph already appears in the concept, make it match the one on the coin reference exactly.
+DO NOT ADD anything that is not in the concept: no new glyphs, logos, emblems, symbols, gems or decorations.
 Keep every secondary effect (sparks, stars, motion streaks, steam, light rays) touching or overlapping the main object rather than floating free, so the asset can be cut out cleanly.
 
 The remaining attached images are Goated's official art, supplied as the style reference: {style}
