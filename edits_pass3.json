@@ -1,0 +1,12 @@
+{
+  "weekly": {
+    "change": "Replace the gold lock on the front of the chest with the gold lock object shown in the second attached image, copied EXACTLY: same asymmetric ram-horn silhouette (the left horn's long stem tapering to a point at the bottom centre, the right horn shorter), same bevels, same round keyhole boss between the horns. Mount it at the same position and roughly the same size as the current lock, on the front where lid and body meet, slightly foreshortened to sit flat on the chest face, lit consistently with the chest. Remove every part of the old lock. Do not change anything else.",
+    "refs": ["brand:goated_lock.png"],
+    "ref_roles": "the second image is the exact lock to use; its silhouette is the official Goated logo and must not be altered or made symmetric."
+  },
+  "monthly": {
+    "change": "Replace the gold lock hanging at the front of the chest with the gold lock object shown in the second attached image, copied EXACTLY: same asymmetric ram-horn silhouette (the left horn's long stem tapering to a point at the bottom centre, the right horn shorter), same bevels, same round keyhole boss between the horns. Keep it hanging from the same small ring at the centre of the open lid's front edge, at roughly the same size, lit consistently with the chest. Remove every part of the old lock. Do not change anything else.",
+    "refs": ["brand:goated_lock.png"],
+    "ref_roles": "the second image is the exact lock to use; its silhouette is the official Goated logo and must not be altered or made symmetric."
+  }
+}

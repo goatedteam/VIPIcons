@@ -12,6 +12,7 @@ variants/<round>/<bonus>/<id>.png. A concept may name a "base" image (the approv
 design), which is sent first and gets the file's base_prefix. Ref names resolve as:
   coin            -> reference/style/coin.png
   art:<file>      -> reference/art/<file>
+  brand:<file>    -> reference/brand/<file>
   tiers:<set>     -> reference/derived/vip_tiers_<set>.png
 """
 import argparse
@@ -33,6 +34,8 @@ ROUND1 = json.load(open(os.path.join(ROOT, "tools", "concepts.json")))
 def ref_path(name):
     if name.startswith("art:"):
         return os.path.join(ROOT, "reference", "art", name[4:])
+    if name.startswith("brand:"):
+        return os.path.join(ROOT, "reference", "brand", name[6:])
     if name.startswith("tiers:"):
         return os.path.join(ROOT, "reference", "derived", f"vip_tiers_{name[6:]}.png")
     return os.path.join(ROOT, "reference", "style", name + ".png")

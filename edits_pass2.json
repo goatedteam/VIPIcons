@@ -1,0 +1,12 @@
+{
+  "weekly": {
+    "change": "Reshape ONLY the gold lock on the front of the chest so its silhouette matches the Goated logo in the second attached image exactly. The logo is ASYMMETRIC: the LEFT horn is a tall angular hook whose thick stem runs diagonally down and tapers to a sharp point at the bottom centre; the RIGHT horn is a separate, shorter angular hook that ends in a point at about mid-height, with a clear diagonal gap between the two horns. Keep the lock as solid bevelled gold metal with a dark ink outline, the same size and position, and keep the small round keyhole boss (with keyhole) in the gap between the horns. Do not change anything else on the chest.",
+    "refs": ["brand:goated_logo_gold.png", "brand:goated_logo.png"],
+    "ref_roles": "the second and third images are the official Goated logo silhouette; the lock's outline must match it, including its asymmetry and angles."
+  },
+  "monthly": {
+    "change": "Reshape ONLY the gold lock hanging at the front of the chest so its silhouette matches the Goated logo in the second attached image exactly. The logo is ASYMMETRIC: the LEFT horn is a tall angular hook whose thick stem runs diagonally down and tapers to a sharp point at the bottom centre; the RIGHT horn is a separate, shorter angular hook that ends in a point at about mid-height, with a clear diagonal gap between the two horns. Keep the lock as solid bevelled gold metal with a dark ink outline, the same size, position and hanging ring, and keep the small round keyhole boss (with keyhole) in the gap between the horns. Do not change anything else on the chest.",
+    "refs": ["brand:goated_logo_gold.png", "brand:goated_logo.png"],
+    "ref_roles": "the second and third images are the official Goated logo silhouette; the lock's outline must match it, including its asymmetry and angles."
+  }
+}

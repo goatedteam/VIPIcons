@@ -25,7 +25,7 @@ from generate import generate  # noqa: E402
 from run_variants import ref_path  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CONFIGS = {None: "concepts.json", "round2": "concepts_r2.json"}
+CONFIGS = {None: "concepts.json", "round2": "concepts_r2.json", "round3": "concepts_r3.json"}
 
 FINAL_BRIEF = """The FIRST attached image is the approved concept sketch for this icon. Re-render it as the final, production-quality asset.
 

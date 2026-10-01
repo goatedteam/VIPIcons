@@ -15,8 +15,9 @@ from PIL import Image, ImageDraw, ImageFont
 
 from mock_cards import BOLD, CURRENT, H, ROOT, W, X, card
 
-TITLES = {k: b["title"] for k, b in json.load(open(os.path.join(ROOT, "tools", "concepts.json")))["bonuses"].items()}
-ORDER = ["monthly", "weekly", "rakeback", "daily", "vip", "lossback", "reload", "levelup", "tierup"]
+TITLES = {k: b["title"] for f in ("concepts.json", "concepts_r3.json")
+          for k, b in json.load(open(os.path.join(ROOT, "tools", f)))["bonuses"].items()}
+ORDER = ["monthly", "weekly", "rakeback", "daily", "vip", "lossback", "reload", "levelup", "tierup", "freespins"]
 BG, GAP = (15, 14, 21), 20 * X
 
 
@@ -40,7 +41,7 @@ def main():
     os.makedirs(os.path.join(ROOT, "final", "512"), exist_ok=True)
 
     cards = [card(TITLES[k], final_icon(k), "Expires in 4 hours") for k in ORDER]
-    grid(cards, 3).save(os.path.join(ROOT, "review", "final_cards.png"), optimize=True)
+    grid(cards, 5).save(os.path.join(ROOT, "review", "final_cards.png"), optimize=True)
 
     for k in ORDER:
         small = final_icon(k).resize((512, 512), Image.LANCZOS)
@@ -48,12 +49,13 @@ def main():
 
     if a.current_dir:
         head = 30 * X
-        out = Image.new("RGB", (2 * (W + GAP) + GAP, len(ORDER) * (H + GAP) + GAP + head), BG)
+        pairs = [(k, c) for k, c in zip(ORDER, cards) if k in CURRENT]  # new bonuses have no "before"
+        out = Image.new("RGB", (2 * (W + GAP) + GAP, len(pairs) * (H + GAP) + GAP + head), BG)
         d = ImageDraw.Draw(out)
         f = ImageFont.truetype(BOLD, 14 * X)
         d.text((GAP, GAP), "BEFORE", font=f, fill=(170, 170, 185))
         d.text((2 * GAP + W, GAP), "AFTER", font=f, fill=(215, 255, 0))
-        for i, (k, new) in enumerate(zip(ORDER, cards)):
+        for i, (k, new) in enumerate(pairs):
             old = Image.open(os.path.join(a.current_dir, CURRENT[k])).convert("RGBA").resize((W, H), Image.LANCZOS)
             y = head + GAP + i * (H + GAP)
             out.paste(old, (GAP, y), old)

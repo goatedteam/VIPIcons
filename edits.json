@@ -1,0 +1,38 @@
+{
+  "rakeback": {
+    "change": "Remove all surface imperfections from the rake: no nicks, chips, dents, scratches, worn or rough patches on the neon-lime rake head and tines, and no cracks, knots or splintered spots on the wooden handle. The lime head becomes smooth and clean with crisp, even edges and clean cel-shaded highlights; the wooden handle keeps a gentle, smooth wood grain only. Keep the exact same shape, pose, number of tines, colours and outline weight."
+  },
+  "weekly": {
+    "change": "Replace the brass keyhole lock plate on the front of the chest with a gold lock shaped as the Goated logo. The lock's OUTLINE IS the Goated logo silhouette from the second attached image, cast as solid bevelled gold metal: two angular ram-horn shapes (the left horn with a long stem running down, the right horn shorter), with NO backing plate of any kind (no rectangle, shield, trapezoid or round plate behind it). The two horns are joined only by a small round gold keyhole boss set in the gap between them near the bottom, with a dark keyhole in it. Viewed from the front, anyone should recognise the Goated logo by its outline alone. Keep it the same size and position as the current lock plate, mounted on the front where lid and body meet.",
+    "refs": [
+      "brand:goated_logo.png",
+      "coin"
+    ],
+    "ref_roles": "the second image is the official Goated logo; reproduce its silhouette exactly (proportions, angles and the gap between the two horns). The third image shows how Goated paints the logo as embossed gold metal."
+  },
+  "monthly": {
+    "change": "Add a gold lock to the front of the chest, hanging from the front edge of the open lid at its centre, above the round medallion. The lock's OUTLINE IS the Goated logo silhouette from the second attached image, cast as solid bevelled gold metal: two angular ram-horn shapes (the left horn with a long stem running down, the right horn shorter), with NO backing plate of any kind (no rectangle, shield, trapezoid or round plate behind it). The two horns are joined only by a small round gold keyhole boss set in the gap between them near the bottom, with a dark keyhole in it. Viewed from the front, anyone should recognise the Goated logo by its outline alone. Size it so it reads clearly but does not cover the coins or the medallion.",
+    "refs": [
+      "brand:goated_logo.png",
+      "coin"
+    ],
+    "ref_roles": "the second image is the official Goated logo; reproduce its silhouette exactly (proportions, angles and the gap between the two horns). The third image shows how Goated paints the logo as embossed gold metal."
+  },
+  "reload": {
+    "change": "Remove the bright glow and light rays that spill outward past the edges of the battery casing. The neon-lime charge bars keep their glow, but only inside the glass window; nothing glows, flares or streaks outside the battery's silhouette. The battery's outer edge is a clean, solid ink outline all the way round."
+  },
+  "lossback": {
+    "change": "1) Replace the gold coin in the centre with the stack of cash shown in the second attached image (a thick, slightly fanned stack of green banknotes held by a tan paper band), redrawn in the same ink-outlined painted style, sized and centred inside the circular arrows where the coin was, with clear space between it and the arrows. 2) Clean up the two arrows WITHOUT redesigning them: there are EXACTLY TWO arrows, exactly as in the first image (one arcing over the top with its head at the upper right pointing down, one arcing under the bottom with its head at the lower left pointing up), in the same neon-lime colour (#D4FF00, not green), same thickness, same bevel and same arc lengths. Only smooth their surfaces: remove the chips, nicks, cracks, dents and rough worn patches so the edges are crisp and even and the highlights are clean.",
+    "refs": [
+      "art:cash_stack.png"
+    ],
+    "ref_roles": "the second image is Goated's cash-stack artwork; match it closely."
+  },
+  "tierup": {
+    "change": "Remove the round porthole window (glass and steel rim) from the rocket body completely, so that area is plain deep slate-navy hull matching the rest of the body. In its place, on the rocket body, paint a bright neon-yellow Goated logo (#D4FF00) in the exact shape shown in the second attached image: two angular ram-horn shapes, the left horn with a long stem running down, the right horn shorter. Paint it as a flat, slightly raised decal following the curve of the hull, with a thin dark ink outline, sized to about the area the window occupied, and rotated to match the rocket's diagonal direction of travel.",
+    "refs": [
+      "brand:goated_logo_lime.png"
+    ],
+    "ref_roles": "the second image is the official Goated logo in the required yellow; reproduce its silhouette exactly."
+  }
+}

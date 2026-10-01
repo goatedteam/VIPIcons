@@ -1,15 +1,54 @@
 {
-  "daily":    {"round": "round2", "pick": "3"},
-  "weekly":   {"round": "round2", "pick": "2"},
-  "monthly":  {"round": "round2", "pick": "2"},
-  "vip":      {"round": "round2", "pick": "1"},
-  "rakeback": {"round": "round2", "pick": "1"},
-  "lossback": {"round": "round2", "pick": "3", "refs": ["coin", "chip_lime"],
-               "subject": "Keep the thick, bevelled neon-lime circular 're-roll' arrow from the approved design exactly as it is (same shape, colour, thickness, bevel and counter-clockwise loop, passing in front of and behind the centre object). REPLACE the white die in the middle with a SMALL, thick Goated gold coin embossed with the Goated ram-horn glyph (exactly as on the coin reference), standing upright and slightly turned in a 3/4 view. The coin is small relative to the arrow loop, leaving clear space between them. There are no dice anywhere in the image.",
-               "notes": "Remove the die completely; the only objects are the lime circular arrow and one small Goated coin."},
-  "reload":   {"round": "round2", "pick": "2"},
-  "levelup":  {"round": "round2", "pick": "2"},
-  "tierup":   {"round": "round2", "pick": "2", "refs": ["chip_lime"],
-               "subject": "Keep the Goated rocket from the approved design exactly as it is (chunky deep slate-navy body, neon-lime nose cone and fins, launching diagonally up-right with a golden flame and small sparks touching the flame). REMOVE every gem and VIP tier icon: the round porthole is plain, glossy blue-tinted glass with a light-grey steel rim and a white highlight, and there is nothing in the flame trail except fire and sparks. No gems, no tier emblems, no coins, no other objects.",
-               "notes": "Remove the diamond in the porthole and the sapphire and emerald in the flame trail."}
+  "daily": {
+    "round": "round2",
+    "pick": "3"
+  },
+  "weekly": {
+    "round": "round2",
+    "pick": "2"
+  },
+  "monthly": {
+    "round": "round2",
+    "pick": "2"
+  },
+  "vip": {
+    "round": "round2",
+    "pick": "1"
+  },
+  "rakeback": {
+    "round": "round2",
+    "pick": "1"
+  },
+  "lossback": {
+    "round": "round2",
+    "pick": "3",
+    "refs": [
+      "coin",
+      "chip_lime"
+    ],
+    "subject": "Keep the thick, bevelled neon-lime circular 're-roll' arrow from the approved design exactly as it is (same shape, colour, thickness, bevel and counter-clockwise loop, passing in front of and behind the centre object). REPLACE the white die in the middle with a SMALL, thick Goated gold coin embossed with the Goated ram-horn glyph (exactly as on the coin reference), standing upright and slightly turned in a 3/4 view. The coin is small relative to the arrow loop, leaving clear space between them. There are no dice anywhere in the image.",
+    "notes": "Remove the die completely; the only objects are the lime circular arrow and one small Goated coin."
+  },
+  "reload": {
+    "round": "round2",
+    "pick": "2"
+  },
+  "levelup": {
+    "round": "round2",
+    "pick": "2"
+  },
+  "tierup": {
+    "round": "round2",
+    "pick": "2",
+    "refs": [
+      "chip_lime"
+    ],
+    "subject": "Keep the Goated rocket from the approved design exactly as it is (chunky deep slate-navy body, neon-lime nose cone and fins, launching diagonally up-right with a golden flame and small sparks touching the flame). REMOVE every gem and VIP tier icon: the round porthole is plain, glossy blue-tinted glass with a light-grey steel rim and a white highlight, and there is nothing in the flame trail except fire and sparks. No gems, no tier emblems, no coins, no other objects.",
+    "notes": "Remove the diamond in the porthole and the sapphire and emerald in the flame trail."
+  },
+  "freespins": {
+    "round": "round3",
+    "pick": "1",
+    "notes": "The three red '7' numerals on the reels are part of the design and must stay; no other text or numbers. No coins."
+  }
 }

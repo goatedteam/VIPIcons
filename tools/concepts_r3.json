@@ -1,0 +1,14 @@
+{
+  "round": "round3",
+  "base_prefix": "",
+  "bonuses": {
+    "freespins": {
+      "title": "Free Spins",
+      "variants": {
+        "1": {"name": "Lime Reel Drum", "refs": ["chip_lime", "art:SlotM.png"], "subject": "A chunky, rounded, barrel/drum-shaped slot-machine reel lying horizontally, like a fat capsule: a glossy neon-lime (#D4FF00) painted-metal body with darker lime-green rounded end caps and ribbed bands at each end. A wide rectangular window across the front shows three cream-white reel strips, each displaying one bold red '7' with a dark outline. A chunky lever sticks up from the right end cap, with a lime ball knob on top. Seen in a slight 3/4 view from the front-left. NO coins and nothing else around it. EXCEPTION to the no-numbers rule: the three reels each show a single bold red '7'; no other text or numbers."},
+        "2": {"name": "Lime Reel Drum, Goated Trim", "refs": ["chip_lime", "coin", "art:SlotM.png"], "subject": "A chunky, rounded, barrel/drum-shaped slot-machine reel lying horizontally, like a fat capsule: a glossy neon-lime (#D4FF00) painted-metal body with deep slate-navy rounded end caps edged in gold trim. A wide window across the front, framed in gold, shows three cream-white reel strips each displaying one bold red '7', with a soft lime glow inside the window. A small gold Goated ram-horn emblem sits on the top-centre of the drum. A chunky gold lever sticks up from the right end cap with a lime ball knob. Slight 3/4 view from the front-left. NO coins. EXCEPTION to the no-numbers rule: the three reels each show a single bold red '7'; no other text or numbers."},
+        "3": {"name": "Lime Reel Drum, Mid-Spin", "refs": ["chip_lime", "art:SlotM.png"], "subject": "A chunky, rounded, barrel/drum-shaped slot-machine reel lying horizontally, like a fat capsule: a glossy neon-lime (#D4FF00) painted-metal body with darker lime-green rounded end caps. A wide window across the front shows three cream-white reels: the left two show a bold red '7' and the right reel is mid-spin with short vertical motion streaks inside the window. The lever on the right end cap is pulled halfway down, with a lime ball knob. Dynamic 3/4 view, slightly tilted. NO coins. EXCEPTION to the no-numbers rule: the reels show bold red '7's; no other text or numbers."}
+      }
+    }
+  }
+}
