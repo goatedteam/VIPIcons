@@ -25,7 +25,7 @@ OUT = os.path.join(HERE, "out")
 
 W, H = 1920, 1080
 FPS = 60
-DUR = 12.0
+DUR = 15.35
 NFRAMES = int(DUR * FPS)
 MUSIC_START = 25.0
 
@@ -38,7 +38,11 @@ CX, CY = W / 2, H / 2
 H1, C1, H2A, H2B, C2, H3, C3, H4A, H4B, C4, H5, C5 = (
     1.56, 2.39, 3.42, 3.63, 4.04, 4.87, 5.69, 6.73, 6.94, 7.35, 8.17, 9.00)
 # hits during the end hold: only drive gentle glow pulses
-HOLD_HITS = (10.03, 10.24, 10.67, 11.48)
+HOLD_HITS = (10.03, 10.24, 10.67, 11.48, 12.31, 13.46, 13.96, 14.79)
+# end move: hold the key art until HOLD_END, then zoom so the Kick link sits at screen centre
+HOLD_END = 12.0
+ZOOM_LAND = 13.34  # strong hit in the track
+ZOOM_END = 3.6
 
 # Final layout (matches the reference key art, scaled to 1920x1080).
 LOGO_POS = (960.0, 277.0)
@@ -83,6 +87,11 @@ def in_out_expo(x):
     if x <= 0 or x >= 1:
         return x
     return 2 ** (20 * x - 10) / 2 if x < 0.5 else (2 - 2 ** (-20 * x + 10)) / 2
+
+
+def in_out_cubic(x):
+    x = clamp(x)
+    return 4 * x ** 3 if x < 0.5 else 1 - (-2 * x + 2) ** 3 / 2
 
 
 def out_back(x, k=1.70158):
@@ -131,7 +140,7 @@ def bg_time(t):
     return float(np.interp(max(t, 0), _TT, _BGT))
 
 
-TAU_END = tau(DUR)
+TAU_END = tau(HOLD_END)  # rain settles into the key art here
 
 
 # ----------------------------------------------------------------------------- image helpers
@@ -455,7 +464,7 @@ class Assets:
 
         # Kick line: icon + "kick.com/goatedcom", proportions taken from the supplied lockup.
         ktext = "kick.com/goatedcom"
-        total_out = 290.0
+        total_out = 290.0 * 1.3
         k = total_out / self.kick_total_native
         text_w_out = (self.kick_total_native - self.kick_text_x_native) * k
         ksize = text_w_out / f100.getlength(ktext) * 100
@@ -464,7 +473,7 @@ class Assets:
         icon_w = kend * k
         self.kick_icon_pos = (x0 + icon_w / 2, KICK_Y)
         tx_center = x0 + self.kick_text_x_native * k + text_w_out / 2
-        self.kick = Glyphs(ktext, geist, ksize, WHITE, SS, tx_center, KICK_Y + 0.5)
+        self.kick = Glyphs(ktext, geist, ksize, WHITE, 6, tx_center, KICK_Y + 0.5)  # 6x: sharp at ZOOM_END
         self.kick_cursor_h = geist_cap * ksize * 1.25
 
 
@@ -494,8 +503,11 @@ def make_rain(rng):
 
     native = {"bill": 640, "dice": 330, "ticket": 260}
 
-    def side_x(edge_frac):
-        if rng.random() < 0.5:
+    side_flip = {"mid": False, "near": False}
+
+    def side_x(edge_frac, layer):
+        side_flip[layer] = not side_flip[layer]
+        if side_flip[layer]:
             return rng.uniform(-60, W * edge_frac)
         return rng.uniform(W * (1 - edge_frac), W + 60)
 
@@ -518,9 +530,9 @@ def make_rain(rng):
                 s *= 1.1
             size = native[kind] * s
             if name == "mid":
-                x = side_x(0.30) if rng.random() < 0.8 else rng.uniform(0, W)
+                x = side_x(0.30, name) if rng.random() < 0.8 else rng.uniform(0, W)
             else:
-                x = side_x(0.11)
+                x = side_x(0.11, name)
             base = {"bill": 330, "dice": 620, "ticket": 380}[kind]
             vy = base * sp * rng.uniform(0.8, 1.25)
             vx = rng.uniform(-60, 60) * sp
@@ -637,6 +649,17 @@ WAVES = [  # t0, x, y, speed, ring strength, displacement px, width
 ]
 
 
+def end_camera(t):
+    """Affine (2x3) for the closing zoom onto the Kick link; identity before HOLD_END."""
+    if t <= HOLD_END:
+        return None
+    kx, ky = 960.0, KICK_Y
+    z = ZOOM_END ** in_out_cubic(u(t, HOLD_END, ZOOM_LAND))
+    m = smooth(u(t, HOLD_END, ZOOM_LAND))
+    sx, sy = lerp(kx, CX, m), lerp(ky, CY, m)  # where the link sits on screen
+    return np.array([[z, 0, sx - z * kx], [0, z, sy - z * ky]], np.float64)
+
+
 def sum_env(lst, t):
     return sum(a * env(t, t0, d) for t0, a, d in lst)
 
@@ -652,7 +675,7 @@ def shake_offset(t):
 
 
 def camera_zoom(t):
-    base = 1.0 + 0.07 * (1 - out_cubic(t / DUR)) ** 1.0
+    base = 1.0 + 0.07 * (1 - out_cubic(t / HOLD_END)) ** 1.0
     # tension pull before the first hit
     base -= 0.015 * smooth(u(t, 1.0, H1)) * (1 if t < H1 else 0)
     return base + sum_env(PUNCH, t)
@@ -666,6 +689,7 @@ class Renderer:
         self.rain = make_rain(rng)
         self.sparks = make_sparks(rng)
         self.bg_cache = {}
+        self.cam = None
         cap = cv2.VideoCapture(os.path.join(A, "background.mp4"))
         self.bg_frames = []
         while True:
@@ -792,6 +816,13 @@ class Renderer:
         white = env(t, H1, 0.12) * 0.9 + 0.5 * smooth(u(t, 1.1, H1)) * (1 if t < H1 else 0)
         return sub, alpha, white
 
+    def _blit(self, layer, img, states, alpha=1.0):
+        M = self.cam
+        if M is not None:
+            z = M[0, 0]
+            states = [(z * cx + M[0, 2], z * cy + M[1, 2], s * z, a, sx, sy) for (cx, cy, s, a, sx, sy) in states]
+        blit(layer, img, states, alpha)
+
     def draw_text(self, t):
         as_ = self.as_
         layer = np.zeros((H, W, 4), np.float32)
@@ -799,9 +830,9 @@ class Renderer:
         ls = self.logo_state(t)
         if ls:
             sub, alpha, white = ls
-            blit(layer, as_.logo, sub, alpha)
+            self._blit(layer, as_.logo, sub, alpha)
             if white > 0.01:
-                blit(layer, as_.logo_white, sub, alpha * white)
+                self._blit(layer, as_.logo_white, sub, alpha * white)
 
         # THE GOATED — glyphs slam in from the centre outward on the clap
         items = as_.goated.items
@@ -825,7 +856,7 @@ class Renderer:
                 p2 = u(t - 0.5 / FPS, land - d, land)
                 sc2 = 1 + 1.3 * (1 - p2) ** 2
                 sub.append((gx, gy - 50 * (1 - out_cubic(p2)), sc2, rot, 1, 1))
-            blit(layer, img, sub, a)
+            self._blit(layer, img, sub, a)
 
         # WEEKLY / STREAM — each word slams on an 808
         for wi, (img, img_w, wx, wy, ww, wh) in enumerate(as_.words):
@@ -855,10 +886,10 @@ class Renderer:
                 sck = 1 + 2.4 * in_cubic(1 - pk)
                 oxk = (-1 if wi == 0 else 1) * 260 * in_cubic(1 - pk)
                 sub.append((wx + oxk, cy, sck * (1 + bump), 0, sxx, syy))
-            blit(layer, img, sub, a)
+            self._blit(layer, img, sub, a)
             wmix = env(t, land, 0.07) * 0.8
             if wmix > 0.01:
-                blit(layer, img_w, sub, a * wmix)
+                self._blit(layer, img_w, sub, a * wmix)
 
         # date — light bar, then a decode/scramble reveal from the centre out
         bar_t0 = H3 - 0.16
@@ -883,9 +914,9 @@ class Renderer:
             resolve = start + 0.16
             if t < resolve:
                 sc = as_.scramble[rng.integers(len(as_.scramble))]
-                blit(layer, sc, [(gx, gy + oy, 1, 0, 1, 1)], a)
+                self._blit(layer, sc, [(gx, gy + oy, 1, 0, 1, 1)], a)
             else:
-                blit(layer, img, [(gx, gy + oy, 1, 0, 1, 1)], a)
+                self._blit(layer, img, [(gx, gy + oy, 1, 0, 1, 1)], a)
 
         # kick — icon spins in, URL types on with a cursor
         it0 = C3 - 0.14
@@ -893,7 +924,7 @@ class Renderer:
             p = u(t, it0, it0 + 0.3)
             sc = out_back(p, 2.2) * as_.kick_icon_scale
             rot = -200 * (1 - out_cubic(p))
-            blit(layer, as_.kick_icon, [(*as_.kick_icon_pos, sc, rot, 1, 1)], smooth(u(t, it0, it0 + 0.1)))
+            self._blit(layer, as_.kick_icon, [(*as_.kick_icon_pos, sc, rot, 1, 1)], smooth(u(t, it0, it0 + 0.1)))
         kitems = as_.kick.items
         last_x = None
         for (ch, idx, img, gx, gy) in kitems:
@@ -902,7 +933,7 @@ class Renderer:
                 continue
             a = smooth(u(t, start, start + 0.05))
             ox = -8 * (1 - out_cubic(u(t, start, start + 0.12)))
-            blit(layer, img, [(gx + ox, gy, 1, 0, 1, 1)], a)
+            self._blit(layer, img, [(gx + ox, gy, 1, 0, 1, 1)], a)
             last_x = gx + 9
         typing_end = C3 + 0.018 * (len(as_.kick.items) + 1)
         if last_x is not None and t < typing_end + 0.5:
@@ -925,18 +956,19 @@ class Renderer:
                 sh = int(rng2.integers(-22, 22) * g)
                 layer[y0:y0 + hgt] = np.roll(layer[y0:y0 + hgt], sh, axis=1)
 
-        # shine sweeps across the lime type on claps
-        for t0, dur, k, rows in ((C2, 0.5, 0.85, (STREAM_Y - 110, STREAM_Y + 110)),
-                                  (C4, 0.6, 0.85, (LOGO_POS[1] - 60, STREAM_Y + 110)),
-                                  (C5, 0.6, 0.6, (LOGO_POS[1] - 60, STREAM_Y + 110))):
+        # shine sweeps across the type on claps (screen space), last one over the Kick close-up
+        for t0, dur, k, rows, yref, wb in ((C2, 0.5, 0.85, (STREAM_Y - 110, STREAM_Y + 110), STREAM_Y, 46),
+                                           (C4, 0.6, 0.85, (LOGO_POS[1] - 60, STREAM_Y + 110), STREAM_Y, 46),
+                                           (C5, 0.6, 0.6, (LOGO_POS[1] - 60, STREAM_Y + 110), STREAM_Y, 46),
+                                           (ZOOM_LAND, 0.7, 0.7, (CY - 110, CY + 110), CY, 70)):
             if t0 <= t <= t0 + dur:
-                p = in_out_expo(u(t, t0, t0 + dur)) if False else smooth(u(t, t0, t0 + dur))
+                p = smooth(u(t, t0, t0 + dur))
                 y0, y1 = int(rows[0]), int(rows[1])
                 xx = self.xx[y0:y1]
                 yy = self.yy[y0:y1]
-                pos = lerp(300, 1700, p)
-                band = np.exp(-(((xx + (yy - STREAM_Y) * 0.45) - pos) / 46.0) ** 2) * k
-                band += np.exp(-(((xx + (yy - STREAM_Y) * 0.45) - pos + 95) / 14.0) ** 2) * k * 0.6
+                pos = lerp(150, 1850, p)
+                band = np.exp(-(((xx + (yy - yref) * 0.45) - pos) / wb) ** 2) * k
+                band += np.exp(-(((xx + (yy - yref) * 0.45) - pos + wb * 2) / (wb * 0.3)) ** 2) * k * 0.6
                 sl = layer[y0:y1]
                 sl[..., :3] += band[..., None] * sl[..., 3:4]
                 np.minimum(sl[..., :3], sl[..., 3:4], out=sl[..., :3])
@@ -1005,6 +1037,10 @@ class Renderer:
                 fr += ringv[..., None] * np.array([0.7, 1.0, 0.4], np.float32)
         self.draw_rain(fr, t, ("mid", "hero"))
 
+        self.cam = end_camera(t)
+        if self.cam is not None:
+            fr = cv2.warpAffine(fr, self.cam, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT101)
+
         # text: drop shadow, bloom, then the type itself
         tl = self.draw_text(t)
         a = tl[..., 3]
@@ -1019,7 +1055,8 @@ class Renderer:
                 + 0.45 * sum_env([(h, 1, 0.12) for h in (H1, H3, H4A, H4B)], t) \
                 + 0.25 * sum_env([(h, 1, 0.12) for h in (C1, C2, C3, C4, C5)], t) \
                 + 0.08 * math.sin(t * 2 * math.pi / (4 * 0.418)) * smooth(u(t, 8.6, 9.2)) \
-                + 0.22 * sum_env([(h, 1, 0.15) for h in HOLD_HITS], t)
+                + 0.22 * sum_env([(h, 1, 0.15) for h in HOLD_HITS], t) \
+                + 0.35 * env(t, ZOOM_LAND, 0.25)
             g1 = cv2.GaussianBlur(small[..., :3], (0, 0), 6)
             g2 = cv2.GaussianBlur(small[..., :3], (0, 0), 22)
             glow = cv2.resize(g1 * 0.6 + g2 * 0.9, (W, H))
@@ -1186,7 +1223,7 @@ def main():
         times = args.preview or []
         if args.sheet:
             times = [0.3, 1.0, 1.45, 1.62, 1.8, 2.2, 2.45, 2.7, 3.45, 3.7, 4.2, 4.95,
-                     5.3, 5.9, 6.75, 7.0, 7.5, 8.2, 9.0, 11.99]
+                     5.3, 5.9, 6.75, 7.0, 7.5, 8.2, 11.99, 12.5, 12.9, 13.34, 13.7, 15.34]
         ims = []
         for t in times:
             import time

@@ -1,7 +1,7 @@
-# Goated Weekly Stream: 12s intro
+# Goated Weekly Stream: 15s intro
 
 **Video → [`goated_weekly_stream_intro.mp4`](goated_weekly_stream_intro.mp4)** (1920×1080, 60fps, H.264 + AAC 320k)
-Last frame: [`final_frame.png`](final_frame.png). Compare with `assets/final_frame_reference.webp`.
+Key-art frame (12s): [`final_frame.png`](final_frame.png). Compare with `assets/final_frame_reference.webp`.
 
 Everything is rendered by [`render.py`](render.py) (numpy + OpenCV + Pillow, ffmpeg for encoding).
 Music is `assets/music.mp3` from 0:25. Each hit below is keyed to an onset measured in the track.
@@ -18,7 +18,9 @@ Music is `assets/music.mp3` from 0:25. Each hit below is keyed to an onset measu
 | 6.73 / 6.94 | 808 double | RGB-split glitch on the title, a gust of bills from both top corners |
 | 7.35 | clap | light sweep across the full lockup |
 | 8.17 | 808 | time-freeze: the rain decelerates into slow motion and settles into the key-art layout |
-| 9.0–12.0 | | hold on the final frame (soft glow pulses on the beat) while the music fades out |
+| 9.0–12.0 | | hold on the key art (soft glow pulses on the beat) |
+| 12.0–13.34 | 808 | camera zooms in 3.6× until the Kick link is at screen centre, landing on the hit with a light sweep |
+| 13.34–15.35 | | hold on the Kick link while the music fades out |
 
 The rain is 3D-projected sprites (perspective flutter, sheen and real motion blur) on two depth
 layers: a sharp layer kept mostly to the sides of the text, and an out-of-focus near layer in front. Ten "hero" items are solved backwards from the reference so
@@ -30,9 +32,9 @@ they come to rest where the key art places them.
 pip install opencv-python-headless numpy pillow
 python3 render.py --sheet              # timeline contact sheet -> out/sheet.png
 python3 render.py --preview 3.45 9.99  # single frames -> out/preview_*.png
-python3 render.py                      # full render -> out/goated_weekly_stream_intro.mp4 (~5 min on 4 cores)
+python3 render.py                      # full render -> out/goated_weekly_stream_intro.mp4 (~6 min on 4 cores)
 python3 render.py --remux              # re-mux audio/encode from the existing chunks
 ```
 
-Timing lives in the `H1…C5` constants; layout lives in `LOGO_POS`, `GOATED_Y`, `STREAM_Y`, `DATE_Y`, and `KICK_Y`.
+Timing lives in the `H1…C5` constants (end move: `HOLD_END`, `ZOOM_LAND`, `ZOOM_END`); layout lives in `LOGO_POS`, `GOATED_Y`, `STREAM_Y`, `DATE_Y`, and `KICK_Y`.
 To change the date, edit `date_text` in `Assets`.
