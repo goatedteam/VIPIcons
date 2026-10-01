@@ -25,7 +25,7 @@ OUT = os.path.join(HERE, "out")
 
 W, H = 1920, 1080
 FPS = 60
-DUR = 10.0
+DUR = 12.0
 NFRAMES = int(DUR * FPS)
 MUSIC_START = 25.0
 
@@ -37,6 +37,8 @@ CX, CY = W / 2, H / 2
 # 808 hits (H) and claps (C).
 H1, C1, H2A, H2B, C2, H3, C3, H4A, H4B, C4, H5, C5 = (
     1.56, 2.39, 3.42, 3.63, 4.04, 4.87, 5.69, 6.73, 6.94, 7.35, 8.17, 9.00)
+# hits during the end hold: only drive gentle glow pulses
+HOLD_HITS = (10.03, 10.24, 10.67, 11.48)
 
 # Final layout (matches the reference key art, scaled to 1920x1080).
 LOGO_POS = (960.0, 277.0)
@@ -436,9 +438,10 @@ class Assets:
         self.stream_x1 = (bx + total) / SS
 
         # Date line (Geist Medium); size chosen to match the reference width (603px).
-        self.date_text = "24th September at 4 PM UTC"
+        self.date_text = "1st October at 4 PM UTC"
         f100 = ImageFont.truetype(geist, 100)
-        dsize = 603.0 / f100.getlength(self.date_text) * 100
+        # type size matched to the reference line ("24th September at 4 PM UTC" = 603px wide)
+        dsize = 603.0 / f100.getlength("24th September at 4 PM UTC") * 100
         geist_cap = -f100.getbbox("H", anchor="ls")[1] / 100.0
         self.date = Glyphs(self.date_text, geist, dsize, WHITE, SS, 960, DATE_Y)
         self.date_size = dsize
@@ -498,7 +501,6 @@ def make_rain(rng):
 
     layers = {
         # name: (rate fn, scale range, speed mult, blur)
-        "far": (lambda t: 5.0, (0.13, 0.22), 0.55),
         "mid": (lambda t: 1.4 if t < H1 else 4.2, (0.24, 0.42), 1.0),
         "near": (lambda t: 0.0 if t < H1 + 0.2 else 0.5, (0.55, 0.85), 1.9),
     }
@@ -515,9 +517,7 @@ def make_rain(rng):
             if kind == "ticket":
                 s *= 1.1
             size = native[kind] * s
-            if name == "far":
-                x = rng.uniform(-40, W + 40)
-            elif name == "mid":
+            if name == "mid":
                 x = side_x(0.30) if rng.random() < 0.8 else rng.uniform(0, W)
             else:
                 x = side_x(0.11)
@@ -528,7 +528,7 @@ def make_rain(rng):
             it["m"] = size * 0.6 + 40
             # nothing generic may still be on screen when the rain freezes (key art is clean)
             exit_t = t + (H + 2 * it["m"]) / vy
-            if name != "far" and exit_t > TAU_END - 0.05:
+            if exit_t > TAU_END - 0.05:
                 items.pop()
 
     # hero items: (kind, x, y, scale, rz, flip) in output px — reference key-art positions
@@ -550,17 +550,6 @@ def make_rain(rng):
         vy = rng.uniform(330, 430) if kind != "dice" else rng.uniform(520, 640)
         add(kind, "hero", 0, x, rng.uniform(-30, 30), vy, s, flip, 55 if kind != "dice" else 12,
             dict(xe=x, ye=y, rze=rz, m=native[kind] * s * 0.6 + 40))
-
-    # burst out of the logo on the first 808
-    for i in range(16):
-        kind = "bill" if i % 4 else ("dice" if i % 8 == 0 else "ticket")
-        ang = rng.uniform(-math.pi * 0.95, -math.pi * 0.05) if i % 3 else rng.uniform(0, math.pi * 2)
-        sp = rng.uniform(1100, 2100)
-        layer = "burst_near" if i % 3 == 0 else "burst"
-        add(kind, layer, H1, CX, math.cos(ang) * sp, math.sin(ang) * sp,
-            rng.uniform(0.35, 0.55) * (1.8 if layer == "burst_near" else 1.0) * (1.2 if kind == "dice" else 1),
-            rng.random() < 0.5, 70, dict(wz=rng.uniform(-400, 400)))
-        items[-1]["m"] = native[kind] * items[-1]["s"] * 0.6 + 40
 
     # gust on the double 808 (two waves, from the top corners)
     for tt, side in ((H4A, -1), (H4B, 1)):
@@ -586,17 +575,6 @@ def rain_state(it, T):
         rz = it["rze"] + it["wz"] * dt
         rx = it["axa"] * math.sin(it["axw"] * dt)
         ry = it["aya"] * math.sin(it["ayw"] * dt)
-    elif L.startswith("burst"):
-        dt = T - it["t0"]
-        if dt < 0:
-            return None
-        k = 2.2  # drag
-        e = (1 - math.exp(-k * dt)) / k
-        x = it["x0"] + it["vx"] * e
-        y = CY + it["vy"] * e + 0.5 * 1500 * dt * dt
-        rz = it["rz0"] + it["wz"] * dt
-        rx = it["axa"] * math.sin(it["axw"] * dt * 2 + it["axp"])
-        ry = it["aya"] * math.sin(it["ayw"] * dt * 2 + it["ayp"])
     else:
         dt = T - it["t0"]
         if dt < 0:
@@ -630,7 +608,6 @@ def make_sparks(rng):
             sp.append(dict(type="out", ts=t0, x=x + rng.uniform(-xs, xs), y=y, vx=math.cos(ang) * v,
                            vy=math.sin(ang) * v, life=rng.uniform(*life), g=g,
                            w=rng.uniform(1.0, 3.0), col=LIME if rng.random() < 0.65 else WHITE))
-    burst(H1, CX, CY, 170, 500, 2600, (0.45, 1.2))
     burst(H2A, 690, STREAM_Y + 80, 45, 300, 1300, (0.3, 0.7), up_bias=0.05, xs=220)
     burst(H2B, 1235, STREAM_Y + 80, 45, 300, 1300, (0.3, 0.7), up_bias=0.05, xs=220)
     burst(H5, CX, STREAM_Y, 90, 400, 1900, (0.4, 1.0), xs=400)
@@ -646,10 +623,10 @@ def make_sparks(rng):
 FLASHES = [(H1, 0.62, 0.13), (H2A, 0.22, 0.08), (H2B, 0.28, 0.09), (H3, 0.22, 0.10),
            (H4A, 0.2, 0.08), (H4B, 0.25, 0.09), (H5, 0.5, 0.2),
            (C1, 0.06, 0.08), (C2, 0.06, 0.08), (C3, 0.06, 0.08), (C4, 0.06, 0.08), (C5, 0.05, 0.08)]
-SHAKES = [(H1, 26, 0.32), (H2A, 15, 0.18), (H2B, 18, 0.2), (H3, 8, 0.15), (C3, 3, 0.1),
-          (H4A, 11, 0.15), (H4B, 14, 0.18), (H5, 15, 0.28), (C1, 4, 0.1), (C2, 3, 0.1), (C4, 3, 0.1)]
-PUNCH = [(H1, 0.06, 0.22), (H2A, 0.03, 0.14), (H2B, 0.035, 0.15), (H3, 0.02, 0.14), (C3, 0.008, 0.1),
-         (H4A, 0.022, 0.12), (H4B, 0.028, 0.14), (H5, 0.04, 0.3), (C5, 0.008, 0.12)]
+SHAKES = [(H1, 10, 0.25), (H2A, 6, 0.14), (H2B, 7, 0.15), (H3, 3, 0.12), (C3, 1, 0.1),
+          (H4A, 4, 0.12), (H4B, 5, 0.14), (H5, 6, 0.22), (C1, 1.5, 0.1), (C2, 1, 0.1), (C4, 1, 0.1)]
+PUNCH = [(H1, 0.03, 0.22), (H2A, 0.014, 0.14), (H2B, 0.016, 0.15), (H3, 0.01, 0.14), (C3, 0.004, 0.1),
+         (H4A, 0.01, 0.12), (H4B, 0.012, 0.14), (H5, 0.02, 0.3), (C5, 0.004, 0.12)]
 CAS = [(H1, 16, 0.22), (H2A, 9, 0.12), (H2B, 11, 0.13), (H3, 4, 0.1), (H4A, 12, 0.1), (H4B, 14, 0.12),
        (H5, 9, 0.2)]
 WAVES = [  # t0, x, y, speed, ring strength, displacement px, width
@@ -706,7 +683,6 @@ class Renderer:
         self.vignette = (1 - 0.38 * np.clip(rn - 0.35, 0, 1) ** 1.6)[..., None].astype(np.float32)
         g = np.exp(-(self.r / 520.0) ** 2)
         self.center_glow = (g[..., None] * np.array([0.10, 0.30, 1.0], np.float32)).astype(np.float32)
-        self.far_tint = np.array([0.05, 0.22, 0.75], np.float32)
 
     # -- background ------------------------------------------------------------
     def background(self, t):
@@ -747,7 +723,6 @@ class Renderer:
     def draw_rain(self, frame, t, layers):
         T = tau(t)
         dt_sub = (tau(t + 0.5 / FPS) - T)  # 180deg shutter in warped time
-        far_fade = 1 - smooth(u(t, H5, H5 + 0.9))
         for it in self.rain:
             if it["layer"] not in layers:
                 continue
@@ -765,22 +740,8 @@ class Renderer:
                 states.append((sk[0], sk[1], it["s"], sk[3], sk[4], sk[2], it["flip"]))
             img = self.as_.kind[it["kind"]]
             L = it["layer"]
-            alpha, blur, tint, bright = 1.0, 0.0, 0.0, 1.0
-            if L == "far":
-                blur, tint, alpha, bright = 1.6, 0.42, 0.9 * far_fade, 0.8
-            elif L in ("near", "burst_near", "gust"):
-                blur = 5.0 if L != "burst_near" else 2.5
-                bright = 1.05
-            elif L == "burst":
-                # grows out of the logo
-                g = out_cubic(u(T, H1, H1 + 0.18))
-                states = [(a, b, s * (0.3 + 0.7 * g), c, d, e, f) for (a, b, s, c, d, e, f) in states]
-            if L == "burst_near":
-                # appear once clear of the logo so the logo owns the hit
-                g = out_cubic(u(T, H1, H1 + 0.22))
-                states = [(a, b, s * (0.2 + 0.8 * g), c, d, e, f) for (a, b, s, c, d, e, f) in states]
-                alpha *= smooth(u(T, H1 + 0.07, H1 + 0.16))
-            draw_sprite(frame, img, states, alpha, blur, tint, self.far_tint, bright)
+            blur, bright = (5.0, 1.05) if L in ("near", "gust") else (0.0, 1.0)
+            draw_sprite(frame, img, states, 1.0, blur, bright=bright)
 
     # -- text ------------------------------------------------------------------
     def logo_state(self, t):
@@ -796,7 +757,7 @@ class Renderer:
                 g = out_cubic(u(t, 0.25, 0.95))
                 s = S0 * (0.55 + 0.35 * g)
                 s *= 1 - 0.16 * in_cubic(u(t, 1.25, H1))
-                tr = 3.5 * smooth(u(t, 0.6, H1))
+                tr = 1.0 * smooth(u(t, 0.6, H1))
                 ox = tr * math.sin(t * 97) + tr * 0.5 * math.sin(t * 61)
                 oy = tr * math.cos(t * 83)
                 return (CX + ox, CY + oy, s, 0.0)
@@ -810,9 +771,9 @@ class Renderer:
             s = lerp(S0, s_final, m)
             if t > C1 - 0.02:
                 x2 = t - (C1 - 0.02)
-                s *= 1 + 0.12 * math.exp(-x2 / 0.08) * math.cos(2 * math.pi * x2 / 0.25)
-            bump = 0.10 * sum_env([(h, 1, 0.12) for h in (H3, H4A, H4B, H5)], t) \
-                + 0.05 * sum_env([(h, 1, 0.1) for h in (C2, C3, C4, C5)], t)
+                s *= 1 + 0.06 * math.exp(-x2 / 0.08) * math.cos(2 * math.pi * x2 / 0.25)
+            bump = 0.04 * sum_env([(h, 1, 0.12) for h in (H3, H4A, H4B, H5)], t) \
+                + 0.02 * sum_env([(h, 1, 0.1) for h in (C2, C3, C4, C5)], t)
             return (x, y, s * (1 + bump), 0.0)
 
         st = at(t)
@@ -857,8 +818,8 @@ class Renderer:
             a = smooth(u(t, land - d, land - d * 0.35))
             if t > land:
                 x = t - land
-                sc *= 1 - 0.07 * math.exp(-x / 0.06) * math.sin(math.pi * clamp(x / 0.12))
-            bump = 0.04 * sum_env([(h, 1, 0.12) for h in (H3, H4A, H4B, H5)], t)
+                sc *= 1 - 0.035 * math.exp(-x / 0.06) * math.sin(math.pi * clamp(x / 0.12))
+            bump = 0.015 * sum_env([(h, 1, 0.12) for h in (H3, H4A, H4B, H5)], t)
             sub = [(gx, gy + oy, sc * (1 + bump), rot, 1, 1)]
             if p < 1:
                 p2 = u(t - 0.5 / FPS, land - d, land)
@@ -879,10 +840,10 @@ class Renderer:
             if t >= land:
                 x = t - land
                 e = math.exp(-x / 0.07)
-                sxx = 1 + 0.07 * e * math.cos(2 * math.pi * x / 0.2)
-                syy = 1 - 0.09 * e * math.cos(2 * math.pi * x / 0.2)
-            bump = 0.045 * sum_env([(h, 1, 0.12) for h in (H3, H4A, H4B, H5)], t) \
-                + 0.02 * sum_env([(h, 1, 0.1) for h in (C2, C3, C4, C5)], t)
+                sxx = 1 + 0.03 * e * math.cos(2 * math.pi * x / 0.2)
+                syy = 1 - 0.04 * e * math.cos(2 * math.pi * x / 0.2)
+            bump = 0.015 * sum_env([(h, 1, 0.12) for h in (H3, H4A, H4B, H5)], t) \
+                + 0.008 * sum_env([(h, 1, 0.1) for h in (C2, C3, C4, C5)], t)
             # words fly in from opposite sides
             ox = (-1 if wi == 0 else 1) * 260 * in_cubic(1 - p)
             # anchor the squash on the baseline
@@ -902,7 +863,7 @@ class Renderer:
         # date — light bar, then a decode/scramble reveal from the centre out
         bar_t0 = H3 - 0.16
         if t > bar_t0:
-            bw = 650 * out_expo(u(t, bar_t0, H3)) * (1 - in_cubic(u(t, H3 + 0.25, H3 + 0.55)))
+            bw = (as_.date.width + 46) * out_expo(u(t, bar_t0, H3)) * (1 - in_cubic(u(t, H3 + 0.25, H3 + 0.55)))
             if bw > 1:
                 by = int(DATE_Y + 32)
                 x0, x1 = int(960 - bw / 2), int(960 + bw / 2)
@@ -961,7 +922,7 @@ class Renderer:
             for _ in range(7):
                 y0 = rng2.integers(ytop, ybot - 10)
                 hgt = rng2.integers(6, 34)
-                sh = int(rng2.integers(-46, 46) * g)
+                sh = int(rng2.integers(-22, 22) * g)
                 layer[y0:y0 + hgt] = np.roll(layer[y0:y0 + hgt], sh, axis=1)
 
         # shine sweeps across the lime type on claps
@@ -1033,7 +994,6 @@ class Renderer:
     def frame(self, t):
         fr = self.background(t)
         self.rays(fr, t)
-        self.draw_rain(fr, t, ("far",))
         # shockwave rings (additive, before the mid layer so items read in front)
         for (t0, x, y, spd, ring, disp, wdt) in WAVES:
             dt = t - t0
@@ -1043,7 +1003,7 @@ class Renderer:
                 rr = np.sqrt((self.xx - x) ** 2 + (self.yy - y) ** 2) if (x, y) != (CX, CY) else self.r
                 ringv = np.exp(-((rr - R) / wdt) ** 2) * ring * fade
                 fr += ringv[..., None] * np.array([0.7, 1.0, 0.4], np.float32)
-        self.draw_rain(fr, t, ("mid", "hero", "burst"))
+        self.draw_rain(fr, t, ("mid", "hero"))
 
         # text: drop shadow, bloom, then the type itself
         tl = self.draw_text(t)
@@ -1058,14 +1018,15 @@ class Renderer:
             glow_k = 0.42 + 0.6 * sum_env([(h, 1, 0.14) for h in (H2A, H2B, H5)], t) \
                 + 0.45 * sum_env([(h, 1, 0.12) for h in (H1, H3, H4A, H4B)], t) \
                 + 0.25 * sum_env([(h, 1, 0.12) for h in (C1, C2, C3, C4, C5)], t) \
-                + 0.08 * math.sin(t * 2 * math.pi / (4 * 0.418)) * smooth(u(t, 8.6, 9.2))
+                + 0.08 * math.sin(t * 2 * math.pi / (4 * 0.418)) * smooth(u(t, 8.6, 9.2)) \
+                + 0.22 * sum_env([(h, 1, 0.15) for h in HOLD_HITS], t)
             g1 = cv2.GaussianBlur(small[..., :3], (0, 0), 6)
             g2 = cv2.GaussianBlur(small[..., :3], (0, 0), 22)
             glow = cv2.resize(g1 * 0.6 + g2 * 0.9, (W, H))
             fr += glow * glow_k * 0.55
             composite(fr, tl, 0, 0)
 
-        self.draw_rain(fr, t, ("near", "burst_near", "gust"))
+        self.draw_rain(fr, t, ("near", "gust"))
 
         # sparks (rendered with sub-pixel shift; bloom them)
         sp = self.draw_sparks(t)
@@ -1225,7 +1186,7 @@ def main():
         times = args.preview or []
         if args.sheet:
             times = [0.3, 1.0, 1.45, 1.62, 1.8, 2.2, 2.45, 2.7, 3.45, 3.7, 4.2, 4.95,
-                     5.3, 5.9, 6.75, 7.0, 7.5, 8.2, 8.6, 9.99]
+                     5.3, 5.9, 6.75, 7.0, 7.5, 8.2, 9.0, 11.99]
         ims = []
         for t in times:
             import time
