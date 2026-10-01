@@ -25,7 +25,7 @@ OUT = os.path.join(HERE, "out")
 
 W, H = 1920, 1080
 FPS = 60
-DUR = 15.35
+DUR = 14.32
 NFRAMES = int(DUR * FPS)
 MUSIC_START = 25.0
 
@@ -38,11 +38,15 @@ CX, CY = W / 2, H / 2
 H1, C1, H2A, H2B, C2, H3, C3, H4A, H4B, C4, H5, C5 = (
     1.56, 2.39, 3.42, 3.63, 4.04, 4.87, 5.69, 6.73, 6.94, 7.35, 8.17, 9.00)
 # hits during the end hold: only drive gentle glow pulses
-HOLD_HITS = (10.03, 10.24, 10.67, 11.48, 12.31, 13.46, 13.96, 14.79)
-# end move: hold the key art until HOLD_END, then zoom so the Kick link sits at screen centre
-HOLD_END = 12.0
-ZOOM_LAND = 13.34  # strong hit in the track
+HOLD_HITS = (10.03, 10.24, 10.67, 11.48)
+# end move: hold the key art until HOLD_END, pull back a touch, then whip-zoom onto the
+# Kick link, crashing in on the 808 at ZOOM_LAND; hold there while the link flickers.
+HOLD_END = 11.80
+WHIP_START = 11.95
+ZOOM_LAND = 12.31  # 808 in the track
 ZOOM_END = 3.6
+# neon flicker on the Kick link: (start, pattern) — one char per 1/30 s, '0' = dimmed
+KICK_FLICKER = ((13.34, "1010011010001110111"), (13.96, "10110"), (14.06, "10100111"))
 
 # Final layout (matches the reference key art, scaled to 1920x1080).
 LOGO_POS = (960.0, 277.0)
@@ -623,6 +627,7 @@ def make_sparks(rng):
     burst(H2A, 690, STREAM_Y + 80, 45, 300, 1300, (0.3, 0.7), up_bias=0.05, xs=220)
     burst(H2B, 1235, STREAM_Y + 80, 45, 300, 1300, (0.3, 0.7), up_bias=0.05, xs=220)
     burst(H5, CX, STREAM_Y, 90, 400, 1900, (0.4, 1.0), xs=400)
+    burst(ZOOM_LAND, CX, CY, 120, 500, 2200, (0.35, 0.9), xs=560)  # link is at screen centre by now
     # ambient embers drifting up through the whole piece
     for i in range(36):
         sp.append(dict(type="ember", x=rng.uniform(0, W), ph=rng.uniform(0, 1), sp=rng.uniform(40, 110),
@@ -634,30 +639,73 @@ def make_sparks(rng):
 # ----------------------------------------------------------------------------- global FX curves
 FLASHES = [(H1, 0.62, 0.13), (H2A, 0.22, 0.08), (H2B, 0.28, 0.09), (H3, 0.22, 0.10),
            (H4A, 0.2, 0.08), (H4B, 0.25, 0.09), (H5, 0.5, 0.2),
-           (C1, 0.06, 0.08), (C2, 0.06, 0.08), (C3, 0.06, 0.08), (C4, 0.06, 0.08), (C5, 0.05, 0.08)]
+           (C1, 0.06, 0.08), (C2, 0.06, 0.08), (C3, 0.06, 0.08), (C4, 0.06, 0.08), (C5, 0.05, 0.08),
+           (ZOOM_LAND, 0.45, 0.12)]
 SHAKES = [(H1, 10, 0.25), (H2A, 6, 0.14), (H2B, 7, 0.15), (H3, 3, 0.12), (C3, 1, 0.1),
-          (H4A, 4, 0.12), (H4B, 5, 0.14), (H5, 6, 0.22), (C1, 1.5, 0.1), (C2, 1, 0.1), (C4, 1, 0.1)]
+          (H4A, 4, 0.12), (H4B, 5, 0.14), (H5, 6, 0.22), (C1, 1.5, 0.1), (C2, 1, 0.1), (C4, 1, 0.1),
+          (ZOOM_LAND, 9, 0.2), (13.34, 3, 0.12), (13.96, 2, 0.1)]
 PUNCH = [(H1, 0.03, 0.22), (H2A, 0.014, 0.14), (H2B, 0.016, 0.15), (H3, 0.01, 0.14), (C3, 0.004, 0.1),
          (H4A, 0.01, 0.12), (H4B, 0.012, 0.14), (H5, 0.02, 0.3), (C5, 0.004, 0.12)]
 CAS = [(H1, 16, 0.22), (H2A, 9, 0.12), (H2B, 11, 0.13), (H3, 4, 0.1), (H4A, 12, 0.1), (H4B, 14, 0.12),
-       (H5, 9, 0.2)]
+       (H5, 9, 0.2), (ZOOM_LAND, 12, 0.15), (13.34, 7, 0.08), (13.96, 5, 0.07), (14.06, 5, 0.07)]
 WAVES = [  # t0, x, y, speed, ring strength, displacement px, width
     (H1, CX, CY, 2600, 0.55, 26, 70),
     (H2A, 700, STREAM_Y, 2200, 0.18, 12, 50),
     (H2B, 1230, STREAM_Y, 2200, 0.22, 14, 50),
     (H5, CX, CY, 2000, 0.3, 18, 80),
+    (ZOOM_LAND, CX, CY, 2600, 0.3, 20, 70),
 ]
 
 
 def end_camera(t):
-    """Affine (2x3) for the closing zoom onto the Kick link; identity before HOLD_END."""
+    """Closing camera as (M 2x3, zoom, rotation deg, link screen pos); None before HOLD_END.
+    Pull-back anticipation -> accelerating whip with a twist -> overshoot on impact -> slow
+    drifting push-in for the hold."""
     if t <= HOLD_END:
         return None
     kx, ky = 960.0, KICK_Y
-    z = ZOOM_END ** in_out_cubic(u(t, HOLD_END, ZOOM_LAND))
-    m = smooth(u(t, HOLD_END, ZOOM_LAND))
-    sx, sy = lerp(kx, CX, m), lerp(ky, CY, m)  # where the link sits on screen
-    return np.array([[z, 0, sx - z * kx], [0, z, sy - z * ky]], np.float64)
+    z0, r0 = 0.965, 1.2
+    if t < WHIP_START:
+        q = out_cubic(u(t, HOLD_END, WHIP_START))
+        z, rot, sx, sy = 1 - (1 - z0) * q, r0 * q, kx, ky
+    elif t < ZOOM_LAND:
+        m = u(t, WHIP_START, ZOOM_LAND)
+        e = m ** 2.6
+        z = z0 * (ZOOM_END / z0) ** e
+        rot = lerp(r0, -6.0, e)
+        ep = m ** 2.0
+        sx, sy = lerp(kx, CX, ep), lerp(ky, CY, ep)
+    else:
+        x = t - ZOOM_LAND
+        settle = smooth(u(x, 0.3, 1.0))
+        z = ZOOM_END * (1 + 0.09 * math.exp(-x / 0.08) * math.cos(2 * math.pi * x / 0.28)) \
+            * (1 + 0.06 * smooth(u(t, ZOOM_LAND, DUR)))
+        rot = -6.0 * math.exp(-x / 0.1) * math.cos(2 * math.pi * x / 0.45) + 0.5 * math.sin(1.3 * x) * settle
+        sx = CX + 8 * math.sin(0.9 * x) * settle
+        sy = CY + 5 * math.sin(1.4 * x + 1.0) * settle
+    th = math.radians(rot)
+    c, si = math.cos(th) * z, math.sin(th) * z
+    M = np.array([[c, -si, sx - (c * kx - si * ky)], [si, c, sy - (si * kx + c * ky)]], np.float64)
+    return M, z, rot, (sx, sy)
+
+
+def kick_flicker(t):
+    """(text alpha, icon alpha, relight spike) for the neon flicker on the Kick link."""
+    ta = ia = 1.0
+    spike = 0.0
+    for t0, pat in KICK_FLICKER:
+        i = int((t - t0) * 30)
+        if 0 <= i < len(pat):
+            ta = 0.1 if pat[i] == "0" else 1.0
+            j = max(i - 1, 0)  # icon lags a beat behind the text, like a separate tube
+            ia = 0.1 if pat[j] == "0" else 1.0
+            if pat[i] == "1" and i > 0 and pat[i - 1] == "0":
+                spike = 1.0
+    if t > ZOOM_LAND:  # faint neon hum while lit
+        hum = 0.95 + 0.05 * math.sin(t * 97.0) * math.sin(t * 23.0)
+        ta *= hum
+        ia *= hum
+    return ta, ia, spike
 
 
 def sum_env(lst, t):
@@ -689,7 +737,7 @@ class Renderer:
         self.rain = make_rain(rng)
         self.sparks = make_sparks(rng)
         self.bg_cache = {}
-        self.cam = None
+        self.cams = []
         cap = cv2.VideoCapture(os.path.join(A, "background.mp4"))
         self.bg_frames = []
         while True:
@@ -817,10 +865,13 @@ class Renderer:
         return sub, alpha, white
 
     def _blit(self, layer, img, states, alpha=1.0):
-        M = self.cam
-        if M is not None:
-            z = M[0, 0]
-            states = [(z * cx + M[0, 2], z * cy + M[1, 2], s * z, a, sx, sy) for (cx, cy, s, a, sx, sy) in states]
+        if self.cams:
+            out = []
+            for (M, z, rot, _) in self.cams:
+                for (cx, cy, s, a, sx, sy) in states:
+                    out.append((M[0, 0] * cx + M[0, 1] * cy + M[0, 2], M[1, 0] * cx + M[1, 1] * cy + M[1, 2],
+                                s * z, a + rot, sx, sy))
+            states = out
         blit(layer, img, states, alpha)
 
     def draw_text(self, t):
@@ -924,7 +975,8 @@ class Renderer:
             p = u(t, it0, it0 + 0.3)
             sc = out_back(p, 2.2) * as_.kick_icon_scale
             rot = -200 * (1 - out_cubic(p))
-            self._blit(layer, as_.kick_icon, [(*as_.kick_icon_pos, sc, rot, 1, 1)], smooth(u(t, it0, it0 + 0.1)))
+            self._blit(layer, as_.kick_icon, [(*as_.kick_icon_pos, sc, rot, 1, 1)],
+                       smooth(u(t, it0, it0 + 0.1)) * kick_flicker(t)[1])
         kitems = as_.kick.items
         last_x = None
         for (ch, idx, img, gx, gy) in kitems:
@@ -933,7 +985,7 @@ class Renderer:
                 continue
             a = smooth(u(t, start, start + 0.05))
             ox = -8 * (1 - out_cubic(u(t, start, start + 0.12)))
-            self._blit(layer, img, [(gx + ox, gy, 1, 0, 1, 1)], a)
+            self._blit(layer, img, [(gx + ox, gy, 1, 0, 1, 1)], a * kick_flicker(t)[0])
             last_x = gx + 9
         typing_end = C3 + 0.018 * (len(as_.kick.items) + 1)
         if last_x is not None and t < typing_end + 0.5:
@@ -960,7 +1012,7 @@ class Renderer:
         for t0, dur, k, rows, yref, wb in ((C2, 0.5, 0.85, (STREAM_Y - 110, STREAM_Y + 110), STREAM_Y, 46),
                                            (C4, 0.6, 0.85, (LOGO_POS[1] - 60, STREAM_Y + 110), STREAM_Y, 46),
                                            (C5, 0.6, 0.6, (LOGO_POS[1] - 60, STREAM_Y + 110), STREAM_Y, 46),
-                                           (ZOOM_LAND, 0.7, 0.7, (CY - 110, CY + 110), CY, 70)):
+                                           (ZOOM_LAND + 0.05, 0.5, 0.7, (CY - 110, CY + 110), CY, 70)):
             if t0 <= t <= t0 + dur:
                 p = smooth(u(t, t0, t0 + dur))
                 y0, y1 = int(rows[0]), int(rows[1])
@@ -1013,6 +1065,19 @@ class Renderer:
                 if a > 0.03:
                     c = tuple(int(255 * v * a) for v in LIME[::-1])
                     cv2.circle(lay, (int(x * 4), int(y * 4)), int(sp["w"] * 4 / 2), c, -1, cv2.LINE_AA, 2)
+        if WHIP_START - 0.05 < t < ZOOM_LAND + 0.15:
+            k = in_cubic(u(t, WHIP_START - 0.05, ZOOM_LAND)) if t < ZOOM_LAND else math.exp(-(t - ZOOM_LAND) / 0.04)
+            cam = end_camera(t)
+            tx, ty = cam[3] if cam else (CX, CY)
+            rng = np.random.default_rng(int(t * FPS) + 99)
+            for _ in range(110):
+                ang = rng.uniform(0, 2 * math.pi)
+                r0 = rng.uniform(260, 900)
+                ln = rng.uniform(200, 900) * (0.4 + 0.6 * k)
+                ca, sa = math.cos(ang), math.sin(ang)
+                col = WHITE if rng.random() < 0.7 else LIME
+                self._line(lay, (tx + ca * r0, ty + sa * r0), (tx + ca * (r0 + ln), ty + sa * (r0 + ln)),
+                           col, 0.55 * k, rng.uniform(1, 3.5))
         f = lay.astype(np.float32) / 255.0
         return f[..., ::-1]
 
@@ -1037,9 +1102,16 @@ class Renderer:
                 fr += ringv[..., None] * np.array([0.7, 1.0, 0.4], np.float32)
         self.draw_rain(fr, t, ("mid", "hero"))
 
-        self.cam = end_camera(t)
-        if self.cam is not None:
-            fr = cv2.warpAffine(fr, self.cam, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT101)
+        whip = WHIP_START - 0.02 < t < ZOOM_LAND + 0.06
+        n = 7 if whip else 1
+        cams = [end_camera(t + (k / (n - 1) - 0.5) * 0.5 / FPS) if n > 1 else end_camera(t) for k in range(n)]
+        self.cams = [c for c in cams if c is not None]
+        if self.cams:
+            acc = None
+            for (M, _, _, _) in self.cams:
+                w = cv2.warpAffine(fr, M, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT101)
+                acc = w if acc is None else acc + w
+            fr = acc / len(self.cams)
 
         # text: drop shadow, bloom, then the type itself
         tl = self.draw_text(t)
@@ -1056,7 +1128,8 @@ class Renderer:
                 + 0.25 * sum_env([(h, 1, 0.12) for h in (C1, C2, C3, C4, C5)], t) \
                 + 0.08 * math.sin(t * 2 * math.pi / (4 * 0.418)) * smooth(u(t, 8.6, 9.2)) \
                 + 0.22 * sum_env([(h, 1, 0.15) for h in HOLD_HITS], t) \
-                + 0.35 * env(t, ZOOM_LAND, 0.25)
+                + 0.35 * env(t, ZOOM_LAND, 0.25) \
+                + 0.6 * kick_flicker(t)[2]
             g1 = cv2.GaussianBlur(small[..., :3], (0, 0), 6)
             g2 = cv2.GaussianBlur(small[..., :3], (0, 0), 22)
             glow = cv2.resize(g1 * 0.6 + g2 * 0.9, (W, H))
@@ -1223,7 +1296,7 @@ def main():
         times = args.preview or []
         if args.sheet:
             times = [0.3, 1.0, 1.45, 1.62, 1.8, 2.2, 2.45, 2.7, 3.45, 3.7, 4.2, 4.95,
-                     5.3, 5.9, 6.75, 7.0, 7.5, 8.2, 11.99, 12.5, 12.9, 13.34, 13.7, 15.34]
+                     5.3, 5.9, 11.79, 11.9, 12.05, 12.15, 12.22, 12.28, 12.33, 12.45, 13.0, 13.36, 13.42, 13.98, 14.1, 14.31]
         ims = []
         for t in times:
             import time
