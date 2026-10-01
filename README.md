@@ -14,7 +14,7 @@ masters in `final/flat/`). In-card preview: [`review/final_cards.png`](review/fi
 | 2. Round 1 variants (A/B/C) | [`docs/02-variants.md`](docs/02-variants.md) | `variants/<bonus>/`, `review/<bonus>.png` |
 | 2b. Round 2 variants from feedback | [`docs/03-round2.md`](docs/03-round2.md) | `variants/round2/<bonus>/`, `review/round2/<bonus>.png` |
 | 3. Finals | [`docs/04-finals.md`](docs/04-finals.md) | `final/`, `review/final_*.png` |
-| 4. Revisions + Free Spins | [`docs/05-revisions.md`](docs/05-revisions.md) | `final/`, `final/alternates/`, `review/final_alternates.png` |
+| 4. Revisions + Free Spins | [`docs/05-revisions.md`](docs/05-revisions.md) | `final/` |
 
 ## Layout
 
