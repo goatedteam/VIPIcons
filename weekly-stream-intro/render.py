@@ -18,6 +18,7 @@ from multiprocessing import Pool
 import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
+from scipy import signal
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 A = os.path.join(HERE, "assets")
@@ -25,7 +26,7 @@ OUT = os.path.join(HERE, "out")
 
 W, H = 1920, 1080
 FPS = 60
-DUR = 14.32
+DUR = 15.32
 NFRAMES = int(DUR * FPS)
 MUSIC_START = 25.0
 
@@ -46,7 +47,8 @@ WHIP_START = 11.95
 ZOOM_LAND = 12.31  # 808 in the track
 ZOOM_END = 3.6
 # neon flicker on the Kick link: (start, pattern) — one char per 1/30 s, '0' = dimmed
-KICK_FLICKER = ((13.34, "1010011010001110111"), (13.96, "10110"), (14.06, "10100111"))
+KICK_FLICKER = ((13.34, "1010011010001110111"), (13.96, "10110"), (14.06, "10100111"), (14.79, "10110"))
+MUFFLE_HZ = 520  # music low-pass cutoff once the zoom lands
 
 # Final layout (matches the reference key art, scaled to 1920x1080).
 LOGO_POS = (960.0, 277.0)
@@ -1217,8 +1219,67 @@ def _render_chunk(args):
     return path
 
 
+def swept_filter(x, sr, fc_at, kind, bw=1.5, block=256):
+    """Butterworth filter whose cutoff follows fc_at(t); coefficients update per block, state carries."""
+    out = np.zeros_like(x)
+    zi = None
+    nyq = sr * 0.45
+    for b0 in range(0, len(x), block):
+        fc = fc_at((b0 + block / 2) / sr)
+        if kind == "lowpass":
+            sos = signal.butter(4, min(fc, nyq), "lowpass", fs=sr, output="sos")
+        else:
+            sos = signal.butter(2, [fc / bw, min(fc * bw, nyq)], "bandpass", fs=sr, output="sos")
+        if zi is None:
+            zi = np.zeros((sos.shape[0], 2, x.shape[1]))
+        out[b0:b0 + block], zi = signal.sosfilt(sos, x[b0:b0 + block], axis=0, zi=zi)
+    return out
+
+
+def end_sfx(n, sr, rng):
+    """Whoosh that accelerates with the whip zoom, plus a sub boom + click on the landing."""
+    tt = np.arange(n) / sr
+    w0, wp = HOLD_END - 0.05, ZOOM_LAND
+
+    def fc_at(t):
+        if t < wp:
+            x = clamp((t - w0) / (wp - w0))
+            return 280 * (5200 / 280) ** (x ** 1.4)
+        return max(650.0, 5200 * math.exp(-(t - wp) / 0.12))
+
+    i0, i1 = int((w0 - 0.05) * sr), min(n, int((wp + 0.6) * sr))
+    noise = rng.standard_normal((i1 - i0, 2)).astype(np.float64)
+    seg_t = tt[i0:i1]
+    body = swept_filter(noise, sr, lambda t: fc_at(t + seg_t[0]), "bandpass", bw=1.6)
+    x = np.clip((seg_t - w0) / (wp - w0), 0, 1)
+    env = np.where(seg_t < wp, x ** 1.5, np.exp(-(seg_t - wp) / 0.05))
+    air = signal.sosfilt(signal.butter(2, 6000, "highpass", fs=sr, output="sos"), noise, axis=0)
+    whoosh = body * env[:, None] + air * (env * x ** 4)[:, None] * 0.35
+    pan = np.clip((seg_t - w0) / (wp - w0), 0, 1) * 2 - 1  # sweeps left -> right into the hit
+    whoosh[:, 0] *= 1 - 0.35 * pan
+    whoosh[:, 1] *= 1 + 0.35 * pan
+    whoosh /= np.abs(whoosh).max() + 1e-9
+    out = np.zeros((n, 2))
+    out[i0:i1] += whoosh * 0.7
+
+    # landing: pitch-dropping sub + short bright click
+    d = tt - wp
+    m = (d >= 0) & (d < 0.9)
+    dd = d[m]
+    f = 38 + 42 * np.exp(-dd / 0.06)
+    phase = 2 * np.pi * np.cumsum(f) / sr
+    boom = np.sin(phase) * (1 - np.exp(-dd / 0.003)) * np.exp(-dd / 0.32)
+    out[m] += boom[:, None] * 0.18
+    c = (d >= 0) & (d < 0.012)
+    click = signal.sosfilt(signal.butter(2, 2500, "highpass", fs=sr, output="sos"),
+                           rng.standard_normal(c.sum()))
+    out[c] += (click * np.exp(-d[c] / 0.003))[:, None] * 0.15
+    return out
+
+
 def make_audio(path):
-    """Music from 0:25 plus a soft noise riser into the first 808."""
+    """Music from 0:25 with a soft riser into the first 808; the music muffles (low-pass sweep)
+    during the closing zoom, with a whoosh + impact on the zoom."""
     sr = 48000
     raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", str(MUSIC_START), "-t", str(DUR),
                           "-i", os.path.join(A, "music.mp3"), "-f", "f32le", "-ac", "2", "-ar", str(sr), "-"],
@@ -1247,13 +1308,27 @@ def make_audio(path):
     envr = ((tt - t0) / (t1 - t0)).clip(0, 1) ** 2.2
     riser *= envr[:, None] * m[:, None]
     riser /= (np.abs(riser).max() + 1e-6)
-    out = music + riser * 0.16
+    # muffle: low-pass sweeps down with the zoom and stays down on the Kick shot
+    def mfc(t):
+        q = in_out_cubic(u(t, HOLD_END, ZOOM_LAND))
+        return 18000 * (MUFFLE_HZ / 18000) ** q
+    muffled = swept_filter(music.astype(np.float64), sr, mfc, "lowpass")
+    makeup = 1 + 0.0 * np.array([in_out_cubic(u(t, HOLD_END, ZOOM_LAND)) for t in tt[::480]])
+    makeup = np.repeat(makeup, 480)[:n]
+    music = (muffled * makeup[:, None]).astype(np.float32)
+    out = music + riser * 0.16 + end_sfx(n, sr, rng).astype(np.float32)
     fade_in = np.clip(tt / 0.02, 0, 1)
     fade_out = np.clip((DUR - tt) / 0.8, 0, 1) ** 1.5
     out *= (fade_in * fade_out)[:, None]
-    peak = np.abs(out).max()
-    if peak > 0.89:  # leave ~1 dB of headroom for the AAC encode
-        out *= 0.89 / peak
+    # peak limiter ( ~1 dB headroom for the AAC encode) instead of turning the
+    # whole mix down for the few landing peaks
+    from scipy.ndimage import minimum_filter1d, uniform_filter1d
+    thr = 0.89
+    win = int(0.015 * sr)  # 15 ms look-ahead/hold, smoothed over the same span: no bass distortion
+    gain = np.minimum(1.0, thr / np.maximum(np.abs(out).max(1), 1e-9))
+    gain = uniform_filter1d(minimum_filter1d(gain, size=2 * win + 1), size=2 * win + 1)
+    out *= gain[:, None]
+    out = np.clip(out, -thr, thr)
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ac", "2", "-ar", str(sr), "-i", "-",
                     "-c:a", "pcm_s16le", path], input=out.astype(np.float32).tobytes(), check=True)
 
