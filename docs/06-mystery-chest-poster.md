@@ -45,3 +45,19 @@ PALETTE (Goated brand only): deep near-black slate navy (#0B0F1A to #1A2233) for
 
 No text, letters or numbers anywhere in the image. One chest only.
 </details>
+
+## Round 2: lightning storm
+
+Feedback: no Goated logo on the chest (use `reference/art/Chest_mystery_glow.png` as the chest), the
+GOATED wordmark (`reference/brand/goated_wordmark.png`) unframed in the footer, and no swirls. From five
+proposed backgrounds (loot starburst, vault door, spotlight, floating loot, lime lightning storm), the
+lightning storm was picked.
+
+Painted with Nano Banana Pro (`gemini-3-pro-image`, 4:5, 2K); prompt in `tools/run_poster.py`.
+
+```
+python tools/run_poster.py paint 3                       # -> poster/raw/lightning_<n>.png
+python tools/run_poster.py logo poster/raw/lightning_*.png  # -> poster/lightning_<n>.png + _1080x1350
+```
+
+Variants: [`poster/lightning_compare.png`](../poster/lightning_compare.png).
