@@ -61,3 +61,26 @@ python tools/run_poster.py logo poster/raw/lightning_*.png  # -> poster/lightnin
 ```
 
 Variants: [`poster/lightning_compare.png`](../poster/lightning_compare.png).
+
+## Reveal video
+
+[`video/mystery_chest_reveal.mp4`](../video/mystery_chest_reveal.mp4): 10 s, 1080×1350 (4:5), 30 fps, with sound.
+The chosen poster (`poster/raw/lightning_2.png`, no logo) is animated as motion graphics by
+`tools/make_reveal.py` (NumPy/PIL frames, encoded with ffmpeg). All sound is synthesized in the same script
+and timed to the same event list as the picture.
+
+| Time | Picture | Sound |
+|---|---|---|
+| 0–5.5 s | Accelerating push-in; 9 lime lightning strikes with flashes and camera shake; sparks; seam glow building; chest rattling faster and faster from 2.9 s | Storm rumble and wind, thunder on every strike, electric hum and crackle, wooden knocks with metal rattle, riser + whoosh |
+| 5.5 s | Giant strike, white flash, lid bursts open (cut to the open-chest painting), punch-in | Sub drop, huge thunder crack, lid slam, arc zap |
+| 5.6–7.3 s | Juice box shoots up out of the chest (hidden below the rim), squash-and-stretch, orange halo, rays, embers | Shimmer, D-major choir pad, rising whoosh |
+| 7.3 s | Box settles; shockwave ring, orange flash, glints | Chime, sparkle arpeggio, soft boom |
+| 7.3–10 s | Hero shot: box bobs and glows, sunburst, lightning keeps crackling | Pad, shimmer, distant thunder, final sparkle ding at 9.15 s |
+
+Painted inputs in `video/assets/`: `chest_open.png` (the poster edited to an open, orange-lit chest) and
+`juicebox.png` (keyed from `juicebox_ai.jpg`), both from Nano Banana via ElevenLabs. Audio is about -13 LUFS.
+
+```
+python tools/make_reveal.py            # -> video/mystery_chest_reveal.mp4 + video/reveal_audio.wav
+python tools/make_reveal.py --preview  # a few stills along the timeline
+```
