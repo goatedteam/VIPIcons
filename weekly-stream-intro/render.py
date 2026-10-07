@@ -453,7 +453,7 @@ class Assets:
         self.stream_x1 = (bx + total) / SS
 
         # Date line (Geist Medium); size chosen to match the reference width (603px).
-        self.date_text = "1st October at 4 PM UTC"
+        self.date_text = "8th October at 4 PM UTC"
         f100 = ImageFont.truetype(geist, 100)
         # type size matched to the reference line ("24th September at 4 PM UTC" = 603px wide)
         dsize = 603.0 / f100.getlength("24th September at 4 PM UTC") * 100
