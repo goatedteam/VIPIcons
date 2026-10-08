@@ -1,0 +1,117 @@
+{
+  "round": "round1",
+  "model": "gemini-3.1-flash-lite-image",
+  "style_brief": "Create ONE asset for Goated, a crypto casino, for its Halloween 2026 event \"The Haunted Trail\".\n\nThe attached Goated art is the STYLE reference; match it exactly: hand-painted, stylised 2.5D premium mobile-game art; bold dark ink outlines with varied line weight; cel-shaded value blocks with soft gradient blending; chunky, slightly exaggerated proportions; subtle painterly texture. Do not copy the reference objects themselves.\nHalloween palette: deep night purples and slate navies, pumpkin orange (#FFAA33), ghostly green (#02DE82), candy pink-red (#FF3B69), with Goated neon lime (#D4FF00) as the brand accent. The mood is spooky-cute, never gory or frightening.\n\nSUBJECT: {subject}\n\n{layout}\nNo text, letters, numbers or logos anywhere unless the subject asks for them; no UI, no frame, no watermark.",
+  "g3_brief": "The FIRST attached image is the official reference for G3, Goated's mascot. Keep the same character design exactly as shown: same long dark blue-black hair, same large curved ram horns (same shape, same curl and same placement on the head), same face, same skin tone and same body proportions. Do not alter the horn shape or horn placement. Show her modestly dressed in the outfit described.\n\n",
+  "layouts": {
+    "object": "COMPOSITION: one single object or object group, centred, in a 3/4 view, filling about 80% of the square canvas with even padding, nothing cropped. Bold, clear silhouette that still reads at 96 px.\nBACKGROUND: plain, flat, solid light grey (#D0D0D0), perfectly uniform. No scene, no floor, no gradient, no glow halo or cast shadow on the background.",
+    "house": "COMPOSITION: one small house standing on a small patch of ground, centred, seen from the front in a slight 3/4 view, the base of the ground patch at the bottom centre of the canvas, the house filling about 85% of the square canvas, nothing cropped. Chunky, bold, simple shapes that still read at 160 px.\nBACKGROUND: plain, flat, solid light grey (#D0D0D0), perfectly uniform. No sky, no scenery, no glow on the background.",
+    "character": "COMPOSITION: one full-body character standing, centred, filling about 90% of the canvas height, feet at the bottom, nothing cropped.\nBACKGROUND: plain, flat, solid light grey (#D0D0D0), perfectly uniform. No scene, no floor shadow beyond a small soft oval under the feet.",
+    "g3": "COMPOSITION: the whole figure walking, facing RIGHT in a 3/4 side view, filling about 85% of the canvas height, centred, feet at the bottom centre with a small soft oval shadow beneath them, nothing cropped. Bold silhouette and simple shapes that read clearly at 128 px.\nBACKGROUND: plain, flat, solid light grey (#D0D0D0), perfectly uniform.",
+    "map": "COMPOSITION: a wide, opaque, painted night-time landscape seen from slightly above, filling the whole canvas edge to edge. A single continuous dirt trail runs from the far LEFT edge to the far RIGHT edge through three neighbourhoods in order, left to right: Pumpkin Fields (orange, farmland, pumpkin patches, scarecrows), Hollow Woods (twisted dark trees, green fireflies, mushrooms) and The Graveyard (gravestones, iron fences, gothic gates, pink-red will-o'-wisps). Along the trail there are exactly TWELVE empty, flat, round clearings of bare ground, four in each neighbourhood, evenly spaced, each clearly empty with nothing built on it, big enough for a small house. A full moon and starry purple sky at the top.",
+    "fog": "COMPOSITION: a full-frame painted texture of fog only, filling the whole canvas edge to edge, evenly dense across the frame with no single focal point, no objects, no horizon and no vignette, so it can be tiled.",
+    "meter": "COMPOSITION: one long, thin, horizontal progress bar running straight across the full width of the canvas, centred vertically, seen straight-on, on a plain flat light-grey (#D0D0D0) background. The bar is about 1/12 of the canvas height. The left half of the bar is filled with the fill material and the right half shows the empty track."
+  },
+  "designs": {
+    "map": {"layout": "map", "aspect": "21:9", "refs": ["reference/style/chest_open.png", "reference/style/calendar.png"], "variants": {
+      "A": {"name": "Winding moonlit trail", "subject": "A winding packed-dirt trail through moonlit pumpkin farmland, then twisted woods, then a graveyard, lit by soft moonlight and the zone colours: orange glow in the fields, green glow in the woods, pink-red glow in the graveyard."},
+      "B": {"name": "Board-game trail", "subject": "The same journey drawn like a premium board-game map: the trail is a path of chunky, softly glowing stepping stones, seen a little more from above so the twelve round empty clearings read very clearly as spaces on a board."},
+      "C": {"name": "Big-moon panorama", "subject": "A panoramic version with a huge full moon, layered rolling hill silhouettes, and the trail edged with a faint neon-lime glow so it reads clearly against the dark landscape."}
+    }},
+    "fog": {"layout": "fog", "aspect": "16:9", "refs": ["reference/style/chest_open.png"], "variants": {
+      "A": {"name": "Soft cloud banks", "subject": "Dense, soft purple-grey fog made of big rounded painted cloud banks, opaque enough to completely hide anything behind it, with gentle lighter and darker values and soft edges."},
+      "B": {"name": "Layered wisps", "subject": "Dense purple-grey fog built from many layered painted wisps and darker swirls, opaque, soft-edged."},
+      "C": {"name": "Rolling fog, lime edges", "subject": "Thick rolling purple-grey fog banks, opaque, with very faint neon-lime tints along a few cloud edges for a magical feel."}
+    }},
+    "house_z1": {"layout": "house", "aspect": "1:1", "refs": ["reference/style/chest_open.png", "reference/style/coin.png"], "variants": {
+      "A": {"name": "Pumpkin-patch farmhouse", "subject": "A cosy pumpkin-patch farmhouse in red-painted wood with a cream trim, a little porch with a warm porch light on and the front door glowing, a few pumpkins on the porch steps, a tiny scarecrow beside it."},
+      "B": {"name": "Giant pumpkin cottage", "subject": "A cottage built inside a giant orange pumpkin, with a little wooden door and round windows cut into it, a curly stem chimney, porch light on and the door glowing warmly."},
+      "C": {"name": "Farmhouse with windmill", "subject": "A small wooden farmhouse with hay bales, pumpkins and a crooked little windmill beside it, porch light on and the front door glowing warmly."}
+    }},
+    "house_z2": {"layout": "house", "aspect": "1:1", "refs": ["reference/style/chest_open.png", "reference/style/coin.png"], "variants": {
+      "A": {"name": "Crooked log cabin", "subject": "A crooked woodland log cabin leaning slightly, with a mossy roof, glowing green mushrooms around its base, porch light on and the door glowing warmly."},
+      "B": {"name": "Hollow-tree cabin", "subject": "A cabin carved into a huge hollow tree trunk, with a round wooden door, little crooked windows and twisted roots around the base, porch light on and the door glowing warmly."},
+      "C": {"name": "Stone-and-timber cottage", "subject": "A stone-and-timber woodland cottage with a crooked chimney and lanterns hanging from the eaves, porch light on and the door glowing warmly."}
+    }},
+    "house_z3": {"layout": "house", "aspect": "1:1", "refs": ["reference/style/chest_open.png", "reference/style/coin.png"], "variants": {
+      "A": {"name": "Gothic manor", "subject": "A tall, narrow gothic graveyard manor with pointed spires and arched windows, behind a short wrought-iron fence, a couple of small gravestones in front, porch light on and the door glowing warmly."},
+      "B": {"name": "Crypt house", "subject": "A mausoleum-style stone crypt house with a pillared portico, small stone angel statues and ivy, porch light on and the heavy door glowing warmly."},
+      "C": {"name": "Haunted Victorian", "subject": "A crooked haunted Victorian house with a tall pointed tower, broken shutters and a sagging porch, porch light on and the door glowing warmly."}
+    }},
+    "g3": {"layout": "g3", "aspect": "1:1", "g3": true, "refs": ["halloween/reference/g3_reference.png", "reference/style/money_bag.png"], "variants": {
+      "A": {"name": "Purple hooded cloak", "subject": "G3 as a small, full-body, chibi-leaning game figure in a Halloween outfit: a dark-purple hooded cloak with the hood DOWN, a simple dark top and leggings, little boots, carrying a bulging orange candy bag in one hand."},
+      "B": {"name": "Witchy cloak, lime trim", "subject": "G3 as a small, full-body, chibi-leaning game figure in a Halloween outfit: a deep-purple cloak with neon-lime trim and a pointed witch-style hood worn DOWN, a dark top and leggings, little boots, carrying a bulging orange candy bag in one hand."},
+      "C": {"name": "Hood up, horn-holes", "subject": "G3 as a small, full-body, chibi-leaning game figure in a Halloween outfit: a dark-purple hooded cloak with the hood UP, and her ram horns coming out through two neat holes in the hood exactly where they grow (horn shape and placement unchanged), a dark top and leggings, little boots, carrying a bulging orange candy bag in one hand."}
+    }},
+    "candy": {"layout": "object", "aspect": "1:1", "refs": ["reference/style/coin.png", "reference/style/chip_lime.png"], "variants": {
+      "A": {"name": "Wrapped sweet", "subject": "A single wrapped sweet: a glossy purple wrapper around a round candy, with neon-lime twisted ends on both sides. A very bold, simple silhouette that still reads at 16 px."},
+      "B": {"name": "Emboss sweet", "subject": "A single wrapped sweet: a round glossy purple candy wrapped in clear-purple wrapper with neon-lime twisted ends on both sides, and a subtle Goated ram-horn glyph embossed on the candy. A very bold, simple silhouette."},
+      "C": {"name": "Tilted hard candy", "subject": "A single glossy purple hard candy in a twist wrapper with neon-lime twisted ends, slightly tilted at a jaunty angle with a crisp white shine. A very bold, simple silhouette."}
+    }},
+    "meter": {"layout": "meter", "aspect": "21:9", "refs": ["reference/style/chest_open.png"], "variants": {
+      "A": {"name": "Iron rail", "subject": "A fog progress meter: the TRACK is a dark wrought-iron rail with small rivets and a dark misty fog texture inside; the FILL is glowing neon-lime mist swirling inside the rail."},
+      "B": {"name": "Wooden rail", "subject": "A fog progress meter: the TRACK is a dark gnarled-wood rail wrapped with thin vines, with a dark misty inside; the FILL is glowing neon-lime mist swirling inside it."},
+      "C": {"name": "Stone rail", "subject": "A fog progress meter: the TRACK is a dark carved-stone rail with tiny cute skull studs, with a dark misty inside; the FILL is glowing neon-lime mist swirling inside it."}
+    }},
+    "lantern": {"layout": "object", "aspect": "1:1", "refs": ["reference/style/chest_open.png", "reference/style/coin.png"], "variants": {
+      "A": {"name": "Wrought-iron lantern", "subject": "A small black wrought-iron hanging lantern with a ring on top and glass panes, LIT with a warm orange flame glowing inside."},
+      "B": {"name": "Bat-wing cage lantern", "subject": "A small square iron cage lantern with a pointed roof and a little bat-wing finial on top, LIT with a warm orange flame glowing inside."},
+      "C": {"name": "Jack-o'-lantern cage", "subject": "A small round iron cage lantern with a tiny carved jack-o'-lantern glowing warmly inside it, LIT."}
+    }},
+    "keeper": {"layout": "character", "aspect": "2:3", "refs": ["reference/style/money_bag.png", "reference/style/chest_open.png"], "variants": {
+      "A": {"name": "Elder bearded goat", "subject": "The Trail Keeper: a tall, upright, anthropomorphic elder goat with a long white beard, wearing a tattered dark-purple hooded cloak with the hood up and big curled horns curling out of the hood, holding up an old iron lantern glowing neon-lime. Calm, wise, kind eyes."},
+      "B": {"name": "Spectral goat", "subject": "The Trail Keeper: a very tall, lean, anthropomorphic goat with softly glowing neon-lime eyes, wearing a long tattered dark-purple hooded cloak, with big curled horns, holding an iron lantern glowing neon-lime. Mysterious but friendly, calm and wise, not scary."},
+      "C": {"name": "Goat with staff", "subject": "The Trail Keeper: a tall, upright, anthropomorphic goat in a tattered dark-purple hooded cloak, with big curled horns, leaning on a crooked wooden staff with an iron lantern glowing neon-lime hanging from its hooked top. Calm, wise."}
+    }},
+    "kid": {"layout": "character", "aspect": "2:3", "refs": ["reference/style/money_bag.png", "reference/style/coin.png"], "variants": {
+      "A": {"name": "Little goat girl", "subject": "The Goat Kid: a cheeky little anthropomorphic goat girl standing upright, wearing a too-big black witch hat, a long striped orange-and-purple scarf, holding a wooden ladle. Huge grin, bursting with energy."},
+      "B": {"name": "Toddler goat", "subject": "The Goat Kid: a chubby, cheeky little anthropomorphic goat girl standing upright, her too-big black witch hat slipping over one eye, a striped orange-and-purple scarf, waving a wooden ladle. Huge grin, full of energy."},
+      "C": {"name": "Freckled goat kid", "subject": "The Goat Kid: a cheeky little anthropomorphic goat girl with freckles and tiny horns poking through the brim of a too-big black witch hat, a striped orange-and-purple scarf, holding a wooden ladle over her shoulder. Big grin, full of energy."}
+    }},
+    "item1": {"layout": "object", "aspect": "1:1", "refs": ["reference/style/chip_lime.png", "reference/style/coin.png"], "variants": {
+      "A": {"name": "3 chips, rocket emblem", "subject": "A small stack of 3 glowing casino chips in purple and neon-lime, the top chip bearing a simple white rocket emblem."},
+      "B": {"name": "Chip launch pad", "subject": "Three glowing casino chips stacked like a launch pad, the top chip bearing a simple white rocket emblem with a small lime exhaust glow."},
+      "C": {"name": "Chips with glow trails", "subject": "A small stack of 3 casino chips in purple and neon-lime with a simple white rocket emblem on the top chip and short lime glow trails rising from it."}
+    }},
+    "item2": {"layout": "object", "aspect": "1:1", "refs": ["reference/style/chip_lime.png", "reference/style/coin.png"], "variants": {
+      "A": {"name": "Pumpkin bucket of chips", "subject": "A bigger pile of casino chips (purple, neon-lime and orange) spilling out of a jack-o'-lantern trick-or-treat bucket."},
+      "B": {"name": "Overflowing bucket", "subject": "A jack-o'-lantern trick-or-treat bucket overflowing with casino chips (purple, neon-lime and orange) cascading over its rim."},
+      "C": {"name": "Tipped bucket", "subject": "A jack-o'-lantern trick-or-treat bucket tipped on its side with casino chips (purple, neon-lime and orange) fanning out of it."}
+    }},
+    "item3": {"layout": "object", "aspect": "1:1", "refs": ["reference/style/coin.png"], "variants": {
+      "A": {"name": "Jack-o'-lantern coin", "subject": "A thick gold coin with a carved jack-o'-lantern face on it."},
+      "B": {"name": "Glowing coin face", "subject": "A thick gold coin with a carved jack-o'-lantern face whose eyes and mouth glow warm orange from inside."},
+      "C": {"name": "Coin with stem", "subject": "A thick gold coin standing on its edge, with a carved jack-o'-lantern face and a tiny green pumpkin stem on top."}
+    }},
+    "item4": {"layout": "object", "aspect": "1:1", "refs": ["reference/style/coin.png", "reference/style/chip_lime.png"], "variants": {
+      "A": {"name": "Potion with arrow label", "subject": "A bubbling glass potion bottle with a neon-lime glowing liquid, a cork, and a label showing a simple upward arrow."},
+      "B": {"name": "Flask, arrow stopper", "subject": "A round glass flask of bubbling neon-lime potion with a stopper shaped like an upward arrow."},
+      "C": {"name": "Vial, rising arrow", "subject": "A tall glass vial of bubbling neon-lime potion with a glowing lime upward arrow rising up through the bubbles."}
+    }},
+    "item5": {"layout": "object", "aspect": "1:1", "refs": ["reference/style/coin.png"], "variants": {
+      "A": {"name": "Vine ring", "subject": "A round ring frame made of a green pumpkin vine with a few leaves, with a completely empty centre, seen straight-on."},
+      "B": {"name": "Ring with mini pumpkins", "subject": "A round ring frame made of a twisted green pumpkin vine with four tiny orange pumpkins spaced around it, completely empty centre, seen straight-on."},
+      "C": {"name": "Tendril ring", "subject": "A round ring frame of twisted pumpkin vine with curling tendrils and a few leaves, completely empty centre, seen straight-on."}
+    }},
+    "item6": {"layout": "object", "aspect": "1:1", "refs": ["reference/style/coin.png"], "variants": {
+      "A": {"name": "Peeking ghost", "subject": "A small cute white ghost peeking out of a rounded speech bubble."},
+      "B": {"name": "Hugging ghost", "subject": "A small cute white ghost wrapped around a rounded speech bubble, hugging it."},
+      "C": {"name": "Pop-up ghost", "subject": "A small cute white ghost popping up from behind a rounded speech bubble with a cheeky expression."}
+    }},
+    "item7": {"layout": "object", "aspect": "1:1", "refs": ["reference/style/coin.png"], "variants": {
+      "A": {"name": "Winged paint pot", "subject": "A small paint pot with little bat wings on its sides, purple paint dripping over its rim."},
+      "B": {"name": "Flying paint pot", "subject": "A small paint pot flying on bat wings, purple paint dripping from its rim."},
+      "C": {"name": "Pot with brush", "subject": "A small paint pot with bat wings and a paintbrush resting in it, purple paint dripping over the rim."}
+    }},
+    "item8": {"layout": "object", "aspect": "1:1", "refs": ["reference/style/gift_box.png"], "variants": {
+      "A": {"name": "Candy-stripe box", "subject": "A wrapped gift box in candy-stripe paper (purple and orange stripes) with a bow and a small paper tag showing a single \"?\" mark. The \"?\" is the only text allowed."},
+      "B": {"name": "Lid lifting", "subject": "A candy-stripe wrapped gift box (purple and orange stripes) with its lid lifting slightly and a small paper tag showing a single \"?\" mark. The \"?\" is the only text allowed."},
+      "C": {"name": "Lime ribbon", "subject": "A candy-stripe wrapped gift box (purple and orange stripes) tied with a neon-lime ribbon and bow, with a small paper tag showing a single \"?\" mark. The \"?\" is the only text allowed."}
+    }},
+    "soldout": {"layout": "object", "aspect": "1:1", "refs": ["reference/style/chest_open.png"], "variants": {
+      "A": {"name": "Tipped cauldron", "subject": "An empty witch's cauldron tipped over on its side, painted entirely in shades of grey (monochrome)."},
+      "B": {"name": "Cracked cauldron", "subject": "An empty witch's cauldron tipped over on its side with a crack down its side, painted entirely in shades of grey (monochrome)."},
+      "C": {"name": "Cauldron and ladle", "subject": "An empty witch's cauldron tipped over on its side with a wooden ladle lying beside it, painted entirely in shades of grey (monochrome)."}
+    }}
+  }
+}

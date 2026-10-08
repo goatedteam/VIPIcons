@@ -1,0 +1,10 @@
+{
+  "start_balance_usd": 10.0,
+  "warn_when_remaining_usd": 1.0,
+  "note": "Rates are ESTIMATES (Google's pricing page is unreachable from this environment). Replace with the real per-1M-token rates from AI Studio billing to make the tracker exact.",
+  "rates_per_1m_tokens": {
+    "gemini-3.1-flash-lite-image": {"input": 0.25, "output_image": 30.0, "output_text": 1.5},
+    "gemini-3.1-flash-image":      {"input": 0.50, "output_image": 60.0, "output_text": 3.0},
+    "gemini-3-pro-image":          {"input": 2.00, "output_image": 120.0, "output_text": 12.0}
+  }
+}

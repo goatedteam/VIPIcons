@@ -22,6 +22,15 @@ import urllib.request
 from PIL import Image
 
 API = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+# Every successful call appends its token usage here (JSONL) so spend can be totalled.
+LEDGER = os.environ.get("GEN_LEDGER", os.path.join(os.path.dirname(os.path.abspath(__file__)), "usage_ledger.jsonl"))
+
+
+def log_usage(model, size, data, tag):
+    rec = {"t": time.strftime("%Y-%m-%dT%H:%M:%S"), "model": model, "size": size, "tag": tag,
+           "usage": data.get("usageMetadata", {})}
+    with open(LEDGER, "a") as f:
+        f.write(json.dumps(rec) + "\n")
 
 
 def encode_ref(path, max_side=768, bg=(208, 208, 208)):
@@ -34,7 +43,7 @@ def encode_ref(path, max_side=768, bg=(208, 208, 208)):
     return {"inline_data": {"mime_type": "image/png", "data": base64.b64encode(buf.getvalue()).decode()}}
 
 
-def generate(prompt, refs, model, size, aspect="1:1", retries=5):
+def generate(prompt, refs, model, size, aspect="1:1", retries=5, tag=""):
     parts = [encode_ref(r) for r in refs] + [{"text": prompt}]
     body = {
         "contents": [{"role": "user", "parts": parts}],
@@ -56,6 +65,7 @@ def generate(prompt, refs, model, size, aspect="1:1", retries=5):
                 for p in cand.get("content", {}).get("parts", []):
                     blob = p.get("inline_data") or p.get("inlineData")
                     if blob:
+                        log_usage(model, size, data, tag)
                         return base64.b64decode(blob["data"])
             raise RuntimeError("no image in response: " + json.dumps(data)[:800])
         except (urllib.error.URLError, RuntimeError) as e:
