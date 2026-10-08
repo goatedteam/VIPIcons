@@ -16,6 +16,12 @@ masters in `final/flat/`). In-card preview: [`review/final_cards.png`](review/fi
 | 3. Finals | [`docs/04-finals.md`](docs/04-finals.md) | `final/`, `review/final_*.png` |
 | 4. Revisions + Free Spins | [`docs/05-revisions.md`](docs/05-revisions.md) | `final/` |
 
+## Sub-projects
+
+| Folder | Contents |
+|---|---|
+| [`halloween/`](halloween/) | Goated Halloween icons (same art style and tooling) |
+
 ## Layout
 
 ```
