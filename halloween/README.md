@@ -4,7 +4,9 @@ Halloween-themed icons for Goated, painted in the same house art style as the
 [VIP bonus icons](../README.md): hand-painted 2.5D, bold dark ink outlines,
 cel shading, the Goated ram-horn logo and the neon-lime accent (`#D4FF00`).
 Here it's pushed toward Halloween with pumpkin orange, deep purple and
-ghostly greens.
+ghostly greens. No separate Halloween reference art: the existing Goated art is the style source.
+
+**Scope:** set by a spec sheet (to come) covering **graphics, Lottie animations and sound effects**.
 
 ## Process
 
