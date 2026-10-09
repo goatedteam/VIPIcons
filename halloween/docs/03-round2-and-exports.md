@@ -7,7 +7,7 @@
 | Map | C | More winding, exactly 12 clearings, spookier | `variants/round2/map/E2` (desktop) · `F1` (mobile) |
 | Fog | B | More dispersed, a bit transparent | `variants/round2/fog/1` → alpha 85%, tileable |
 | Meter | B | — | `variants/round2/meter/{track,fill}` |
-| G3 | C | Witch outfit, more adult | `variants/round2/g3/1` (**please confirm; options 2 and 3 on the board**) |
+| G3 | C | Witch outfit, more adult | `variants/round2/g3/1` (confirmed) |
 | Trail Keeper | B | — | `variants/round1/keeper/B` |
 | Goat Kid | A | — | `variants/round1/kid/A` |
 | Candy | B | Goated logo orange | `variants/round2/candy/orange_logo` |
@@ -37,7 +37,11 @@ leftover flat blocks (desktop sky, mobile zone seams).
 - Upscaling: the model's 1K output is Lanczos-upscaled (+ light sharpening) to the export size for the maps and fog.
   **The full-size maps and fog are softer than native art.** If a crisper map is needed, an upscaler or Nano Banana Pro at 4K would help.
 
-## Still to do (images)
+## Scenes
 
-- `modal/hw26-new-zone.png` and `shop/hw26-shop.png`: three options each in `review/round2/popup-shop.png`, waiting on a pick.
-- G3: confirm option 1 (in use) or pick 2 or 3.
+| File | Pick | Source |
+|---|---|---|
+| `modal/hw26-new-zone.png` (1040×560, opaque) | Popup B | `variants/round2/popup/B`, left half kept dark for the headline |
+| `shop/hw26-shop.png` (1600×600, opaque) | Shop header A | `variants/round2/shop/A`, left 55% kept dark for the title and Candy balance |
+
+**All 36 spec PNGs are delivered** in `final/halloween-2026/`, plus `map/hw26-map-lots.json`.

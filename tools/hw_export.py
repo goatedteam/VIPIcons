@@ -206,6 +206,21 @@ def character(rel, name):
     return full, bust, av.resize((128, 128), Image.LANCZOS)
 
 
+def scene(rel, size, focus_y=0.5):
+    """Opaque banner: crop the generated scene to the export aspect (full width, vertical
+    position set by focus_y) and upscale."""
+    im = Image.open(src(rel)).convert("RGB")
+    ew, eh = size
+    if im.width / im.height > ew / eh:
+        w = round(im.height * ew / eh)
+        im = im.crop(((im.width - w) // 2, 0, (im.width - w) // 2 + w, im.height))
+    else:
+        h = round(im.width * eh / ew)
+        top = round((im.height - h) * focus_y)
+        im = im.crop((0, top, im.width, top + h))
+    return upscale(im, size)
+
+
 def build():
     yield "map/hw26-map-d.png", lambda: map_png("d", f"{R2}/map/E2")
     yield "map/hw26-map-m.png", lambda: map_png("m", f"{R2}/map/F1")
@@ -231,6 +246,8 @@ def build():
             yield f"char/hw26-{name}-{part}.png", fn
     for n, rel in ITEMS.items():
         yield f"shop/hw26-item-{n}.png", lambda rel=rel: place(cutout(rel), (192, 192), (172, 172))
+    yield "modal/hw26-new-zone.png", lambda: scene(f"{R2}/popup/B", (1040, 560), focus_y=0.45)
+    yield "shop/hw26-shop.png", lambda: scene(f"{R2}/shop/A", (1600, 600), focus_y=0.5)
     yield "shop/hw26-sold-out.png", lambda: place(cutout(f"{R1}/soldout/A"), (192, 192), (176, 176))
 
 
@@ -239,6 +256,6 @@ if __name__ == "__main__":
     for rel, fn in build():
         if only and not any(rel.startswith(o) for o in only):
             continue
-        q = (0, 95) if rel.startswith("map/hw26-map") else (65, 92)
+        q = (0, 95) if rel.startswith(("map/hw26-map", "modal/", "shop/hw26-shop")) else (65, 92)
         # dithering shows as grain on soft semi-transparent textures
         save(fn(), rel, quality=q, dither=0.0 if rel in ("map/hw26-fog.png", "meter/hw26-meter-fill.png") else 1.0)
