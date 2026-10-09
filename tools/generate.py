@@ -70,7 +70,8 @@ def generate(prompt, refs, model, size, aspect="1:1", retries=5, tag=""):
             raise RuntimeError("no image in response: " + json.dumps(data)[:800])
         except (urllib.error.URLError, RuntimeError) as e:
             detail = e.read().decode()[:800] if isinstance(e, urllib.error.HTTPError) else str(e)
-            if attempt == retries - 1:
+            code = getattr(e, "code", None)
+            if attempt == retries - 1 or (code and 400 <= code < 500 and code != 429):
                 print(f"attempt {attempt + 1} failed: {detail}", file=sys.stderr)
                 raise
             # 429s carry "retry in N.Ns"; the per-model quota is per minute

@@ -1,0 +1,367 @@
+{
+  "round": "round2",
+  "inherit": "round1.json",
+  "edit_brief": "Edit the FIRST attached image: an approved game asset for Goated's Halloween event, painted in a hand-painted 2.5D style with bold dark ink outlines and cel shading.\n\nCHANGE: {change}\n{roles}\nPRESERVE: everything not named in CHANGE, exactly as it is: design, shape, colours, proportions, camera angle, ink linework, shading, lighting and composition. Any new element is painted in the same ink-outlined style and lighting.\n\nCONSTRAINTS: add nothing that is not asked for. No text, no watermark. Keep the plain, flat, perfectly uniform light-grey (#D0D0D0) background, with no glow halo or cast shadow on it.",
+  "layouts_extra": "see layouts below",
+  "layouts": {
+    "map": "COMPOSITION: a wide, opaque, painted night-time landscape seen from slightly above, filling the whole canvas edge to edge. A single continuous dirt trail runs from the far LEFT edge to the far RIGHT edge through three neighbourhoods in order, left to right: Pumpkin Fields, Hollow Woods and The Graveyard. A full moon and starry sky at the top.",
+    "fog_black": "COMPOSITION: a full-frame painted texture of fog only, filling the whole canvas edge to edge, evenly spread across the frame with no single focal point, no objects, no horizon and no vignette, so it can be tiled.",
+    "meter_track": "COMPOSITION: one long, thin, horizontal rail running straight across almost the full width of the canvas (a small margin at both ends), centred vertically, seen straight-on, about 1/10 of the canvas height.\nBACKGROUND: plain, flat, solid light grey (#D0D0D0), perfectly uniform.",
+    "meter_fill": "COMPOSITION: one straight, horizontal band running edge to edge across the FULL width of the canvas with no ends, centred vertically, about 1/10 of the canvas height. No rail, no frame, no container.\nBACKGROUND: plain, flat, pure black (#000000).",
+    "g3": "COMPOSITION: the whole figure walking, facing RIGHT in a 3/4 side view, filling about 88% of the canvas height, centred, feet at the bottom centre with a small soft oval shadow beneath them, nothing cropped. Bold silhouette that reads clearly at 128 px.\nBACKGROUND: plain, flat, solid light grey (#D0D0D0), perfectly uniform.",
+    "scene_popup": "COMPOSITION: a wide, opaque, painted scene used as the header image of a popup. The LEFT HALF of the image stays very dark (deep night purple-navy, nearly empty, no important detail) so a headline can sit over it; all the detail sits in the right half. The image fills the canvas edge to edge.",
+    "scene_shop": "COMPOSITION: a wide, opaque, painted banner scene. The LEFT 55% stays dark (deep night purple-navy, nearly empty, no important detail) for the live title and Candy balance; all the detail sits in the right 45%. The image fills the canvas edge to edge."
+  },
+  "designs": {
+    "map": {
+      "layout": "map",
+      "aspect": "21:9",
+      "variants": {
+        "d1": {
+          "name": "Desktop from guide",
+          "refs": [
+            "halloween/reference/map_guide_d.png",
+            "halloween/variants/round1/map/C.png"
+          ],
+          "prefix": "The FIRST attached image is a flat LAYOUT GUIDE. Paint the final map following it EXACTLY: the trail follows the beige line, and the TWELVE brown ovals are empty, flat, round clearings of bare ground at exactly those positions and sizes. Keep all twelve, each clearly empty with nothing on it. The coloured bands mark the three neighbourhoods: orange = Pumpkin Fields, green = Hollow Woods, pink-red = The Graveyard. The dark band is sky. The SECOND attached image is the approved concept: match its art style, the huge full moon, the layered hills and the faint neon-lime glow edging the trail.",
+          "subject": "Make it SPOOKY: a dark, moody night with low drifting ground mist, dead twisted trees, crooked leaning fences, crows on bare branches, eerie glowing jack-o'-lantern faces in the pumpkin patch, cracked gravestones and a looming gothic gate. Each neighbourhood carries a subtle glow in its colour (orange, ghostly green, pink-red), but the ground stays dark and natural; do not flood it with colour. No text, labels or lettering anywhere."
+        },
+        "d2": {
+          "name": "Desktop from guide (alt)",
+          "refs": [
+            "halloween/reference/map_guide_d.png",
+            "halloween/variants/round1/map/C.png"
+          ],
+          "prefix": "The FIRST attached image is a flat LAYOUT GUIDE. Paint the final map following it EXACTLY: the trail follows the beige line, and the TWELVE brown ovals are empty, flat, round clearings of bare ground at exactly those positions and sizes. Keep all twelve, each clearly empty with nothing on it. The coloured bands mark the three neighbourhoods: orange = Pumpkin Fields, green = Hollow Woods, pink-red = The Graveyard. The dark band is sky. The SECOND attached image is the approved concept: match its art style, the huge full moon, the layered hills and the faint neon-lime glow edging the trail.",
+          "subject": "Make it SPOOKY: a dark, moody night with low drifting ground mist, dead twisted trees, crooked leaning fences, crows on bare branches, eerie glowing jack-o'-lantern faces in the pumpkin patch, cracked gravestones and a looming gothic gate. Each neighbourhood carries a subtle glow in its colour (orange, ghostly green, pink-red), but the ground stays dark and natural; do not flood it with colour. No text, labels or lettering anywhere. Add will-o'-wisps and a scarecrow silhouetted against the moon."
+        },
+        "m1": {
+          "name": "Mobile from guide",
+          "aspect": "1:4",
+          "refs": [
+            "halloween/reference/map_guide_m.png",
+            "halloween/variants/round1/map/C.png"
+          ],
+          "prefix": "The FIRST attached image is a flat LAYOUT GUIDE. Paint the final map following it EXACTLY: the trail follows the beige line, and the TWELVE brown ovals are empty, flat, round clearings of bare ground at exactly those positions and sizes. Keep all twelve, each clearly empty with nothing on it. The coloured bands mark the three neighbourhoods: orange = Pumpkin Fields, green = Hollow Woods, pink-red = The Graveyard. The dark band at the top is sky with the moon; the trail runs from the TOP (Pumpkin Fields) to the BOTTOM (The Graveyard). The SECOND attached image is the approved concept: match its art style, the huge full moon, the layered hills and the faint neon-lime glow edging the trail.",
+          "subject": "Make it SPOOKY: a dark, moody night with low drifting ground mist, dead twisted trees, crooked leaning fences, crows on bare branches, eerie glowing jack-o'-lantern faces in the pumpkin patch, cracked gravestones and a looming gothic gate. Each neighbourhood carries a subtle glow in its colour (orange, ghostly green, pink-red), but the ground stays dark and natural; do not flood it with colour. No text, labels or lettering anywhere."
+        },
+        "m2": {
+          "name": "Mobile from guide (alt)",
+          "aspect": "1:4",
+          "refs": [
+            "halloween/reference/map_guide_m.png",
+            "halloween/variants/round1/map/C.png"
+          ],
+          "prefix": "The FIRST attached image is a flat LAYOUT GUIDE. Paint the final map following it EXACTLY: the trail follows the beige line, and the TWELVE brown ovals are empty, flat, round clearings of bare ground at exactly those positions and sizes. Keep all twelve, each clearly empty with nothing on it. The coloured bands mark the three neighbourhoods: orange = Pumpkin Fields, green = Hollow Woods, pink-red = The Graveyard. The dark band at the top is sky with the moon; the trail runs from the TOP (Pumpkin Fields) to the BOTTOM (The Graveyard). The SECOND attached image is the approved concept: match its art style, the huge full moon, the layered hills and the faint neon-lime glow edging the trail.",
+          "subject": "Make it SPOOKY: a dark, moody night with low drifting ground mist, dead twisted trees, crooked leaning fences, crows on bare branches, eerie glowing jack-o'-lantern faces in the pumpkin patch, cracked gravestones and a looming gothic gate. Each neighbourhood carries a subtle glow in its colour (orange, ghostly green, pink-red), but the ground stays dark and natural; do not flood it with colour. No text, labels or lettering anywhere. Add will-o'-wisps and a scarecrow silhouetted against the moon."
+        },
+        "D1": {
+          "name": "Desktop from guide v2",
+          "refs": [
+            "halloween/reference/map_guide_d.png",
+            "halloween/variants/round1/map/C.png"
+          ],
+          "prefix": "The FIRST attached image is a flat LAYOUT GUIDE. Paint the final map following it EXACTLY: the trail follows the beige line, and the TWELVE brown ovals are empty, flat, round clearings of bare ground at exactly those positions and sizes. Keep all twelve, each clearly empty with nothing on it. The SECOND attached image is the approved concept: match its art style, the huge full moon, the layered hills and the faint neon-lime glow edging the trail. The trail passes through three neighbourhoods across the width, in equal thirds from left to right: Pumpkin Fields (left third), Hollow Woods (middle third) and The Graveyard (right third). The sky above all three is one continuous night sky. Do not paint any flat blocks of colour; the guide's plain dark background is NOT part of the art.",
+          "subject": "Make it SPOOKY: a dark, moody night with low drifting ground mist, dead twisted trees, crooked leaning fences, crows on bare branches, eerie glowing jack-o'-lantern faces in the pumpkin patch, cracked gravestones and a looming gothic gate. Each neighbourhood carries a subtle glow in its colour (orange, ghostly green, pink-red), but the ground stays dark and natural; do not flood it with colour. No text, labels or lettering anywhere."
+        },
+        "D2": {
+          "name": "Desktop from guide (alt) v2",
+          "refs": [
+            "halloween/reference/map_guide_d.png",
+            "halloween/variants/round1/map/C.png"
+          ],
+          "prefix": "The FIRST attached image is a flat LAYOUT GUIDE. Paint the final map following it EXACTLY: the trail follows the beige line, and the TWELVE brown ovals are empty, flat, round clearings of bare ground at exactly those positions and sizes. Keep all twelve, each clearly empty with nothing on it. The SECOND attached image is the approved concept: match its art style, the huge full moon, the layered hills and the faint neon-lime glow edging the trail. The trail passes through three neighbourhoods across the width, in equal thirds from left to right: Pumpkin Fields (left third), Hollow Woods (middle third) and The Graveyard (right third). The sky above all three is one continuous night sky. Do not paint any flat blocks of colour; the guide's plain dark background is NOT part of the art.",
+          "subject": "Make it SPOOKY: a dark, moody night with low drifting ground mist, dead twisted trees, crooked leaning fences, crows on bare branches, eerie glowing jack-o'-lantern faces in the pumpkin patch, cracked gravestones and a looming gothic gate. Each neighbourhood carries a subtle glow in its colour (orange, ghostly green, pink-red), but the ground stays dark and natural; do not flood it with colour. No text, labels or lettering anywhere. Add will-o'-wisps and a scarecrow silhouetted against the moon."
+        },
+        "M1": {
+          "name": "Mobile from guide v2",
+          "aspect": "1:4",
+          "refs": [
+            "halloween/reference/map_guide_m.png",
+            "halloween/variants/round1/map/C.png"
+          ],
+          "prefix": "The FIRST attached image is a flat LAYOUT GUIDE. Paint the final map following it EXACTLY: the trail follows the beige line, and the TWELVE brown ovals are empty, flat, round clearings of bare ground at exactly those positions and sizes. Keep all twelve, each clearly empty with nothing on it. The SECOND attached image is the approved concept: match its art style, the huge full moon, the layered hills and the faint neon-lime glow edging the trail. The trail passes through three neighbourhoods in equal thirds from top to bottom: Pumpkin Fields (top third), Hollow Woods (middle third) and The Graveyard (bottom third), blending naturally into each other. The night sky with the moon sits only at the very top. Do not paint any flat blocks of colour; the guide's plain dark background is NOT part of the art.",
+          "subject": "Make it SPOOKY: a dark, moody night with low drifting ground mist, dead twisted trees, crooked leaning fences, crows on bare branches, eerie glowing jack-o'-lantern faces in the pumpkin patch, cracked gravestones and a looming gothic gate. Each neighbourhood carries a subtle glow in its colour (orange, ghostly green, pink-red), but the ground stays dark and natural; do not flood it with colour. No text, labels or lettering anywhere."
+        },
+        "M2": {
+          "name": "Mobile from guide (alt) v2",
+          "aspect": "1:4",
+          "refs": [
+            "halloween/reference/map_guide_m.png",
+            "halloween/variants/round1/map/C.png"
+          ],
+          "prefix": "The FIRST attached image is a flat LAYOUT GUIDE. Paint the final map following it EXACTLY: the trail follows the beige line, and the TWELVE brown ovals are empty, flat, round clearings of bare ground at exactly those positions and sizes. Keep all twelve, each clearly empty with nothing on it. The SECOND attached image is the approved concept: match its art style, the huge full moon, the layered hills and the faint neon-lime glow edging the trail. The trail passes through three neighbourhoods in equal thirds from top to bottom: Pumpkin Fields (top third), Hollow Woods (middle third) and The Graveyard (bottom third), blending naturally into each other. The night sky with the moon sits only at the very top. Do not paint any flat blocks of colour; the guide's plain dark background is NOT part of the art.",
+          "subject": "Make it SPOOKY: a dark, moody night with low drifting ground mist, dead twisted trees, crooked leaning fences, crows on bare branches, eerie glowing jack-o'-lantern faces in the pumpkin patch, cracked gravestones and a looming gothic gate. Each neighbourhood carries a subtle glow in its colour (orange, ghostly green, pink-red), but the ground stays dark and natural; do not flood it with colour. No text, labels or lettering anywhere. Add will-o'-wisps and a scarecrow silhouetted against the moon."
+        },
+        "E1": {
+          "name": "D1 with sky blocks fixed",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round2/map/d1.png"
+          ],
+          "change": "The upper part of each neighbourhood has a FLAT, UNPAINTED block of solid colour behind the scenery (solid orange behind the scarecrows on the left, solid green in the middle, solid pink-red on the right). Replace those flat colour blocks with the same continuous painted night sky and dark rolling hills seen elsewhere in the image, so the sky is one seamless purple-navy night across the whole width. Keep EVERYTHING else exactly as it is: the winding trail with its lime glow, all twelve round clearings at exactly the same positions, the moon, trees, scarecrows, pumpkins, gravestones and gate.",
+          "aspect": "21:9"
+        },
+        "E2": {
+          "name": "D1 with sky blocks fixed",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round2/map/d1.png"
+          ],
+          "change": "The upper part of each neighbourhood has a FLAT, UNPAINTED block of solid colour behind the scenery (solid orange behind the scarecrows on the left, solid green in the middle, solid pink-red on the right). Replace those flat colour blocks with the same continuous painted night sky and dark rolling hills seen elsewhere in the image, so the sky is one seamless purple-navy night across the whole width. Keep EVERYTHING else exactly as it is: the winding trail with its lime glow, all twelve round clearings at exactly the same positions, the moon, trees, scarecrows, pumpkins, gravestones and gate.",
+          "aspect": "21:9"
+        },
+        "F1": {
+          "name": "m1 with zone bands blended",
+          "mode": "edit",
+          "aspect": "1:4",
+          "refs": [
+            "halloween/variants/round2/map/m1.png"
+          ],
+          "change": "The background has HARD, STRAIGHT HORIZONTAL edges where the neighbourhoods meet: the orange Pumpkin Fields band stops in a straight line, then a flat green band, then a flat pink-red band. Remove those straight edges and flat colour washes: blend the neighbourhoods into each other naturally with painted transitions (fog banks, tree lines, fences, uneven ground), and keep each zone's ground dark and natural with only a subtle glow of its colour. Keep EVERYTHING else exactly as it is: the winding trail with its lime glow, all twelve round clearings at exactly the same positions, the trees, scarecrows, pumpkins, gravestones and gate."
+        },
+        "F2": {
+          "name": "m1 with zone bands blended",
+          "mode": "edit",
+          "aspect": "1:4",
+          "refs": [
+            "halloween/variants/round2/map/m1.png"
+          ],
+          "change": "The background has HARD, STRAIGHT HORIZONTAL edges where the neighbourhoods meet: the orange Pumpkin Fields band stops in a straight line, then a flat green band, then a flat pink-red band. Remove those straight edges and flat colour washes: blend the neighbourhoods into each other naturally with painted transitions (fog banks, tree lines, fences, uneven ground), and keep each zone's ground dark and natural with only a subtle glow of its colour. Keep EVERYTHING else exactly as it is: the winding trail with its lime glow, all twelve round clearings at exactly the same positions, the trees, scarecrows, pumpkins, gravestones and gate."
+        }
+      },
+      "edit_brief": "edit_brief_scene"
+    },
+    "fog": {
+      "layout": "fog_black",
+      "aspect": "16:9",
+      "variants": {
+        "1": {
+          "name": "Fog B, dispersed, on black",
+          "refs": [
+            "halloween/variants/round1/fog/B.png"
+          ],
+          "prefix": "The FIRST attached image is the approved fog concept: keep its painted purple-grey wisps and swirls and its faint orange, green and pink-red colour tints.",
+          "subject": "Make the fog MORE DISPERSED: loose wisps and swirls spread evenly across the frame with clear gaps between them, instead of a solid mass, and softer, lighter, more translucent-looking. Paint it on a plain, flat, pure BLACK (#000000) background so the black can be turned into transparency; the fog itself is soft purple-grey with occasional faint orange, green and pink-red tints, glowing gently against the black."
+        },
+        "2": {
+          "name": "Fog B, dispersed, on black (alt)",
+          "refs": [
+            "halloween/variants/round1/fog/B.png"
+          ],
+          "prefix": "The FIRST attached image is the approved fog concept: keep its painted purple-grey wisps and swirls and its faint orange, green and pink-red colour tints.",
+          "subject": "A more spread-out, airier version: many separate soft wisps and curling swirls scattered evenly over the whole frame with plenty of space between them, painted on a plain, flat, pure BLACK (#000000) background so the black can be turned into transparency. The fog is soft purple-grey with occasional faint orange, green and pink-red tints."
+        }
+      }
+    },
+    "meter": {
+      "aspect": "21:9",
+      "variants": {
+        "track": {
+          "name": "Meter B track",
+          "layout": "meter_track",
+          "refs": [
+            "halloween/variants/round1/meter/B.png"
+          ],
+          "prefix": "The FIRST attached image is the approved fog-meter design.",
+          "subject": "ONLY the empty TRACK of that meter: the same dark gnarled-wood rail wrapped with thin vines, with a dark misty interior, completely EMPTY with no lime fill at all, running straight across the canvas."
+        },
+        "fill": {
+          "name": "Meter B fill",
+          "layout": "meter_fill",
+          "refs": [
+            "halloween/variants/round1/meter/B.png"
+          ],
+          "prefix": "The FIRST attached image is the approved fog-meter design.",
+          "subject": "ONLY the FILL of that meter: the same glowing neon-lime mist with soft curling swirls, as a continuous straight band running edge to edge, evenly bright along its whole length so it can be tiled horizontally."
+        }
+      }
+    },
+    "g3": {
+      "layout": "g3",
+      "aspect": "1:1",
+      "g3": true,
+      "variants": {
+        "1": {
+          "name": "Adult witch, hood up with horn-holes",
+          "refs": [
+            "halloween/reference/g3_reference.png",
+            "halloween/variants/round1/g3/C.png",
+            "reference/style/money_bag.png"
+          ],
+          "subject": "G3 as an ADULT woman: adult proportions, about 6.5 heads tall, not chibi and not childlike, with her adult face exactly as in the first image. Full body, walking, in a classic witch outfit: a long dark-purple witch dress with neon-lime trim and a dark hooded cape with the hood UP, her ram horns coming out through two neat holes in the hood exactly where they grow. Black boots. Carrying a bulging orange candy bag in one hand. Modestly dressed. The second attached image is the approved concept for the pose and the hood idea; the first image is the authority on her face, hair, horns and proportions."
+        },
+        "2": {
+          "name": "Adult witch, pointed hat",
+          "refs": [
+            "halloween/reference/g3_reference.png",
+            "halloween/variants/round1/g3/C.png",
+            "reference/style/money_bag.png"
+          ],
+          "subject": "G3 as an ADULT woman: adult proportions, about 6.5 heads tall, not chibi, with her adult face exactly as in the first image. Full body, walking, in a classic witch outfit: a long dark-purple witch dress with neon-lime trim, a short dark cape, and a pointed black witch hat sitting on the back of her head behind her horns (the horns stay exactly where they grow, unchanged). Black boots. Carrying a bulging orange candy bag in one hand. Modestly dressed. The second attached image is the approved concept for the pose; the first image is the authority on her face, hair, horns and proportions."
+        },
+        "3": {
+          "name": "Adult witch, hood up (alt)",
+          "refs": [
+            "halloween/reference/g3_reference.png",
+            "halloween/variants/round1/g3/C.png",
+            "reference/style/money_bag.png"
+          ],
+          "subject": "G3 as an ADULT woman: tall, adult proportions, about 7 heads tall, with her adult face exactly as in the first image. Full body, striding confidently, in an elegant witch outfit: a long, flowing dark-purple witch robe-dress with a neon-lime sash, and a matching hood UP with her ram horns coming out through two neat holes exactly where they grow. Black boots. Carrying a bulging orange candy bag in one hand. Modestly dressed. The second attached image is the approved concept for the pose and the hood idea; the first image is the authority on her face, hair, horns and proportions."
+        }
+      }
+    },
+    "candy": {
+      "variants": {
+        "orange_logo": {
+          "name": "Candy B, orange logo",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round1/candy/B.png",
+            "reference/brand/goated_logo.png"
+          ],
+          "change": "Recolour ONLY the embossed Goated ram-horn logo on the candy to bright pumpkin orange (#FFAA33), as a raised orange inlay with a subtle bevel and highlight, clearly orange against the purple candy. Keep the logo's shape matching the silhouette in the second attached image. Everything else stays exactly the same.",
+          "roles": "the second image is the official Goated logo silhouette."
+        }
+      }
+    },
+    "lantern": {
+      "variants": {
+        "off": {
+          "name": "Lantern A, off",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round1/lantern/A.png"
+          ],
+          "change": "Turn the lantern OFF: no flame and no light at all. The glass panes become dark, smoky grey-purple glass with a faint cold reflection, and a burned-out wick stub is just visible inside. Keep the lantern's shape, ironwork, size and position exactly."
+        }
+      }
+    },
+    "house_z1": {
+      "variants": {
+        "dark": {
+          "name": "Z1 dark",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round1/house_z1/A.png"
+          ],
+          "change": "Switch this house to its DARK state: the porch light is OFF, every window is black and unlit, the front door is shut and dark with no glow, and there is no warm light anywhere on the house. Cool moonlit shading only."
+        },
+        "done": {
+          "name": "Z1 done",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round1/house_z1/A.png"
+          ],
+          "change": "Switch this house to its DONE state: the front door is wide OPEN with warm golden light spilling out of the doorway onto the step, ALL windows are lit warm yellow, the porch light is on, and a small carved jack-o'-lantern glows on the front step."
+        }
+      }
+    },
+    "house_z2": {
+      "variants": {
+        "dark": {
+          "name": "Z2 dark",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round1/house_z2/B.png"
+          ],
+          "change": "Switch this house to its DARK state: the porch light/lantern is OFF, every window is black and unlit, the front door is shut and dark with no glow, and there is no warm light anywhere on the house. Cool moonlit shading only."
+        },
+        "done": {
+          "name": "Z2 done",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round1/house_z2/B.png"
+          ],
+          "change": "Switch this house to its DONE state: the round front door is wide OPEN with warm golden light spilling out of the doorway, ALL windows are lit warm yellow, the lantern is on, and a small carved jack-o'-lantern glows on the front step."
+        }
+      }
+    },
+    "house_z3": {
+      "variants": {
+        "dark": {
+          "name": "Z3 dark",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round1/house_z3/A.png"
+          ],
+          "change": "Switch this house to its DARK state: the porch light is OFF, every window is black and unlit, the front door is shut and dark with no glow, and there is no warm light anywhere on the house. Cool moonlit shading only."
+        },
+        "done": {
+          "name": "Z3 done",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round1/house_z3/A.png"
+          ],
+          "change": "Switch this house to its DONE state: the front door is wide OPEN with warm golden light spilling out of the doorway onto the step, ALL windows are lit warm yellow, the porch light is on, and a small carved jack-o'-lantern glows on the front step."
+        }
+      }
+    },
+    "item1": {
+      "variants": {
+        "logo": {
+          "name": "Item 1A, white Goated logo",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round1/item1/A.png",
+            "reference/brand/goated_logo.png"
+          ],
+          "change": "Replace the white rocket emblem on the top chip with the official Goated logo from the second attached image, painted in solid WHITE, at the same size and position as the rocket, lying flat on the chip face in the same perspective. Reproduce the logo silhouette exactly: two angular ram-horn shapes, asymmetric, the left horn with a long stem running down to a point and the right horn shorter. Everything else stays exactly the same.",
+          "roles": "the second image is the official Goated logo; copy its silhouette exactly, in white."
+        }
+      }
+    },
+    "popup": {
+      "layout": "scene_popup",
+      "aspect": "16:9",
+      "refs": [
+        "halloween/variants/round1/keeper/B.png",
+        "halloween/variants/round1/house_z1/A.png",
+        "halloween/variants/round1/house_z3/A.png"
+      ],
+      "variants": {
+        "A": {
+          "name": "Street, fog parting",
+          "prefix": "The FIRST attached image is the approved Trail Keeper: keep his design exactly (very tall, lean goat with softly glowing lime eyes, a tattered dark-purple hooded cloak with orange patches, big curled horns, an iron lantern). The other attached images show the approved house designs on the trail.",
+          "subject": "A Halloween night street of spooky houses (in the style of the attached houses) receding into the distance, with thick purple-grey fog rolling back and parting off the street to reveal the houses. The Trail Keeper stands in the right third, raising his lantern high, its neon-lime light pushing the fog back."
+        },
+        "B": {
+          "name": "Low angle, houses on a hill",
+          "prefix": "The FIRST attached image is the approved Trail Keeper: keep his design exactly (very tall, lean goat with softly glowing lime eyes, a tattered dark-purple hooded cloak with orange patches, big curled horns, an iron lantern). The other attached images show the approved house designs on the trail.",
+          "subject": "A low camera angle: a winding street climbing a hill lined with spooky houses (in the style of the attached houses). Fog curls away in big swirls from the light of the lantern. The Trail Keeper stands in the right third, holding his lantern up high."
+        },
+        "C": {
+          "name": "Keeper close-up",
+          "prefix": "The FIRST attached image is the approved Trail Keeper: keep his design exactly (very tall, lean goat with softly glowing lime eyes, a tattered dark-purple hooded cloak with orange patches, big curled horns, an iron lantern). The other attached images show the approved house designs on the trail.",
+          "subject": "The Trail Keeper framed from the waist up on the far right, larger in frame, raising his lantern; behind him on the centre-right, a fog bank parts to reveal a street of spooky houses (in the style of the attached houses)."
+        }
+      }
+    },
+    "shop": {
+      "layout": "scene_shop",
+      "aspect": "21:9",
+      "refs": [
+        "halloween/variants/round1/kid/A.png",
+        "reference/style/chest_open.png"
+      ],
+      "variants": {
+        "A": {
+          "name": "Crate and cauldron",
+          "prefix": "The FIRST attached image is the approved Goat Kid: keep her design exactly (a little curly-haired goat girl, a too-big black witch hat, a striped orange-and-purple scarf, a wooden ladle, a huge grin).",
+          "subject": "The Candy Shop: on the right, the Goat Kid stands on a wooden crate to stir a big black bubbling cauldron full of colourful wrapped candy with her wooden ladle. Behind her, wooden shelves of glass jars full of sweets. A green glow rises from the pot."
+        },
+        "B": {
+          "name": "Cosy shop, candles",
+          "prefix": "The FIRST attached image is the approved Goat Kid: keep her design exactly (a little curly-haired goat girl, a too-big black witch hat, a striped orange-and-purple scarf, a wooden ladle, a huge grin).",
+          "subject": "A cosy Candy Shop interior with candles, cobwebs and hanging bats on strings: on the right, the Goat Kid stands on a wooden crate stirring a big bubbling cauldron full of candy, with shelves of sweet jars behind her and a green glow from the pot lighting her face."
+        },
+        "C": {
+          "name": "Big cauldron, green smoke",
+          "prefix": "The FIRST attached image is the approved Goat Kid: keep her design exactly (a little curly-haired goat girl, a too-big black witch hat, a striped orange-and-purple scarf, a wooden ladle, a huge grin).",
+          "subject": "On the right, a huge black cauldron bubbling with green brew and overflowing with candy, swirling green smoke rising; the Goat Kid stands on a crate beside it, stirring with her ladle and grinning; shelves of candy jars fade into the dark behind."
+        }
+      }
+    }
+  },
+  "edit_brief_scene": "Edit the FIRST attached image: an approved, opaque, painted game map for Goated's Halloween event.\n\nCHANGE: {change}\n{roles}\nPRESERVE: everything not named in CHANGE exactly as it is: composition, every object, the trail, the clearings, colours, ink linework and lighting.\n\nCONSTRAINTS: add nothing else; no text, no watermark; the image stays full-bleed and opaque."
+}

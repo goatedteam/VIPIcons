@@ -36,11 +36,21 @@ def budget_ok():
 
 
 def build(cfg, d, v):
-    layout = cfg["layouts"][d["layout"]]
-    prompt = cfg["style_brief"].replace("{subject}", v["subject"]).replace("{layout}", layout)
-    if d.get("g3"):
-        prompt = cfg["g3_brief"] + prompt
-    return prompt, [os.path.join(ROOT, r) for r in d["refs"]]
+    """Variant keys: subject, or mode="edit" with change; optional refs (overrides the
+    design's, in order, so an approved base image can be sent first), prefix, roles."""
+    refs = v.get("refs", d.get("refs", []))
+    if v.get("mode") == "edit":
+        roles = f"REFERENCE IMAGES: {v['roles']}\n" if v.get("roles") else ""
+        brief = cfg[d.get("edit_brief", "edit_brief")]
+        prompt = brief.replace("{change}", v["change"]).replace("{roles}", roles)
+    else:
+        layout = cfg["layouts"][v.get("layout", d.get("layout"))]
+        prompt = cfg["style_brief"].replace("{subject}", v["subject"]).replace("{layout}", layout)
+        if d.get("g3"):
+            prompt = cfg["g3_brief"] + prompt
+    if v.get("prefix"):
+        prompt = v["prefix"] + "\n\n" + prompt
+    return prompt, [os.path.join(ROOT, r) for r in refs]
 
 
 def run(cfg, job, force):
@@ -53,7 +63,7 @@ def run(cfg, job, force):
     prompt, refs = build(cfg, d, v)
     try:
         png = generate(prompt, refs, cfg["model"], v.get("size", d.get("size", "1K")),
-                       aspect=d.get("aspect", "1:1"), tag=f"{cfg['round']}:{key}:{vid}")
+                       aspect=v.get("aspect", d.get("aspect", "1:1")), tag=f"{cfg['round']}:{key}:{vid}")
     except Exception as e:  # keep the batch going
         return f"FAIL {key}:{vid} {str(e)[:300]}"
     os.makedirs(os.path.dirname(out), exist_ok=True)
@@ -63,8 +73,17 @@ def run(cfg, job, force):
     return f"ok {key}:{vid}"
 
 
+def load(path):
+    """A config may name an "inherit" file whose top-level keys it doesn't define itself."""
+    cfg = json.load(open(path))
+    if cfg.get("inherit"):
+        base = load(os.path.join(os.path.dirname(path), cfg["inherit"]))
+        cfg = {**{k: v for k, v in base.items() if k != "designs"}, **cfg}
+    return cfg
+
+
 if __name__ == "__main__":
-    cfg = json.load(open(sys.argv[1]))
+    cfg = load(sys.argv[1])
     sel = {a for a in sys.argv[2:] if not a.startswith("--")}
     force = "--force" in sys.argv
     jobs = [(k, vid, d, v) for k, d in cfg["designs"].items() for vid, v in d["variants"].items()
