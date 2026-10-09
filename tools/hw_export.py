@@ -38,12 +38,13 @@ def cutout(rel):
     path = src(rel)
     cached = os.path.join(CACHE, rel.replace("/", "__") + ("" if rel.endswith(".png") else ".png"))
     if not os.path.exists(cached):
-        os.makedirs(CACHE, exist_ok=True)
-        tmp = os.path.join(CACHE, "_in_" + os.path.basename(cached))
+        tmp_dir = os.path.join(CACHE, "_in")
+        os.makedirs(tmp_dir, exist_ok=True)
+        tmp = os.path.join(tmp_dir, os.path.basename(cached))
         Image.open(path).save(tmp)
+        # cutout.py writes <out-dir>/<input basename>, which is exactly `cached`
         subprocess.run([sys.executable, os.path.join(ROOT, "tools", "cutout.py"), tmp, "--out-dir", CACHE],
                        check=True, capture_output=True)
-        os.replace(os.path.join(CACHE, os.path.basename(tmp)), cached)
         os.remove(tmp)
     return Image.open(cached).convert("RGBA")
 
