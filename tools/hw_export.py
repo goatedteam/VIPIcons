@@ -77,30 +77,41 @@ def alpha_from_black(im, gain=1.0, max_alpha=1.0):
     rgb = np.asarray(im.convert("RGB"), dtype=np.float32) / 255
     a = np.clip(rgb.max(axis=2) * gain, 0, 1)
     col = np.where(a[..., None] > 1e-3, np.clip(rgb * gain / np.maximum(a[..., None], 1e-3), 0, 1), 0)
+    # near-transparent pixels: un-premultiplying amplifies noise into random colours, so
+    # fade them toward their brightness-matched grey (invisible at that alpha anyway)
+    w = np.clip(a / 0.15, 0, 1)[..., None]
+    col = col * w + col.mean(axis=2, keepdims=True) * (1 - w)
     out = np.dstack([col, a * max_alpha])
     return Image.fromarray((out * 255).round().astype(np.uint8), "RGBA")
 
 
-def seamless(im, axis="xy"):
-    """Make a texture tile: cross-fade it with a half-offset copy of itself. At the edges the
-    result is the offset copy, whose edge pixels were neighbours in the middle of the original."""
+def seamless(im, axis="xy", overlap=0.2):
+    """Make a texture tile by overlap cross-fade: the last `overlap` of the image is faded
+    into the first part and then dropped, so the right edge continues straight into the left
+    with no duplicated content. The result is resized back to the input size."""
+    size = im.size
     arr = np.asarray(im.convert("RGBA"), dtype=np.float32)
-    h, w = arr.shape[:2]
-    if "x" in axis:
-        t = 1 - np.abs(np.linspace(-1, 1, w))[None, :, None]
-        arr = arr * t + np.roll(arr, w // 2, axis=1) * (1 - t)
-    if "y" in axis:
-        t = 1 - np.abs(np.linspace(-1, 1, h))[:, None, None]
-        arr = arr * t + np.roll(arr, h // 2, axis=0) * (1 - t)
-    return Image.fromarray(arr.round().astype(np.uint8), "RGBA")
+    for ax, name in ((1, "x"), (0, "y")):
+        if name not in axis:
+            continue
+        n = arr.shape[ax]
+        o = int(n * overlap)
+        t = np.linspace(0, 1, o).reshape((1, o, 1) if ax == 1 else (o, 1, 1))
+        head = arr.take(range(o), axis=ax)
+        tail = arr.take(range(n - o, n), axis=ax)
+        blended = head * t + tail * (1 - t)
+        body = arr.take(range(o, n - o), axis=ax)
+        arr = np.concatenate([blended, body], axis=ax)
+    out = Image.fromarray(arr.round().clip(0, 255).astype(np.uint8), "RGBA")
+    return out.resize(size, Image.LANCZOS)
 
 
-def save(im, rel, quality=(65, 92)):
+def save(im, rel, quality=(65, 92), dither=1.0):
     dst = os.path.join(OUT, rel)
     os.makedirs(os.path.dirname(dst), exist_ok=True)
     rgba = im.convert("RGBA")
     try:
-        q = imagequant.quantize_pil_image(rgba, dithering_level=1.0, max_colors=256,
+        q = imagequant.quantize_pil_image(rgba, dithering_level=dither, max_colors=256,
                                           min_quality=quality[0], max_quality=quality[1])
         q.save(dst, optimize=True)
         how = "quantized"
@@ -124,8 +135,8 @@ def fog():
     im = Image.open(src(f"{R2}/fog/1")).convert("RGB")
     w = round(im.height * 2048 / 1200)
     im = im.crop(((im.width - w) // 2, 0, (im.width - w) // 2 + w, im.height)).resize((2048, 1200), Image.LANCZOS)
-    rgba = alpha_from_black(im, gain=1.6, max_alpha=0.85)  # "a bit transparent"
-    return seamless(rgba)
+    # tile while still on black (blending straight-alpha colour amplifies noise), then cut alpha
+    return alpha_from_black(seamless(im).convert("RGB"), gain=1.6, max_alpha=0.85)  # "a bit transparent"
 
 
 def meter_track():
@@ -144,10 +155,9 @@ def meter_track():
 
 def meter_fill():
     im = Image.open(src(f"{R2}/meter/fill")).convert("RGB")
-    rgba = alpha_from_black(im, gain=1.4)
-    b = bbox(rgba)
-    band = rgba.crop((im.width // 8, b[1], im.width - im.width // 8, b[3]))
-    return seamless(band.resize((1200, 48), Image.LANCZOS), axis="x")
+    b = bbox(alpha_from_black(im, gain=1.4))
+    band = im.crop((im.width // 8, b[1], im.width - im.width // 8, b[3])).resize((1200, 48), Image.LANCZOS)
+    return alpha_from_black(seamless(band, axis="x").convert("RGB"), gain=1.4)
 
 
 def house_glow():
@@ -168,21 +178,31 @@ def g3():
     return shadow
 
 
-def character(rel):
+# Per-character framing, as fractions of the full figure's bounding box:
+# bust = (top, height) of the square bust crop; avatar = (cx, cy, size) inside the bust.
+FRAMING = {"keeper": {"bust": (0.0, 0.46), "avatar": (0.5, 0.36, 0.62)},
+           "kid": {"bust": (0.0, 0.62), "avatar": (0.5, 0.56, 0.62)}}
+
+
+def character(rel, name):
     """full (800x1200), bust (600x600), avatar (128x128) from one cutout."""
     im = cutout(rel)
     im = im.crop(bbox(im))
     full = place(im, (800, 1200), (760, 1170), anchor="bottom", bottom_pad=10)
     fb = bbox(full)
-    # bust: square from just above the top of the figure, ~45% of figure height
-    side = int((fb[3] - fb[1]) * 0.45)
+    fh = fb[3] - fb[1]
+    top, frac = FRAMING[name]["bust"]
+    side = int(fh * frac)
     cx = (fb[0] + fb[2]) // 2
-    bust_box = (cx - side // 2, fb[1] - 10, cx + side // 2, fb[1] - 10 + side)
+    y0 = fb[1] + int(fh * top) - 10
     bust = Image.new("RGBA", (side, side), (0, 0, 0, 0))
-    bust.alpha_composite(full.crop(bust_box))
+    bust.alpha_composite(full.crop((cx - side // 2, y0, cx + side // 2, y0 + side)))
     bust = bust.resize((600, 600), Image.LANCZOS)
-    av_side = int(side * 0.62)
-    av = bust.crop(((600 - av_side * 600 // side) // 2, 0, (600 + av_side * 600 // side) // 2, av_side * 600 // side))
+    ax, ay, asz = FRAMING[name]["avatar"]
+    a = int(600 * asz)
+    l, t = int(600 * ax - a / 2), int(600 * ay - a / 2)
+    av = Image.new("RGBA", (a, a), (0, 0, 0, 0))
+    av.alpha_composite(bust.crop((max(l, 0), max(t, 0), min(l + a, 600), min(t + a, 600))), (max(-l, 0), max(-t, 0)))
     return full, bust, av.resize((128, 128), Image.LANCZOS)
 
 
@@ -204,9 +224,9 @@ def build():
     for name, rel in (("keeper", f"{R1}/keeper/B"), ("kid", f"{R1}/kid/A")):
         parts = {}
         for part in ("full", "bust", "avatar"):
-            def fn(part=part, rel=rel, parts=parts):
+            def fn(part=part, rel=rel, parts=parts, name=name):
                 if not parts:
-                    parts.update(zip(("full", "bust", "avatar"), character(rel)))
+                    parts.update(zip(("full", "bust", "avatar"), character(rel, name)))
                 return parts[part]
             yield f"char/hw26-{name}-{part}.png", fn
     for n, rel in ITEMS.items():
@@ -219,4 +239,6 @@ if __name__ == "__main__":
     for rel, fn in build():
         if only and not any(rel.startswith(o) for o in only):
             continue
-        save(fn(), rel, quality=(0, 95) if rel.startswith("map/hw26-map") else (65, 92))
+        q = (0, 95) if rel.startswith("map/hw26-map") else (65, 92)
+        # dithering shows as grain on soft semi-transparent textures
+        save(fn(), rel, quality=q, dither=0.0 if rel in ("map/hw26-fog.png", "meter/hw26-meter-fill.png") else 1.0)
