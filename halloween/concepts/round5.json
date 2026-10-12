@@ -1,0 +1,137 @@
+{
+  "round": "round5",
+  "inherit": "round1.json",
+  "model": "gemini-3.1-flash-image",
+  "edit_brief": "Edit the FIRST attached image: an approved game asset for Goated's Halloween event, painted in a hand-painted 2.5D style with bold dark ink outlines and cel shading.\n\nCHANGE: {change}\n{roles}\nPRESERVE: everything not named in CHANGE, exactly as it is: the building's design, shape, every tower, window and detail, colours, proportions, camera angle, ink linework, shading and composition.\n\nCONSTRAINTS: add nothing that is not asked for. No text, no watermark. Keep the plain, flat, perfectly uniform light-grey (#D0D0D0) background, with no glow halo or cast shadow on it.",
+  "layouts": {
+    "house4": "COMPOSITION: one building standing on a small patch of ground, centred, seen from the front in a slight 3/4 view, the base of the ground patch at the bottom centre of the canvas, the building filling about 88% of the square canvas, nothing cropped. It must read as clearly BIGGER, TALLER and GRANDER than a normal house, but still as one chunky, bold game asset that reads at 160 px.\nBACKGROUND: plain, flat, solid light grey (#D0D0D0), perfectly uniform. No sky, no moon, no scenery, no glow on the background.",
+    "zone_icon": "COMPOSITION: a single hero object, centred, in a slight 3/4 view, filling about 85% of the square canvas with even padding, nothing cropped. Bold, iconic silhouette that still reads at 48 px. Match the framing, lighting and finish of the attached example icon (a glowing carved jack-o'-lantern): one object, glowing from within, rich painted shading.\nBACKGROUND: plain, flat, solid light grey (#D0D0D0), perfectly uniform. No scene, no floor, no glow halo or cast shadow on the background."
+  },
+  "designs": {
+    "house_z4": {
+      "layout": "house4",
+      "aspect": "1:1",
+      "size": "2K",
+      "refs": [
+        "halloween/variants/round1/house_z3/A.png",
+        "halloween/variants/round1/house_z1/A.png",
+        "halloween/variants/round1/house_z2/B.png"
+      ],
+      "variants": {
+        "A": {
+          "name": "Haunted mansion",
+          "prefix": "The attached images are the three approved trail houses (Zone 3, Zone 1, Zone 2). Paint a FOURTH house that clearly belongs to the same set: same hand-painted style, ink outlines, cel shading, camera angle and ground-patch base.",
+          "subject": "THE HAUNTED HOUSE, the grand finale of the trail: a huge, crooked, three-storey Victorian haunted mansion in dark slate-purple and charcoal wood, with a tall leaning central tower topped by a witch-hat spire, two smaller spires, a wrap-around sagging porch, boarded and broken shutters, a cracked bell in the tower, bats circling the spire, twisted dead vines climbing the walls, a rusted iron fence in front with a creaky open gate, and a couple of glowing jack-o'-lanterns on the steps. Every window glows eerie warm yellow and one top window glows neon lime (#D4FF00) with a ghostly silhouette in it; the double front doors stand wide open with warm golden light spilling out. Grander and scarier than the other three houses, but spooky-cute, not gory."
+        },
+        "B": {
+          "name": "Haunted castle-manor",
+          "prefix": "The attached images are the three approved trail houses (Zone 3, Zone 1, Zone 2). Paint a FOURTH house that clearly belongs to the same set: same hand-painted style, ink outlines, cel shading, camera angle and ground-patch base.",
+          "subject": "THE HAUNTED HOUSE, the grand finale of the trail: a looming gothic haunted manor that is half castle, built from dark grey stone and purple-black timber, with two tall crooked towers with pointed roofs, gargoyles on the corners, a huge arched stained-glass window over the entrance glowing pink-red (#FF3B69), cracked walls with ivy, a grand stone staircase leading up to giant arched double doors that stand wide open with warm golden light pouring out, flickering lanterns either side of the doors, and a few tombstones and a dead tree at the base. All other windows glow warm yellow, one with a ghost peeking out. Grander and scarier than the other three houses, but spooky-cute, not gory."
+        },
+        "C": {
+          "name": "Haunted mansion with face",
+          "prefix": "The attached images are the three approved trail houses (Zone 3, Zone 1, Zone 2). Paint a FOURTH house that clearly belongs to the same set: same hand-painted style, ink outlines, cel shading, camera angle and ground-patch base.",
+          "subject": "THE HAUNTED HOUSE, the grand finale of the trail: a tall, lopsided, living haunted mansion whose front reads as a sinister face: two big round upper windows are its glowing eyes and the wide open front doorway, framed by jagged broken boards like teeth, is its mouth with warm golden light spilling out. Dark violet and charcoal clapboard walls, a steep crooked roof with three leaning chimneys and a tall twisted spire, broken shutters, a creaky wrap-around porch, ghostly wisps of neon lime (#D4FF00) curling out of the chimneys, bats around the roof, a couple of glowing jack-o'-lanterns on the steps. All windows glow warm yellow. Grander and scarier than the other three houses, but spooky-cute, not gory."
+        }
+      }
+    },
+    "icon_pumpkin": {
+      "layout": "zone_icon",
+      "aspect": "1:1",
+      "size": "2K",
+      "refs": [
+        "halloween/reference/zone_icon_pumpkin_example.png",
+        "reference/style/coin.png"
+      ],
+      "variants": {
+        "A": {
+          "name": "Pumpkin Fields (from example)",
+          "prefix": "The FIRST attached image is the approved Pumpkin Fields icon. Recreate it at high resolution, keeping its design exactly.",
+          "subject": "A single carved jack-o'-lantern exactly like the first attached image: wide, ribbed orange pumpkin with a curly brown stem, angry triangular eyes, a triangle nose and a jagged toothy grin, all glowing warm yellow-orange from inside, rich painted shading and a soft rim light."
+        }
+      }
+    },
+    "icon_woods": {
+      "layout": "zone_icon",
+      "aspect": "1:1",
+      "size": "2K",
+      "refs": [
+        "halloween/reference/zone_icon_pumpkin_example.png",
+        "halloween/variants/round1/house_z2/B.png"
+      ],
+      "variants": {
+        "A": {
+          "name": "Glowing mushroom cluster",
+          "prefix": "The FIRST attached image is the approved icon for Pumpkin Fields. Make the matching icon for HOLLOW WOODS so the two read as one set (same finish, framing, lighting and level of detail). The second image shows the Hollow Woods house for the zone's look.",
+          "subject": "A cluster of three chunky, magical toadstool mushrooms of different heights growing from a small mossy root, their caps deep teal with pale spots, glowing ghostly green (#02DE82) from underneath the caps and along the stems, with a few tiny green fireflies hovering close to them."
+        },
+        "B": {
+          "name": "Spooky tree stump with eyes",
+          "prefix": "The FIRST attached image is the approved icon for Pumpkin Fields. Make the matching icon for HOLLOW WOODS so the two read as one set (same finish, framing, lighting and level of detail). The second image shows the Hollow Woods house for the zone's look.",
+          "subject": "A gnarled, hollow tree stump with two short twisted branches, its hollow forming a spooky face: two glowing ghostly green (#02DE82) eyes and a crooked open mouth glowing green from inside, with a few small glowing green mushrooms at its roots and some moss on top."
+        },
+        "C": {
+          "name": "Owl lantern",
+          "prefix": "The FIRST attached image is the approved icon for Pumpkin Fields. Make the matching icon for HOLLOW WOODS so the two read as one set (same finish, framing, lighting and level of detail). The second image shows the Hollow Woods house for the zone's look.",
+          "subject": "A cute dark-purple horned owl perched on a twisted branch, with big round glowing ghostly green (#02DE82) eyes, holding an old iron lantern that glows green, a couple of leaves on the branch."
+        }
+      }
+    },
+    "icon_grave": {
+      "layout": "zone_icon",
+      "aspect": "1:1",
+      "size": "2K",
+      "refs": [
+        "halloween/reference/zone_icon_pumpkin_example.png",
+        "halloween/variants/round1/house_z3/A.png"
+      ],
+      "variants": {
+        "A": {
+          "name": "Tombstone with ghost",
+          "prefix": "The FIRST attached image is the approved icon for Pumpkin Fields. Make the matching icon for THE GRAVEYARD so the two read as one set (same finish, framing, lighting and level of detail). The second image shows the Graveyard house for the zone's look.",
+          "subject": "A cracked, rounded grey stone tombstone tilted slightly on a small mound of earth, with a cute little ghost glowing candy pink-red (#FF3B69) rising from behind it, and a soft pink-red glow lighting the stone. No writing on the stone, just cracks and moss."
+        },
+        "B": {
+          "name": "Skull candle",
+          "prefix": "The FIRST attached image is the approved icon for Pumpkin Fields. Make the matching icon for THE GRAVEYARD so the two read as one set (same finish, framing, lighting and level of detail). The second image shows the Graveyard house for the zone's look.",
+          "subject": "A cute, chunky ivory skull with a short melting candle on top, the candle flame and the skull's eye sockets glowing candy pink-red (#FF3B69), wax dripping down over the skull."
+        },
+        "C": {
+          "name": "Gothic gate lantern",
+          "prefix": "The FIRST attached image is the approved icon for Pumpkin Fields. Make the matching icon for THE GRAVEYARD so the two read as one set (same finish, framing, lighting and level of detail). The second image shows the Graveyard house for the zone's look.",
+          "subject": "A small wrought-iron graveyard gate post topped with a hanging gothic lantern glowing candy pink-red (#FF3B69), a few twisted iron spikes, ivy curling around the post, and a little cracked tombstone at its base."
+        }
+      }
+    },
+    "house_z4_dark": {
+      "aspect": "1:1",
+      "size": "2K",
+      "variants": {
+        "A": {
+          "name": "A dark",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round5/house_z4/A.png"
+          ],
+          "change": "Switch this house to its DARK, LOCKED state: every window is black and unlit (including any coloured or stained-glass window and any ghost in a window, which disappears), the front doors are SHUT and dark with no light around them, all jack-o'-lanterns and lanterns are unlit, and there is no warm or coloured light anywhere on the building. Cool, dim moonlit shading only, slightly desaturated. Keep any bats and chimney wisps but make wisps a dull grey."
+        },
+        "B": {
+          "name": "B dark",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round5/house_z4/B.png"
+          ],
+          "change": "Switch this house to its DARK, LOCKED state: every window is black and unlit (including any coloured or stained-glass window and any ghost in a window, which disappears), the front doors are SHUT and dark with no light around them, all jack-o'-lanterns and lanterns are unlit, and there is no warm or coloured light anywhere on the building. Cool, dim moonlit shading only, slightly desaturated. Keep any bats and chimney wisps but make wisps a dull grey."
+        },
+        "C": {
+          "name": "C dark",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round5/house_z4/C.png"
+          ],
+          "change": "Switch this house to its DARK, LOCKED state: every window is black and unlit (including any coloured or stained-glass window and any ghost in a window, which disappears), the front doors are SHUT and dark with no light around them, all jack-o'-lanterns and lanterns are unlit, and there is no warm or coloured light anywhere on the building. Cool, dim moonlit shading only, slightly desaturated. Keep any bats and chimney wisps but make wisps a dull grey."
+        }
+      }
+    }
+  }
+}
