@@ -67,25 +67,25 @@ def icons():
             ("The Graveyard", [("icon_grave", "A", "A · Tombstone and ghost"), ("icon_grave", "B", "B · Skull candle"),
                                ("icon_grave", "C", "C · Gate lantern")])]
     W = 24 + 4 * 360
-    S = Image.new("RGBA", (W, 3 * 470 + 80), BG)
+    S = Image.new("RGBA", (W, 3 * 500 + 80), BG)
     d = ImageDraw.Draw(S)
     d.text((24, 18), "Zone icons · 2048 px masters, transparent", font=ImageFont.truetype(BOLD, 30), fill=LIME)
     for r, (zone, items) in enumerate(sets):
-        y = 70 + r * 470
+        y = 70 + r * 500
         d.text((24, y), zone, font=ImageFont.truetype(BOLD, 22), fill=(236, 232, 244))
         if r == 0:  # the user's example for comparison
             ex = Image.open(os.path.join(HW, "reference", "zone_icon_pumpkin_example.png")).convert("RGBA")
             items = [("_ex", ex, "Your example (128 px)")] + items
         for j, it in enumerate(items):
             x = 24 + j * 360
-            ImageDraw.Draw(S).rounded_rectangle((x, y + 36, x + 340, y + 450), 14, fill=CARD)
+            ImageDraw.Draw(S).rounded_rectangle((x, y + 36, x + 340, y + 480), 14, fill=CARD)
             im = it[1] if it[0] == "_ex" else Image.open(os.path.join(CUT, it[0], f"{it[1]}.png")).convert("RGBA")
             S.alpha_composite(fit(im, (300, 300), "center"), (x + 20, y + 50))
             small = fit(im, (48, 48), "center")
             S.alpha_composite(small, (x + 20, y + 370))
             S.alpha_composite(fit(im, (96, 96), "center"), (x + 80, y + 346))
             d.text((x + 190, y + 380), "48 · 96 px", font=ImageFont.truetype(REG, 15), fill=MUTED)
-            d.text((x + 16, y + 422), it[2], font=ImageFont.truetype(REG, 17), fill=MUTED)
+            d.text((x + 16, y + 452), it[2], font=ImageFont.truetype(REG, 17), fill=MUTED)
     S.convert("RGB").save(os.path.join(OUT, "zone_icons.png"), optimize=True)
 
 
