@@ -60,3 +60,16 @@ billowing, wandering edge and faint tendrils; open lots always clear. The painte
 (colour-step correction, wandering cross-blend that skips the trail, soft mist bank). Inputs are the plain maps in
 `variants/round3/map_zones/base/`; `tools/hw_export.py` writes its map output there, so re-running both
 scripts reproduces the finals.
+
+## Round 5: Zone 4 haunted house and zone icons (Nano Banana 2, 2K)
+
+| File | Pick | Source |
+|---|---|---|
+| `map/hw26-house-z4-done.png` (320×320) | House B, castle-manor, lit | `variants/round5/house_z4/B` |
+| `map/hw26-house-z4-dark.png` (320×320) | House B, dark, doors shut | `variants/round5/house_z4_dark_fix/B` (edit of the dark state) |
+| `zone/hw26-zone1-icon-{512,128}.png` | Pumpkin Fields (from the supplied example) | `variants/round5/icon_pumpkin/A` |
+| `zone/hw26-zone2-icon-{512,128}.png` | Hollow Woods B, tree stump | `variants/round5/icon_woods/B` |
+| `zone/hw26-zone3-icon-{512,128}.png` | Graveyard B, skull candle | `variants/round5/icon_grave/B` |
+| `masters/*@2048.png` | 2048 px transparent masters of all of the above | |
+
+Prompts: `concepts/round5.json`. Boards: `review/round5/`.

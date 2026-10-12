@@ -132,6 +132,22 @@
           "change": "Switch this house to its DARK, LOCKED state: every window is black and unlit (including any coloured or stained-glass window and any ghost in a window, which disappears), the front doors are SHUT and dark with no light around them, all jack-o'-lanterns and lanterns are unlit, and there is no warm or coloured light anywhere on the building. Cool, dim moonlit shading only, slightly desaturated. Keep any bats and chimney wisps but make wisps a dull grey."
         }
       }
+    },
+    "house_z4_dark_fix": {
+      "aspect": "1:1",
+      "size": "2K",
+      "variants": {
+        "B": {
+          "name": "B dark, doors shut",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round5/house_z4_dark/B.png",
+            "halloween/variants/round5/house_z4/B.png"
+          ],
+          "change": "Close the big arched double doors at the top of the stairs: both heavy dark wooden doors are SHUT, meeting in the middle, exactly the shape and wood design of the doors shown open in the second attached image, but closed, unlit and dark, with iron hinges and a ring handle. No light anywhere. Everything else stays exactly as in the first image.",
+          "roles": "the second image shows the same house lit, with the doors open; use it only for the door design."
+        }
+      }
     }
   }
 }
