@@ -1,0 +1,9 @@
+{
+  "name": "hw26-lottie-tools",
+  "private": true,
+  "description": "Render Haunted Trail Lottie files to PNG frames with lottie-web in headless Chromium (QA only).",
+  "dependencies": {
+    "lottie-web": "^5.12.2",
+    "playwright-core": "^1.48.0"
+  }
+}
