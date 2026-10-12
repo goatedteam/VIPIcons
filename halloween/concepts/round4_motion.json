@@ -1,0 +1,33 @@
+{
+  "round": "round4_motion",
+  "inherit": "round1.json",
+  "model": "gemini-3.1-flash-image",
+  "layouts": {
+    "sheet_grey": "COMPOSITION: a sprite sheet. The items described are laid out in a single horizontal row, evenly spaced, all the same scale, each fully separate with clear empty space between them (nothing touching or overlapping), each centred in its own equal-width slot, nothing cropped.\nBACKGROUND: plain, flat, solid light grey (#D0D0D0), perfectly uniform. No floor, no shadows on the background, no glow on the background.",
+    "sheet_black": "COMPOSITION: a sprite sheet of glowing, light-coloured elements. The items described are laid out evenly spaced across the canvas, each fully separate with clear black space between them (nothing touching or overlapping), nothing cropped by the edges.\nBACKGROUND: plain, flat, pure black (#000000), perfectly uniform. The elements are painted light and luminous so they stand out against the black; no dark outlines on the glowing elements themselves.",
+    "single_grey": "COMPOSITION: one single object, centred, seen from the front and slightly above, filling about 80% of the square canvas with even padding, nothing cropped.\nBACKGROUND: plain, flat, solid light grey (#D0D0D0), perfectly uniform. No floor, no cast shadow on the background, no glow on the background."
+  },
+  "designs": {
+    "bats": {"layout": "sheet_grey", "aspect": "21:9", "refs": ["reference/style/chest_open.png", "reference/style/coin.png"], "variants": {
+      "1": {"name": "Bat flap poses", "subject": "THE SAME cartoon bat drawn three times, as three frames of one wing-flap animation, left to right: 1) wings raised high above the body in a V, 2) wings spread straight out horizontally, 3) wings swept down below the body. Identical bat in all three: a cute round dark purple-black body, big pointed ears, small glowing pink-red (#FF3B69) eyes, scalloped leathery wings with dark purple membrane and lighter violet rim light along the wing bones, flying to the RIGHT, seen from the front-side. Same size, same head position and same body in all three frames; only the wings change."}
+    }},
+    "cauldron": {"layout": "single_grey", "aspect": "1:1", "refs": ["halloween/variants/round2/shop/A.png", "reference/style/chest_open.png"], "variants": {
+      "1": {"name": "Brewing cauldron", "subject": "The big witch's cauldron from the first attached image (the Candy Shop): a chunky round black-iron cauldron with a thick rounded rim, small handles on the sides and three stubby feet, filled to just below the rim with glowing, bubbling neon-green brew whose flat surface is clearly visible as an ellipse, a few round bubbles on the surface, a soft green glow on the inside of the rim. No candy in it, no smoke rising, no ladle, no character, nothing else."}
+    }},
+    "smoke": {"layout": "sheet_black", "aspect": "16:9", "refs": ["halloween/variants/round2/shop/A.png", "reference/art/Banner_03_a.png"], "variants": {
+      "1": {"name": "Green smoke puffs", "subject": "Three separate puffs of magic smoke, each a chunky, rounded, cloud-like cartoon smoke puff made of a few overlapping billows with a curl, glowing minty green (#7DFFB0 to #02DE82) with soft white highlights, painted in the same stylised cel-shaded way as the green smoke rising from the cauldron in the first attached image. Three different shapes, similar size, arranged left to right."}
+    }},
+    "sparkles": {"layout": "sheet_black", "aspect": "16:9", "refs": ["reference/style/coin.png", "reference/style/chip_lime.png"], "variants": {
+      "1": {"name": "Sparkles", "subject": "Eight separate magical sparkle sprites arranged in two rows of four: four-pointed star glints with a bright white core and soft glow, in white, neon lime (#D4FF00) and warm gold, plus two small round glowing orbs. Painted game-VFX style, crisp star points, soft bloom. Each sparkle clearly separate."}
+    }},
+    "wisps": {"layout": "sheet_black", "aspect": "16:9", "refs": ["halloween/final/halloween-2026/map/hw26-fog.png"], "variants": {
+      "1": {"name": "Fog wisps", "subject": "Four separate long, horizontal, painterly wisps of drifting fog, stacked in four rows, each a soft elongated streak of pale lilac-white mist (#E6E0FF) with curling, feathered edges and gentle internal swirls, painted in the same style as the fog texture in the first attached image. Each wisp is clearly separated from the others by black space."}
+    }},
+    "burst": {"layout": "sheet_black", "aspect": "1:1", "refs": ["halloween/variants/round1/house_z1/A.png"], "variants": {
+      "1": {"name": "Doorway light burst", "subject": "One single burst of warm golden light, as if a door has just been flung open at night: a bright warm-white glowing core with soft golden light rays fanning outward in all directions, longer rays at the top, a soft amber bloom around it, painted in a stylised game-VFX way. Centred."}
+    }},
+    "splash": {"layout": "sheet_black", "aspect": "16:9", "refs": ["halloween/variants/round2/shop/A.png"], "variants": {
+      "1": {"name": "Potion splashes and bubbles", "subject": "A sprite sheet of glowing neon-green potion effects, in two rows: top row, four separate round potion droplets of different sizes, each glossy bright green with a white shine; bottom row, four separate round bubbles of glowing green potion, translucent with a bright rim and a white highlight. All clearly separate."}
+    }}
+  }
+}

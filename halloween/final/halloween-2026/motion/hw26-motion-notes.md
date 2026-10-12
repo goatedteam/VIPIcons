@@ -1,19 +1,26 @@
 # Haunted Trail: Lottie notes for developers
 
-All files: Bodymovin JSON (v5.7.4), 30 fps, vector only, transparent, under 100 KB. Tested with lottie-web 5.12
-(SVG renderer) in Chromium: no errors, correct size and duration, seamless loops where looping.
+All files: Bodymovin JSON (v5.7.4), 30 fps, transparent. **Painted version:** every visible element is a painted
+sprite in the Goated style, embedded as a base64 PNG (Nano Banana 2 art, the approved Candy, G3's own painted cutout,
+the approved shroud). Only pure light (glows, the zone bloom) is vector. Tested with lottie-web 5.12 (SVG renderer)
+in Chromium: no errors, correct size and duration, seamless loops where looping.
+
+**Size:** the spec's 100 KB limit was set aside for this pass; current sizes are door 307 KB,
+pulse 70 KB, G3 walk 737 KB, pop 115 KB, brew 1015 KB,
+candy rain 148 KB, fog drift 2.0 MB, fog lift 2.6 MB, bats 473 KB.
+They can be cut a lot by serving the embedded images as external files (WebP) instead of base64.
 
 | File | Size | Length | Loop | Notes |
 |---|---|---|---|---|
-| hw26-door-open.json | 320×320 | 1.4 s | no | Ends fully clear, so swap to the house "done" PNG on complete |
+| hw26-door-open.json | 320×320 | 1.4 s | no | Swap the house PNG open → done at marker `swap_to_done` (frame 10), under the light burst |
 | hw26-house-pulse.json | 400×400 | 1.6 s | yes | Whole animation is one white layer named `tint` |
-| hw26-g3-walk.json | 256×256 | 0.6 s | yes | Frame 0 matches map/hw26-g3.png. Mirror for left-facing, as with the PNG |
+| hw26-g3-walk.json | 256×256 | 0.6 s | yes | G3's painted art at 3× as a cut-out puppet; frame 0 matches map/hw26-g3.png. Mirror for left-facing |
 | hw26-pop.json | 192×192 | 0.47 s (14 f) | no | Spec says 0.45 s; 14 frames is the closest whole-frame length at 30 fps |
 | hw26-brew.json | 400×400 | 1.5 s | no | Item image is swapped in at runtime, see below |
-| hw26-candy-rain.json | 1080×1080 | 3 s | no | 40 candies; scale to cover |
-| hw26-fog-drift.json | 1200×1200 | 8 s | yes | Tiles in both directions (pattern period 600 px) |
-| hw26-fog-lift.json | 1200×1200 | 1.8 s | no | Starts fully opaque, parts from the centre, ends clear |
-| hw26-bats.json | 1920×600 | 6 s | yes | 4 bats, 3–4 on screen at a time |
+| hw26-candy-rain.json | 1080×1080 | 3 s | no | 40 of the approved Candy; scale to cover |
+| hw26-fog-drift.json | 1200×1200 | 8 s | yes | Painted wisps; tiles in both directions |
+| hw26-fog-lift.json | 1200×1200 | 1.8 s | no | The approved shroud in pieces, parting from the centre; ends clear |
+| hw26-bats.json | 1920×600 | 6 s | yes | 4 painted bats (3 wing poses), 3–4 on screen at a time |
 
 ## Zone colour (`tint` layers)
 `hw26-door-open` (the bloom and ring behind the doorway) and `hw26-house-pulse` are built in white on layers named

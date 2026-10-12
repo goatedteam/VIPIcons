@@ -52,8 +52,11 @@ const L = n => anim.layers.find(l => l.nm === n);
 // per house: z1 [168,204] [100,100] · z2 [167,215] [236,143] · z3 [193,258] [94,93]
 L('door').ks.p.k = [167, 215];
 L('door_size').ks.s.k = [236, 143];
-lottie.loadAnimation({ container, renderer: 'svg', loop: false, animationData: anim })
-  .addEventListener('complete', () => showHouse('done'));"""
+const a = lottie.loadAnimation({ container, renderer: 'svg', loop: false, animationData: anim });
+let swapped = false;
+a.addEventListener('enterFrame', e => {
+  if (!swapped && e.currentTime >= 10) { swapped = true; showHouse('done'); }  // marker "swap_to_done"
+});"""
 
 TINT_SNIPPET = """// recolour the white "tint" layer to the zone colour before loading
 const ZONE = { 1: '#FFAA33', 2: '#02DE82', 3: '#FF3B69' };
@@ -86,9 +89,9 @@ icon.animate(
 
 ANIMS = [
     dict(id="door-open", file="hw26-door-open.json", title="Door opens", ctx={"under": "house-z1"}, door=True, tint=True, thumbAt=0.45,
-         desc="Plays once when a stop is cleared: light fills the doorway as the door swings open, a zone-coloured glow rings out, candy bursts onto the step.",
+         desc="Plays once when a stop is cleared: painted light bursts out of the doorway, a zone-coloured glow rings out, and the Candy bursts onto the step.",
          spec="320×320 · 1.4 s · one file for all houses",
-         notes="<p>Ends fully clear, so swap the house to its <b>done</b> PNG on <code>complete</code>. Before loading, move the <code>door</code> layer and scale <code>door_size</code> to the house's doorway (pick a house above to see each). The bloom and ring are the white <code>tint</code> layer.</p>",
+         notes="<p>Swap the house PNG from <b>open</b> to <b>done</b> at the marker <code>swap_to_done</code> (frame 10), while the painted light burst covers the doorway; the rest plays over the done house and ends clear. Before loading, move the <code>door</code> layer and scale <code>door_size</code> to the house's doorway (pick a house above to see each). The bloom and ring are the white <code>tint</code> layer.</p>",
          snippet=DOOR_SNIPPET),
     dict(id="house-pulse", file="hw26-house-pulse.json", title="Current house pulse", ctx={"over": "house-z1", "overFrac": 0.8}, tint=True, thumbAt=0.3,
          desc="Porch-light glow breathing around the current stop, with a soft ring ping. Sits behind the house.",
@@ -96,37 +99,37 @@ ANIMS = [
          notes="<p>The whole animation is one white layer named <code>tint</code>. Recolour it per zone (#FFAA33 · #02DE82 · #FF3B69) before loading, then place it behind the house PNG.</p>",
          snippet=TINT_SNIPPET),
     dict(id="g3-walk", file="hw26-g3-walk.json", title="G3 walk", ctx={"under": "map-lot"}, thumbAt=0.0,
-         desc="Walk cycle traced from the approved map sprite: boots step under the hem, the candy bag and arm swing, the body bobs and the cloak sways.",
+         desc="G3's own painted art as a cut-out puppet (3× resolution): boots step under the hem, the candy bag and arm swing, the body bobs and the cloak sways.",
          spec="256×256 · 0.6 s loop · frame 0 matches hw26-g3.png",
          notes="<p>Frame 0 matches <code>map/hw26-g3.png</code>, so swap between them freely. Mirror the layer for left-facing walks, as with the PNG. A planted boot slides back 48 px per 0.3 s on the 256 px canvas: at the on-screen 128 px, move G3 along the trail at about <b>80 px/s</b> so her feet don't skate.</p>",
          snippet=""),
     dict(id="pop", file="hw26-pop.json", title="Candy pop", ctx={"over": "candy", "overFrac": 0.5}, thumbAt=0.45,
-         desc="Sparkle burst behind the Candy icon when the balance goes up.",
+         desc="Painted sparkle burst behind the Candy icon when the balance goes up.",
          spec="192×192 · 0.47 s (spec 0.45 s; 14 whole frames)",
          notes="<p>The burst plays behind the icon. The icon's own scale (1 → 1.45 → 0.92 → 1) is applied in code; the same curve is stored on the null layer <code>icon_scale_ref</code> (keys at frames 0, 4, 9, 13).</p>",
          snippet=POP_SNIPPET),
     dict(id="brew", file="hw26-brew.json", title="Cauldron brew", ctx={}, brew=True, thumbAt=0.65,
-         desc="Plays on purchase: the pot rocks, the brew bulges and splashes, a green puff, and the bought item rises out.",
+         desc="Plays on purchase: the painted cauldron rocks, the brew bubbles and splashes, a puff of green smoke, and the bought item rises out of the brew.",
          spec="400×400 · 1.5 s · runtime image slot",
          notes="<p>The image asset <code>item</code> (192×192) rises out of the pot between frames 14 and 28. Point it at the bought item's PNG before loading. Pick an item above to preview each one.</p>",
          snippet=BREW_SNIPPET),
     dict(id="candy-rain", file="hw26-candy-rain.json", title="Candy Rain", ctx={"under": "map-zone"}, thumbAt=0.5,
-         desc="Plays when the fog meter reaches a tier: about 40 candies tumble down the screen with sparkles.",
+         desc="Plays when the fog meter reaches a tier: 40 of the approved Candy tumble down the screen with sparkles.",
          spec="1080×1080 · 3 s",
          notes="<p>Scale to cover the viewport (<code>preserveAspectRatio: 'xMidYMid slice'</code>). Starts and ends empty.</p>",
          snippet="lottie.loadAnimation({ container, renderer: 'svg', loop: false, animationData: rainJson,\n  rendererSettings: { preserveAspectRatio: 'xMidYMid slice' } });"),
     dict(id="fog-drift", file="hw26-fog-drift.json", title="Fog drift", ctx={"under": "map-fog"}, thumbAt=0.0,
-         desc="Slow wisps drifting both ways over the fog texture on locked zones.",
+         desc="Painted fog wisps drifting both ways over locked zones.",
          spec="1200×1200 · 8 s loop · tiles both ways",
-         notes="<p>Tiles seamlessly in both directions (the pattern repeats every 600 px), so the same file covers any locked zone. Lay it over <code>map/hw26-fog.png</code>, or over the baked shroud in the zone maps.</p>",
+         notes="<p>Tiles seamlessly in both directions, so the same file covers any locked zone. Lay it over <code>map/hw26-fog.png</code>, or over the baked shroud in the zone maps.</p>",
          snippet=""),
     dict(id="fog-lift", file="hw26-fog-lift.json", title="Fog lift", ctx={"under": "map-zone"}, thumbAt=0.45,
-         desc="Plays when a zone opens: opaque fog parts outward from the centre to reveal the zone.",
+         desc="Plays when a zone opens: the approved shroud breaks into pieces that part outward from the centre to reveal the zone.",
          spec="1200×1200 · 1.8 s",
          notes="<p>Starts fully opaque and ends clear. Place it over the zone that is opening, then switch the map to that zone's open state (for example <code>hw26-map-d-zone12.png</code>) underneath before it starts.</p>",
          snippet=""),
     dict(id="bats", file="hw26-bats.json", title="Bats", ctx={"under": "map-sky"}, thumbAt=0.3,
-         desc="Four flapping bats crossing the sky in a loop, used in any zone.",
+         desc="Four painted bats flapping across the sky in a loop, used in any zone.",
          spec="1920×600 · 6 s loop",
          notes="<p>Matches the desktop map's on-screen size (1920×600). Three or four bats are on screen at a time, and the loop has no visible restart.</p>",
          snippet=""),

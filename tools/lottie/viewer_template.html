@@ -127,7 +127,7 @@ kbd { font-family: var(--mono); font-size: 11px; border: 1px solid var(--line); 
 <div class="wrap">
   <header class="top">
     <h1>Haunted Trail <span class="moon">Lotties</span></h1>
-    <div class="meta">GOATED HALLOWEEN 2026 · 9 FILES · 30 FPS · BODYMOVIN 5.7.4 · LOTTIE-WEB 5.12.2</div>
+    <div class="meta">GOATED HALLOWEEN 2026 · 9 FILES · 30 FPS · PAINTED SPRITES · LOTTIE-WEB 5.12.2</div>
   </header>
 
   <div class="layout">
@@ -310,7 +310,7 @@ function select(id, push) {
   $('doorGroup').hidden = !a.door;
   $('itemGroup').hidden = !a.brew;
   const spec = [['Canvas', `${a.w} × ${a.h}`], ['Frame rate', `${a.fr} fps`], ['Length', `${(a.op / a.fr).toFixed(2)} s · ${a.op} frames`],
-    ['Loops', a.loop ? 'yes, seamless' : 'no, plays once'], ['File size', `${a.kb.toFixed(1)} KB <span class="ok">· under 100 KB</span>`],
+    ['Loops', a.loop ? 'yes, seamless' : 'no, plays once'], ['File size', a.kb >= 1024 ? `${(a.kb / 1024).toFixed(1)} MB` : `${a.kb.toFixed(0)} KB`],
     ['Layers', a.layers], ['Spec', a.spec]];
   $('spec').innerHTML = spec.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('');
   $('notes').innerHTML = a.notes + (a.snippet ? `<div class="code"><pre><code>${a.snippet.replace(/</g, '&lt;')}</code></pre><button class="btn copy" type="button">Copy</button></div>` : '');

@@ -27,3 +27,18 @@ previews (GIF + frame strip, played over their real context): `review/motion/`.
 | hw26-bats | 32 | Four flapping bats crossing in a seamless loop |
 
 Re-render the QA previews with `npm install --prefix tools/lottie` and then `python tools/lottie/qa.py`.
+
+## Revision: painted Lotties
+
+Feedback: the vector Lotties didn't match the painted art, and the G3 walk was pixelated. Rebuilt with
+`tools/lottie_painted.py`; the vector set is archived in `variants/round3/motion_vector_v1/`.
+
+- **New painted assets** (Nano Banana 2, `concepts/round4_motion.json`): bat (3 wing poses), cauldron, green smoke,
+  sparkles, fog wisps, doorway light burst, potion drops and bubbles. Cut into sprites by `tools/hw_motion_assets.py`
+  (`variants/round4_motion/sprites/`).
+- **Candy Rain, door and pop** use the approved Candy (`hw26-candy`).
+- **G3 walk:** G3's painted cutout (~3.2× the map size) cut into the same moving parts at 3× and embedded as images, so
+  she's sharp at 2× and the art is identical to the PNG. Moving parts have painted-in backfill so no gaps open.
+- **Fog lift** breaks the approved shroud into soft-edged pieces that part from the centre.
+- **Door opens:** the door swap to "done" now happens under the light burst (marker `swap_to_done`, frame 10).
+- Size limit set aside for this pass (see the notes for current sizes). Estimated image spend for the new assets: $0.48.

@@ -42,9 +42,12 @@ def prop(v, nd=2):
             val = val if isinstance(val, (list, tuple)) else [val]
             k = {"t": _r(float(t)), "s": _r(list(map(float, val)), nd)}
             if i < len(v) - 1:
-                (ox, oy), (ix, iy) = EASE[ease]
-                k["o"] = {"x": [ox], "y": [oy]}
-                k["i"] = {"x": [ix], "y": [iy]}
+                if ease == "hold":
+                    k["h"] = 1
+                else:
+                    (ox, oy), (ix, iy) = EASE[ease]
+                    k["o"] = {"x": [ox], "y": [oy]}
+                    k["i"] = {"x": [ix], "y": [iy]}
             kfs.append(k)
         return {"a": 1, "k": kfs}
     return {"a": 0, "k": _r(v if not isinstance(v, tuple) else list(v), nd)}
@@ -153,6 +156,22 @@ class Comp:
     def add_image_asset(self, ref, w, h, filename):
         self.d["assets"].append({"id": ref, "w": w, "h": h, "u": "", "p": filename, "e": 0})
 
+    def add_image(self, ref, im, max_side=None):
+        """Embed a PIL RGBA image as a base64 PNG asset; returns its (w, h)."""
+        import base64
+        import io
+        if max_side and max(im.size) > max_side:
+            im = im.copy()
+            im.thumbnail((max_side, max_side))
+        buf = io.BytesIO()
+        im.save(buf, "PNG", optimize=True)
+        self.d["assets"].append({"id": ref, "w": im.width, "h": im.height, "u": "",
+                                 "p": "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode(), "e": 1})
+        return im.width, im.height
+
+    def marker(self, frame, name):
+        self.d["markers"].append({"tm": frame, "cm": name, "dr": 0})
+
     def save(self, path):
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "w") as f:
@@ -181,3 +200,15 @@ def osc(frames, period, lo, hi, phase=0.0, ease="sine"):
 
 def deg(x):
     return math.degrees(x)
+
+
+def mask(vertices, mode="a", inverted=False):
+    """Layer mask (in the layer's own coordinate space)."""
+    n = len(vertices)
+    return {"inv": inverted, "mode": mode, "o": prop(100), "x": prop(0),
+            "pt": {"a": 0, "k": {"c": True, "v": _r([list(map(float, v)) for v in vertices], 1),
+                                 "i": [[0, 0]] * n, "o": [[0, 0]] * n}}}
+
+
+def ellipse_pts(cx, cy, rx, ry, n=36):
+    return [(cx + rx * math.cos(2 * math.pi * i / n), cy + ry * math.sin(2 * math.pi * i / n)) for i in range(n)]
