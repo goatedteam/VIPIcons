@@ -73,3 +73,15 @@ scripts reproduces the finals.
 | `masters/*@2048.png` | 2048 px transparent masters of all of the above | |
 
 Prompts: `concepts/round5.json`. Boards: `review/round5/`.
+
+## Higher-resolution map and fog meter (Nano Banana 2, 4K)
+
+The maps were 1.6K renders stretched to 3840×1200. They are now re-rendered natively at 4K from the approved maps
+(`variants/round2/map/E2_4k.png` 6336×2688, `F1_4k.png` 2048×8256), with the reference sent at full size and an
+instruction to keep everything in place. All 12 lots still match `hw26-map-lots.json` exactly. The lots are now drawn
+as stone plinths with a lime rim. Exports are downscaled (no longer stretched), and the zone states were rebuilt on
+the new base with the seams re-measured. Full-resolution crops: `masters/hw26-map-{d,m}@native.png`.
+
+Fog meter track and fill re-rendered at 4K (`variants/round2/meter/{track,fill}_4k.png`). The fill keeps its
+proportions (the core of the band is repeated along the bar, with brightness evened out so no pattern shows).
+Masters at 4× the on-screen size: `masters/hw26-meter-{track,fill}@4x.png` (2400×96).

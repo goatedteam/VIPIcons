@@ -43,8 +43,8 @@ def encode_ref(path, max_side=768, bg=(208, 208, 208)):
     return {"inline_data": {"mime_type": "image/png", "data": base64.b64encode(buf.getvalue()).decode()}}
 
 
-def generate(prompt, refs, model, size, aspect="1:1", retries=5, tag=""):
-    parts = [encode_ref(r) for r in refs] + [{"text": prompt}]
+def generate(prompt, refs, model, size, aspect="1:1", retries=5, tag="", ref_max=768):
+    parts = [encode_ref(r, max_side=ref_max) for r in refs] + [{"text": prompt}]
     body = {
         "contents": [{"role": "user", "parts": parts}],
         "generationConfig": {

@@ -28,7 +28,7 @@ BASE = os.path.join(ROOT, "halloween", "variants", "round3", "map_zones", "base"
 HAZE = np.array([66, 60, 88], dtype=np.float32) / 255
 
 # seam positions along the trail axis, measured from column/row colour steps (export px)
-SEAMS = {"desktop": [1268, 2394], "mobile": [1209, 2140]}
+SEAMS = {"desktop": [1270, 2509], "mobile": [1221, 2043]}  # re-measured on the 4K re-render
 
 
 def smooth_noise(h, w, seed, scales=((6, 0.55), (14, 0.3), (32, 0.15))):

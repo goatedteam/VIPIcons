@@ -12,6 +12,7 @@ import os
 import subprocess
 import sys
 
+import cv2
 import imagequant
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
@@ -66,7 +67,10 @@ def place(im, size, fit, anchor="center", bottom_pad=0):
 
 
 def upscale(im, size):
+    """Resize to the export size; sharpen only when enlarging."""
     big = im.resize(size, Image.LANCZOS)
+    if size[0] <= im.width:
+        return big
     return big.filter(ImageFilter.UnsharpMask(radius=1.6, percent=60, threshold=2))
 
 
@@ -128,12 +132,14 @@ def save(im, rel, quality=(65, 92), dither=1.0):
 
 
 # ---------------------------------------------------------------- assets
-def map_png(kind, rel):
+def map_png(kind, rel, native=False):
     im = Image.open(src(rel)).convert("RGB")
     box = hw_map_guide.crop_box(kind)
     if im.size != hw_map_guide.GEN[kind]:  # scale the crop box if the model's size differs
         sx, sy = im.width / hw_map_guide.GEN[kind][0], im.height / hw_map_guide.GEN[kind][1]
         box = (round(box[0] * sx), round(box[1] * sy), round(box[2] * sx), round(box[3] * sy))
+    if native:  # full-resolution master: same crop, no resize
+        return im.crop(box).convert("RGBA")
     return upscale(im.crop(box), hw_map_guide.EXPORT[kind]).convert("RGBA")
 
 
@@ -145,25 +151,43 @@ def fog():
     return alpha_from_black(seamless(im).convert("RGB"), gain=1.6, max_alpha=0.85)  # "a bit transparent"
 
 
-def meter_track():
-    im = cutout(f"{R2}/meter/track")
+def meter_track(W=1200, h=48, rel=f"{R2}/meter/track_4k"):
+    im = cutout(rel)
     im = im.crop(bbox(im))
-    h = 48
     im = im.resize((round(im.width * h / im.height), h), Image.LANCZOS)
     cap = h * 2  # keep the carved end caps undistorted, stretch only the middle
     left, right = im.crop((0, 0, cap, h)), im.crop((im.width - cap, 0, im.width, h))
-    mid = im.crop((cap, 0, im.width - cap, h)).resize((1200 - 2 * cap, h), Image.LANCZOS)
-    out = Image.new("RGBA", (1200, h), (0, 0, 0, 0))
-    for part, x in ((left, 0), (mid, cap), (right, 1200 - cap)):
+    mid = im.crop((cap, 0, im.width - cap, h)).resize((W - 2 * cap, h), Image.LANCZOS)
+    out = Image.new("RGBA", (W, h), (0, 0, 0, 0))
+    for part, x in ((left, 0), (mid, cap), (right, W - cap)):
         out.alpha_composite(part, (x, 0))
     return out
 
 
-def meter_fill():
-    im = Image.open(src(f"{R2}/meter/fill")).convert("RGB")
+def meter_fill(W=1200, h=48, rel=f"{R2}/meter/fill_4k"):
+    """Cut the glowing band, scale it to height h keeping its proportions (so the swirls
+    aren't squashed), make it seamless left-right and repeat it to width W."""
+    im = Image.open(src(rel)).convert("RGB")
     b = bbox(alpha_from_black(im, gain=1.4))
-    band = im.crop((im.width // 8, b[1], im.width - im.width // 8, b[3])).resize((1200, 48), Image.LANCZOS)
-    return alpha_from_black(seamless(band, axis="x").convert("RGB"), gain=1.4)
+    # middle half of the band's height: the core of the mist, wide enough that one repeat
+    # spans about the whole bar, so no pattern shows
+    h0 = b[3] - b[1]
+    band = im.crop((im.width // 16, b[1] + h0 // 4, im.width - im.width // 16, b[3] - h0 // 4))
+    band = band.resize((round(band.width * h / band.height), h), Image.LANCZOS)
+    # even out brightness along the bar (the painting has periodic hot spots) but keep the swirls:
+    # divide each pixel by its row's heavily blurred brightness, times the row's mean
+    arr = np.asarray(band, np.float32)
+    lum = arr.mean(axis=2)
+    k = max(3, band.width // 6) | 1
+    pad = np.pad(lum, ((0, 0), (k, k)), mode="wrap")
+    blur = cv2.blur(pad, (k, 1))[:, k:-k]
+    gain = (lum.mean(axis=1, keepdims=True) + 1) / (blur + 1)
+    arr = np.clip(arr * gain[..., None], 0, 255)
+    band = seamless(Image.fromarray(arr.astype(np.uint8), "RGB"), axis="x").convert("RGB")
+    strip = Image.new("RGB", (W, h))
+    for x in range(0, W, band.width):
+        strip.paste(band, (x, 0))
+    return alpha_from_black(strip, gain=1.4)
 
 
 def house_glow():
@@ -228,8 +252,10 @@ def scene(rel, size, focus_y=0.5):
 
 
 def build():
-    yield "map/hw26-map-d.png", lambda: map_png("d", f"{R2}/map/E2")
-    yield "map/hw26-map-m.png", lambda: map_png("m", f"{R2}/map/F1")
+    yield "map/hw26-map-d.png", lambda: map_png("d", f"{R2}/map/E2_4k")
+    yield "map/hw26-map-m.png", lambda: map_png("m", f"{R2}/map/F1_4k")
+    yield "masters/hw26-map-d@native.png", lambda: map_png("d", f"{R2}/map/E2_4k", native=True)
+    yield "masters/hw26-map-m@native.png", lambda: map_png("m", f"{R2}/map/F1_4k", native=True)
     yield "map/hw26-fog.png", fog
     for z, h in HOUSES.items():
         for state, rel in (("dark", f"{R2}/house_{z}/dark"), ("open", f"{R1}/{h}"), ("done", f"{R2}/house_{z}/done")):
@@ -240,6 +266,8 @@ def build():
     yield "currency/hw26-candy.png", lambda: place(cutout(f"{R2}/candy/orange_logo"), (192, 192), (180, 180))
     yield "meter/hw26-meter-track.png", meter_track
     yield "meter/hw26-meter-fill.png", meter_fill
+    yield "masters/hw26-meter-track@4x.png", lambda: meter_track(2400, 96)
+    yield "masters/hw26-meter-fill@4x.png", lambda: meter_fill(2400, 96)
     yield "meter/hw26-lantern-on.png", lambda: place(cutout(f"{R1}/lantern/A"), (96, 96), (88, 90))
     yield "meter/hw26-lantern-off.png", lambda: place(cutout(f"{R2}/lantern/off"), (96, 96), (88, 90))
     for name, rel in (("keeper", f"{R1}/keeper/B"), ("kid", f"{R1}/kid/A")):
@@ -262,6 +290,6 @@ if __name__ == "__main__":
     for rel, fn in build():
         if only and not any(rel.startswith(o) for o in only):
             continue
-        q = (0, 95) if rel.startswith(("map/hw26-map", "modal/", "shop/hw26-shop")) else (65, 92)
+        q = (0, 95) if rel.startswith(("map/hw26-map", "masters/hw26-map", "modal/", "shop/hw26-shop")) else (65, 92)
         # dithering shows as grain on soft semi-transparent textures
         save(fn(), rel, quality=q, dither=0.0 if rel in ("map/hw26-fog.png", "meter/hw26-meter-fill.png") else 1.0)
