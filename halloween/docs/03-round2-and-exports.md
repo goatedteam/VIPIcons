@@ -85,3 +85,19 @@ the new base with the seams re-measured. Full-resolution crops: `masters/hw26-ma
 Fog meter track and fill re-rendered at 4K (`variants/round2/meter/{track,fill}_4k.png`). The fill keeps its
 proportions (the core of the band is repeated along the bar, with brightness evened out so no pattern shows).
 Masters at 4× the on-screen size: `masters/hw26-meter-{track,fill}@4x.png` (2400×96).
+
+## Round 6: board-style trail map (no fog)
+
+Recreates the art director's reference map (`halloween/reference/map_style_ref.png`: zone signs, numbered
+glowing trail, a house at every stop, the castle-manor at the top right) in Goated style, at 4K
+(`halloween/concepts/round6.json`, Nano Banana 2, 16:9, 5504×3072).
+
+- `map_board/A–C`: three first passes. A was the strongest; B skipped the number 3 and C ignored "no text".
+  All three still had haze in the corners and around the falls.
+- `map_board_fix/A_nofog`: A edited to remove all fog, mist and haze. Final **labelled** map.
+- `map_board_fix/A_clean`: A_nofog with the numbers and sign lettering removed, so the game can set live
+  text. Final **clean** map.
+
+Exports: `trailmap/hw26-trailmap{,-clean}.png` (2752×1536), `masters/hw26-trailmap{,-clean}@native.png`
+(5504×3072) and `trailmap/hw26-trailmap-markers.json` (the 12 marker centres measured on the clean map,
+as fractions of the image so they hold at any size).

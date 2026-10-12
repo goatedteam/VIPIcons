@@ -1,0 +1,63 @@
+{
+  "round": "round6",
+  "inherit": "round1.json",
+  "model": "gemini-3.1-flash-image",
+  "layouts": {
+    "map_board": "COMPOSITION: a wide, opaque, painted night-time diorama map seen from a high 3/4 angle, filling the whole 16:9 canvas edge to edge, laid out like the FIRST attached image: three neighbourhoods side by side, left to right, Pumpkin Fields (orange), Hollow Woods (ghostly green, with a river and waterfalls under a wooden bridge) and The Graveyard (pink-red), with a grand haunted castle-manor on the hill at the top right and a big full moon with bats in the sky above it. One continuous glowing dotted trail winds from the bottom left, up and down through all three zones, to the castle at the top right, its glow changing colour per zone: pumpkin orange (#FFAA33), ghostly green (#02DE82), candy pink-red (#FF3B69). Along it sit TWELVE round trail markers, four per zone, each next to its own little house or crypt, glowing lanterns along the way. Crisp, clean, high-detail painting.\nNO FOG: absolutely no mist, haze, fog banks, smoke or clouds on the ground; the air is perfectly clear and every part of the map is sharp and readable from edge to edge. Night sky clouds only far up behind the moon."
+  },
+  "designs": {
+    "map_board": {
+      "layout": "map_board",
+      "aspect": "16:9",
+      "size": "4K",
+      "ref_max": 1672,
+      "refs": [
+        "halloween/reference/map_style_ref.png",
+        "reference/style/chest_open.png",
+        "halloween/reference/house_sheet.png"
+      ],
+      "variants": {
+        "A": {
+          "name": "Recreation, with signs and numbers",
+          "prefix": "The FIRST attached image is the LAYOUT and SCENE reference: recreate this map's composition, trail shape, zones, river, bridge, castle and moon, but repaint it entirely in the Goated art style of the SECOND attached image, with the Goated Halloween palette. The THIRD attached image shows the approved trail houses (Zone 1, Zone 2, Zone 3 and the Zone 4 haunted castle-manor): the houses along the trail and the castle at the top right must be painted in exactly these designs.",
+          "subject": "The Haunted Trail map. Each of the twelve trail markers is a dark round disc with a glowing coloured rim and a bold white number, 1 to 12 in trail order (1-4 Pumpkin Fields, 5-8 Hollow Woods, 9-12 The Graveyard). Three carved wooden sign boards at the bottom of the zones read exactly \"PUMPKIN FIELDS\", \"HOLLOW WOODS\" and \"THE GRAVEYARD\" in chunky, slightly spooky lettering. Jack-o'-lanterns and corn in the fields, twisted trees, hanging lanterns, glowing mushrooms and an owl in the woods, iron fences, tombstones, candles and gothic crypts in the graveyard. No other text anywhere."
+        },
+        "B": {
+          "name": "Recreation, alternate pass",
+          "prefix": "The FIRST attached image is the LAYOUT and SCENE reference: recreate this map's composition, trail shape, zones, river, bridge, castle and moon, but repaint it entirely in the Goated art style of the SECOND attached image, with the Goated Halloween palette. The THIRD attached image shows the approved trail houses (Zone 1, Zone 2, Zone 3 and the Zone 4 haunted castle-manor): the houses along the trail and the castle at the top right must be painted in exactly these designs.",
+          "subject": "The Haunted Trail map, a little richer and more magical: bigger glow on the trail, more jack-o'-lanterns, fireflies in the woods, candlelit crypts. Each of the twelve trail markers is a dark round disc with a glowing coloured rim and a bold white number, 1 to 12 in trail order (1-4 Pumpkin Fields, 5-8 Hollow Woods, 9-12 The Graveyard). Three carved wooden sign boards at the bottom of the zones read exactly \"PUMPKIN FIELDS\", \"HOLLOW WOODS\" and \"THE GRAVEYARD\" in chunky, slightly spooky lettering. A small neon-lime (#D4FF00) Goated glow accent on the trail edges. No other text anywhere."
+        },
+        "C": {
+          "name": "Clean (no text), for live labels",
+          "prefix": "The FIRST attached image is the LAYOUT and SCENE reference: recreate this map's composition, trail shape, zones, river, bridge, castle and moon, but repaint it entirely in the Goated art style of the SECOND attached image, with the Goated Halloween palette. The THIRD attached image shows the approved trail houses (Zone 1, Zone 2, Zone 3 and the Zone 4 haunted castle-manor): the houses along the trail and the castle at the top right must be painted in exactly these designs.",
+          "subject": "The Haunted Trail map with NO TEXT AT ALL, so the game can place live labels: the twelve trail markers are plain dark round discs with a glowing coloured rim and an EMPTY centre (no numbers), and the three carved wooden sign boards at the bottom of the zones are BLANK (no lettering). Jack-o'-lanterns and corn in the fields, twisted trees, hanging lanterns, glowing mushrooms and an owl in the woods, iron fences, tombstones, candles and gothic crypts in the graveyard. No letters, numbers or logos anywhere."
+        }
+      }
+    },
+    "map_board_fix": {
+      "aspect": "16:9",
+      "size": "4K",
+      "ref_max": 2752,
+      "edit_brief": "map_edit_brief",
+      "variants": {
+        "A_nofog": {
+          "name": "A without fog",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round6/map_board/A.png"
+          ],
+          "change": "Remove ALL fog, mist, haze and smoke from the whole map: the purple haze in the bottom-left and bottom-right corners, the mist around the base of the waterfalls and the river, the haze drifting over the graveyard, between the hills and in the woods. Where fog was, paint the clear, crisp ground and objects that would be underneath (grass, autumn leaves, pumpkins, rocks, tombstones, water), in the same style. The air must be perfectly clear and every area sharp and readable. Keep the night sky and the clouds around the moon."
+        },
+        "A_clean": {
+          "name": "A without fog, no text",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round6/map_board_fix/A_nofog.png"
+          ],
+          "change": "Remove ALL text and numbers: erase the white numbers 1 to 12 from the twelve round trail markers so each marker is the same dark round disc with its glowing coloured rim and an EMPTY, plain dark centre; and erase the lettering from the three sign boards (\"PUMPKIN FIELDS\", \"HOLLOW WOODS\", \"THE GRAVEYARD\") so each board is a plain, blank board of the same wood or stone with no letters. No letters, numbers or symbols anywhere on the map."
+        }
+      }
+    }
+  },
+  "map_edit_brief": "Edit the FIRST attached image: an approved, finished game map for Goated's Halloween event, painted in a hand-painted 2.5D style with bold dark ink outlines and cel shading.\n\nCHANGE: {change}\n{roles}\nPRESERVE: everything not named in CHANGE, exactly as it is: the composition, the trail and its glow, every house, marker, sign, tree, the river, bridge, castle and moon, colours, linework and lighting. Keep the full 16:9 frame with nothing cropped.\n\nCONSTRAINTS: add nothing that is not asked for. No watermark."
+}

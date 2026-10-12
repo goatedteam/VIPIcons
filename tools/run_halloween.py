@@ -63,7 +63,8 @@ def run(cfg, job, force):
     prompt, refs = build(cfg, d, v)
     try:
         png = generate(prompt, refs, cfg["model"], v.get("size", d.get("size", "1K")),
-                       aspect=v.get("aspect", d.get("aspect", "1:1")), tag=f"{cfg['round']}:{key}:{vid}")
+                       aspect=v.get("aspect", d.get("aspect", "1:1")), tag=f"{cfg['round']}:{key}:{vid}",
+                       ref_max=d.get("ref_max", 768))
     except Exception as e:  # keep the batch going
         return f"FAIL {key}:{vid} {str(e)[:300]}"
     os.makedirs(os.path.dirname(out), exist_ok=True)

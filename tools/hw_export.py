@@ -282,6 +282,11 @@ def build():
         yield f"shop/hw26-item-{n}.png", lambda rel=rel: place(cutout(rel), (192, 192), (172, 172))
     yield "modal/hw26-new-zone.png", lambda: scene(f"{R2}/popup/B", (1040, 560), focus_y=0.45)
     yield "shop/hw26-shop.png", lambda: scene(f"{R2}/shop/A", (1600, 600), focus_y=0.5)
+    # Round 6 board-style trail map (labelled, and clean for live labels); no fog
+    for name, v in (("hw26-trailmap", "A_nofog"), ("hw26-trailmap-clean", "A_clean")):
+        rel = f"variants/round6/map_board_fix/{v}"
+        yield f"trailmap/{name}.png", lambda rel=rel: Image.open(src(rel)).convert("RGBA").resize((2752, 1536), Image.LANCZOS)
+        yield f"masters/{name}@native.png", lambda rel=rel: Image.open(src(rel)).convert("RGBA")
     yield "shop/hw26-sold-out.png", lambda: place(cutout(f"{R1}/soldout/A"), (192, 192), (176, 176))
 
 
@@ -290,6 +295,6 @@ if __name__ == "__main__":
     for rel, fn in build():
         if only and not any(rel.startswith(o) for o in only):
             continue
-        q = (0, 95) if rel.startswith(("map/hw26-map", "masters/hw26-map", "modal/", "shop/hw26-shop")) else (65, 92)
+        q = (0, 95) if rel.startswith(("map/hw26-map", "masters/hw26-map", "trailmap/", "masters/hw26-trailmap", "modal/", "shop/hw26-shop")) else (65, 92)
         # dithering shows as grain on soft semi-transparent textures
         save(fn(), rel, quality=q, dither=0.0 if rel in ("map/hw26-fog.png", "meter/hw26-meter-fill.png") else 1.0)

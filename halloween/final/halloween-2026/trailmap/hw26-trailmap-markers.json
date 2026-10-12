@@ -1,0 +1,154 @@
+{
+ "image": "hw26-trailmap-clean.png",
+ "size": [
+  5504,
+  3072
+ ],
+ "note": "Trail marker centres for live numbers 1-12 on hw26-trailmap-clean.png (and the labelled version, same layout). x,y are fractions of image width/height and r (inner dark disc) a fraction of width, so they hold at any export size. px/r_px are pixels on the native 5504x3072 master.",
+ "markers": [
+  {
+   "n": 1,
+   "zone": "pumpkin",
+   "x": 0.0934,
+   "y": 0.7018,
+   "r": 0.0131,
+   "px": [
+    514,
+    2156
+   ],
+   "r_px": 72
+  },
+  {
+   "n": 2,
+   "zone": "pumpkin",
+   "x": 0.1492,
+   "y": 0.5296,
+   "r": 0.0131,
+   "px": [
+    821,
+    1627
+   ],
+   "r_px": 72
+  },
+  {
+   "n": 3,
+   "zone": "pumpkin",
+   "x": 0.1962,
+   "y": 0.348,
+   "r": 0.0131,
+   "px": [
+    1080,
+    1069
+   ],
+   "r_px": 72
+  },
+  {
+   "n": 4,
+   "zone": "pumpkin",
+   "x": 0.288,
+   "y": 0.4567,
+   "r": 0.0131,
+   "px": [
+    1585,
+    1403
+   ],
+   "r_px": 72
+  },
+  {
+   "n": 5,
+   "zone": "woods",
+   "x": 0.4168,
+   "y": 0.6634,
+   "r": 0.0131,
+   "px": [
+    2294,
+    2038
+   ],
+   "r_px": 72
+  },
+  {
+   "n": 6,
+   "zone": "woods",
+   "x": 0.4896,
+   "y": 0.5378,
+   "r": 0.0131,
+   "px": [
+    2695,
+    1652
+   ],
+   "r_px": 72
+  },
+  {
+   "n": 7,
+   "zone": "woods",
+   "x": 0.5581,
+   "y": 0.3975,
+   "r": 0.0131,
+   "px": [
+    3072,
+    1221
+   ],
+   "r_px": 72
+  },
+  {
+   "n": 8,
+   "zone": "woods",
+   "x": 0.6354,
+   "y": 0.5397,
+   "r": 0.0131,
+   "px": [
+    3497,
+    1658
+   ],
+   "r_px": 72
+  },
+  {
+   "n": 9,
+   "zone": "graveyard",
+   "x": 0.7227,
+   "y": 0.7142,
+   "r": 0.0131,
+   "px": [
+    3978,
+    2194
+   ],
+   "r_px": 72
+  },
+  {
+   "n": 10,
+   "zone": "graveyard",
+   "x": 0.8735,
+   "y": 0.6777,
+   "r": 0.0131,
+   "px": [
+    4808,
+    2082
+   ],
+   "r_px": 72
+  },
+  {
+   "n": 11,
+   "zone": "graveyard",
+   "x": 0.933,
+   "y": 0.5003,
+   "r": 0.0131,
+   "px": [
+    5135,
+    1537
+   ],
+   "r_px": 72
+  },
+  {
+   "n": 12,
+   "zone": "graveyard",
+   "x": 0.9242,
+   "y": 0.2884,
+   "r": 0.0131,
+   "px": [
+    5087,
+    886
+   ],
+   "r_px": 72
+  }
+ ]
+}
