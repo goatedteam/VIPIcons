@@ -106,8 +106,14 @@ def seamless(im, axis="xy", overlap=0.2):
     return out.resize(size, Image.LANCZOS)
 
 
+# The plain maps are inputs to tools/hw_zone_shroud.py, which writes the final map files
+# (seam-fixed hw26-map-{d,m}.png plus the zone1 / zone12 / zone123 variants).
+MAP_BASE = os.path.join(HW, "variants", "round3", "map_zones", "base")
+
+
 def save(im, rel, quality=(65, 92), dither=1.0):
-    dst = os.path.join(OUT, rel)
+    dst = (os.path.join(MAP_BASE, os.path.basename(rel)) if rel.startswith("map/hw26-map-")
+           else os.path.join(OUT, rel))
     os.makedirs(os.path.dirname(dst), exist_ok=True)
     rgba = im.convert("RGBA")
     try:

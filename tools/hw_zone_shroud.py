@@ -22,6 +22,9 @@ from PIL import Image, ImageFilter
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FINAL = os.path.join(ROOT, "halloween", "final", "halloween-2026", "map")
+# Plain maps (before the seam fix) that the shroud is built on. The files in FINAL are
+# replaced by the seam-fixed versions, so the inputs are kept here.
+BASE = os.path.join(ROOT, "halloween", "variants", "round3", "map_zones", "base")
 HAZE = np.array([66, 60, 88], dtype=np.float32) / 255
 
 # seam positions along the trail axis, measured from column/row colour steps (export px)
@@ -205,7 +208,7 @@ def main():
     lots = json.load(open(os.path.join(FINAL, "hw26-map-lots.json")))
     for kind, fn, tag in (("desktop", "hw26-map-d.png", "d"), ("mobile", "hw26-map-m.png", "m")):
         for open_zones, name in ((1, "zone1"), (2, "zone12"), (3, "zone123")):
-            out = build(kind, os.path.join(FINAL, fn), lots[kind]["lots"], open_zones, seed=26)
+            out = build(kind, os.path.join(BASE, fn), lots[kind]["lots"], open_zones, seed=26)
             dst = os.path.join(a.out_dir, f"hw26-map-{tag}-{name}.png")
             out.save(dst)
             print("wrote", dst, out.size)

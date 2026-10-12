@@ -45,3 +45,18 @@ leftover flat blocks (desktop sky, mobile zone seams).
 | `shop/hw26-shop.png` (1600×600, opaque) | Shop header A | `variants/round2/shop/A`, left 55% kept dark for the title and Candy balance |
 
 **All 36 spec PNGs are delivered** in `final/halloween-2026/`, plus `map/hw26-map-lots.json`.
+
+## Map zone states (approved)
+
+| File | Shows |
+|---|---|
+| `map/hw26-map-{d,m}-zone1.png` | Zone 1 open (Oct 13); Zones 2–3 under the shroud |
+| `map/hw26-map-{d,m}-zone12.png` | Zones 1–2 open (Oct 20); Zone 3 under the shroud |
+| `map/hw26-map-{d,m}-zone123.png` | All zones open (Oct 27) |
+| `map/hw26-map-{d,m}.png` | Same as zone123 (the spec's single map file), now seam-fixed |
+
+Made by `tools/hw_zone_shroud.py` (no generation): a dense lilac-grey shroud built from the approved fog, with a
+billowing, wandering edge and faint tendrils; open lots always clear. The painted zone seams are melted
+(colour-step correction, wandering cross-blend that skips the trail, soft mist bank). Inputs are the plain maps in
+`variants/round3/map_zones/base/`; `tools/hw_export.py` writes its map output there, so re-running both
+scripts reproduces the finals.
