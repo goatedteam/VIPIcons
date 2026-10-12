@@ -1,0 +1,394 @@
+<title>Haunted Trail Lotties</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: screening room. Animation list rail on the left, one big stage with a transport bar, spec + integration notes below.
+   Deliberately single-theme (night): the stage art is dark, so the page commits to a dark world in every viewer theme. */
+:root {
+  color-scheme: dark;
+  --bg: #110f17;          /* night ink, purple-biased */
+  --panel: #1a1723;
+  --panel-2: #221e2d;
+  --line: #2f2a3c;
+  --fg: #ece8f4;
+  --muted: #9b94ae;
+  --accent: #d4ff00;      /* Goated lime: controls and focus */
+  --accent-ink: #141018;
+  --z1: #ffaa33; --z2: #02de82; --z3: #ff3b69;   /* zone colours from the spec */
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --r: 10px;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { background: var(--bg); color: var(--fg); }
+body { font-family: var(--body); font-size: 15px; line-height: 1.5; padding-inline: 16px; padding-block: 0 40px; }
+.wrap { max-width: 1320px; margin: 0 auto; }
+header.top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 24px;
+  padding-block: 22px 18px; border-bottom: 1px solid var(--line); margin-bottom: 20px; }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(24px, 3.2vw, 34px); letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
+h1 .moon { color: var(--accent); }
+.meta { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
+.layout { display: grid; grid-template-columns: 272px minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+
+/* rail */
+.rail { display: flex; flex-direction: column; gap: 6px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); }
+.rail-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); padding: 0 4px 4px; }
+@media (max-width: 900px) {
+  .rail { position: static; flex-direction: row; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; }
+  .rail-label { display: none; }
+  .card { flex: 0 0 210px; scroll-snap-align: start; }
+}
+.card { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 10px; align-items: center; width: 100%;
+  background: transparent; border: 1px solid transparent; border-radius: var(--r); padding: 6px; color: inherit;
+  font: inherit; text-align: left; cursor: pointer; }
+.card:hover { background: var(--panel); }
+.card[aria-current="true"] { background: var(--panel-2); border-color: var(--line); }
+.card[aria-current="true"] .thumb { outline: 2px solid var(--accent); outline-offset: 1px; }
+.card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.thumb { width: 64px; height: 64px; border-radius: 8px; background: #1d1b29 center / cover no-repeat; overflow: hidden; position: relative; }
+.thumb > div { position: absolute; inset: 0; }
+.card .name { font-weight: 600; font-size: 14px; line-height: 1.25; }
+.card .sub { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 3px; display: flex; gap: 8px; align-items: center; }
+.badge { font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; padding: 1px 6px;
+  border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.badge.loop { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+
+/* stage */
+main { min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.title-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+h2 { font-family: var(--display); font-size: 22px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+.file { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.desc { color: var(--muted); margin: 0; max-width: 68ch; }
+.stage-wrap { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px;
+  display: flex; justify-content: center; }
+.stage { position: relative; width: 100%; max-width: 100%; border-radius: 8px; overflow: hidden; }
+.stage > * { position: absolute; inset: 0; width: 100%; height: 100%; }
+.stage .under, .stage .over { object-fit: fill; pointer-events: none; }
+.stage .over.inset { inset: auto; }
+.bg-context, .bg-dark { background: #1d1b29; }
+.bg-light { background: #e9e5f2; }
+.bg-checker { background-color: #2a2636; background-image:
+  linear-gradient(45deg, #3a3548 25%, transparent 25%), linear-gradient(-45deg, #3a3548 25%, transparent 25%),
+  linear-gradient(45deg, transparent 75%, #3a3548 75%), linear-gradient(-45deg, transparent 75%, #3a3548 75%);
+  background-size: 24px 24px; background-position: 0 0, 0 12px, 12px -12px, -12px 0; }
+
+/* transport */
+.transport { display: flex; flex-direction: column; gap: 10px; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 14px; padding: 12px 14px; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 34px; min-width: 34px; padding: 0 12px;
+  border-radius: 8px; border: 1px solid var(--line); background: var(--panel-2); color: var(--fg); font: inherit; font-size: 13px; cursor: pointer; }
+.btn:hover { border-color: var(--muted); }
+.btn:focus-visible, select:focus-visible, input[type=range]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; min-width: 86px; }
+.btn svg { width: 14px; height: 14px; }
+.scrub { flex: 1 1 240px; min-width: 0; display: flex; align-items: center; gap: 12px; }
+input[type=range] { flex: 1; min-width: 0; accent-color: var(--accent); height: 24px; }
+.readout { font-family: var(--mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.readout b { color: var(--fg); font-weight: 600; }
+.group { display: inline-flex; align-items: center; gap: 8px; }
+.group > .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { height: 30px; padding: 0 10px; border: 0; border-right: 1px solid var(--line); background: var(--panel-2);
+  color: var(--muted); font: inherit; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  white-space: nowrap; }
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--fg); color: var(--bg); font-weight: 600; }
+.seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+select { height: 30px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel-2); color: var(--fg); font: inherit; font-size: 12px; padding: 0 8px; max-width: 100%; }
+.check { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); cursor: pointer; }
+.check input { accent-color: var(--accent); width: 16px; height: 16px; }
+
+/* info */
+.info { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 14px; }
+@media (max-width: 720px) { .info { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; min-width: 0; }
+.panel h3 { margin: 0 0 10px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); font-weight: 600; }
+dl.spec { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0; font-size: 13px; }
+dl.spec dt { color: var(--muted); }
+dl.spec dd { margin: 0; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.ok { color: var(--z2); }
+.notes p { margin: 0 0 10px; max-width: 72ch; }
+.notes ul { margin: 0 0 10px; padding-left: 18px; }
+.code { position: relative; }
+.code pre { margin: 0; background: #0c0a11; border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; overflow-x: auto;
+  font-family: var(--mono); font-size: 12px; line-height: 1.55; color: #d9d3ea; padding-top: 40px; }
+.code .copy { position: absolute; top: 8px; right: 8px; height: 26px; font-size: 11px; padding: 0 8px; }
+.keys { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+kbd { font-family: var(--mono); font-size: 11px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; color: var(--fg); }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <h1>Haunted Trail <span class="moon">Lotties</span></h1>
+    <div class="meta">GOATED HALLOWEEN 2026 · 9 FILES · 30 FPS · BODYMOVIN 5.7.4 · LOTTIE-WEB 5.12.2</div>
+  </header>
+
+  <div class="layout">
+    <nav class="rail" aria-label="Animations">
+      <div class="rail-label">motion/</div>
+      <div id="cards" style="display:contents"></div>
+    </nav>
+
+    <main>
+      <div class="title-row">
+        <h2 id="title">Door opens</h2>
+        <span class="file" id="file">motion/hw26-door-open.json</span>
+      </div>
+      <p class="desc" id="desc"></p>
+
+      <div class="stage-wrap"><div class="stage bg-context" id="stage">
+        <img class="under" id="under" alt="">
+        <div id="anim"></div>
+        <img class="over" id="over" alt="">
+      </div></div>
+
+      <div class="transport" role="group" aria-label="Playback">
+        <div class="row">
+          <button class="btn" id="prev" title="Previous frame (←)" aria-label="Previous frame"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 2h2v12H3zM14 2v12L6 8z"/></svg></button>
+          <button class="btn primary" id="play" aria-label="Play">Pause</button>
+          <button class="btn" id="next" title="Next frame (→)" aria-label="Next frame"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M11 2h2v12h-2zM2 2v12l8-6z"/></svg></button>
+          <div class="scrub">
+            <input type="range" id="scrub" min="0" max="41" step="1" value="0" aria-label="Frame">
+            <span class="readout" id="readout">f <b>0</b> / 41 · 0.00 s</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="group"><span class="lbl">Speed</span>
+            <div class="seg" id="speed">
+              <button data-v="0.25">¼×</button><button data-v="0.5">½×</button><button data-v="1" aria-pressed="true">1×</button><button data-v="2">2×</button>
+            </div></div>
+          <label class="check"><input type="checkbox" id="loop"> Loop</label>
+          <div class="group"><span class="lbl">Backdrop</span>
+            <div class="seg" id="bg">
+              <button data-v="context" aria-pressed="true">In context</button><button data-v="dark">Dark</button><button data-v="checker">Alpha</button><button data-v="light">Light</button>
+            </div></div>
+          <div class="group" id="tintGroup" hidden><span class="lbl">Zone tint</span>
+            <div class="seg" id="tint">
+              <button data-v="#FFAA33" aria-pressed="true"><span class="dot" style="background:var(--z1)"></span>Z1</button>
+              <button data-v="#02DE82"><span class="dot" style="background:var(--z2)"></span>Z2</button>
+              <button data-v="#FF3B69"><span class="dot" style="background:var(--z3)"></span>Z3</button>
+              <button data-v="">White</button>
+            </div></div>
+          <div class="group" id="doorGroup" hidden><span class="lbl">House</span>
+            <div class="seg" id="door">
+              <button data-v="z1" aria-pressed="true">Farmhouse</button><button data-v="z2">Tree house</button><button data-v="z3">Manor</button>
+            </div></div>
+          <div class="group" id="itemGroup" hidden><label class="lbl" for="item">Item</label>
+            <select id="item"></select></div>
+        </div>
+        <div class="keys"><kbd>Space</kbd> play / pause · <kbd>←</kbd> <kbd>→</kbd> step a frame · <kbd>↑</kbd> <kbd>↓</kbd> change animation</div>
+      </div>
+
+      <div class="info">
+        <section class="panel"><h3>File</h3><dl class="spec" id="spec"></dl></section>
+        <section class="panel notes"><h3>Integration</h3><div id="notes"></div></section>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<script>
+const DATA = /*DATA*/null;
+const IMG = DATA.images;
+const ANIMS = DATA.anims;
+const DOORS = { z1: { p: [168, 204], s: [100, 100] }, z2: { p: [167, 215], s: [236, 143] }, z3: { p: [193, 258], s: [94, 93] } };
+const $ = id => document.getElementById(id);
+const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+                set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+
+const state = { id: ANIMS[0].id, bg: store.get('hw26.bg') || 'context', speed: 1, tint: '#FFAA33', door: 'z1', item: 'item-3', loop: null };
+let anim = null, playing = true;
+
+function hexToRgb(h) { return [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255); }
+function patched(a, opts) {
+  const d = JSON.parse(JSON.stringify(a.data));
+  if (opts.tint && a.tint) {
+    const rgb = hexToRgb(opts.tint);
+    const walk = x => {
+      if (Array.isArray(x)) return x.forEach(walk);
+      if (!x || typeof x !== 'object') return;
+      if ((x.ty === 'fl' || x.ty === 'st') && x.c && !x.c.a) x.c.k.splice(0, 3, ...rgb);
+      if (x.ty === 'gf') { const k = x.g.k.k; for (let i = 0; i < x.g.p; i++) k.splice(i * 4 + 1, 3, ...rgb); }
+      Object.values(x).forEach(walk);
+    };
+    d.layers.filter(l => l.nm === 'tint').forEach(l => walk(l.shapes));
+  }
+  if (a.door) {
+    const z = DOORS[opts.door];
+    d.layers.find(l => l.nm === 'door').ks.p.k = z.p.slice();
+    d.layers.find(l => l.nm === 'door_size').ks.s.k = z.s.slice();
+  }
+  if (a.brew) {
+    const asset = d.assets.find(x => x.id === 'item');
+    Object.assign(asset, { u: '', p: IMG[opts.item], e: 1 });
+  }
+  return d;
+}
+
+function ctxImages(a) {
+  let under = a.ctx.under, over = a.ctx.over;
+  if (a.door) under = 'house-' + state.door;
+  return { under, over };
+}
+
+function applyBackdrop(a) {
+  const stage = $('stage');
+  stage.className = 'stage bg-' + state.bg;
+  const { under, over } = ctxImages(a);
+  const showCtx = state.bg === 'context';
+  $('under').hidden = !(showCtx && under);
+  if (showCtx && under) $('under').src = IMG[under];
+  const ov = $('over');
+  ov.hidden = !(showCtx && over);
+  if (showCtx && over) {
+    ov.src = IMG[over];
+    const f = a.ctx.overFrac || 1;
+    ov.classList.toggle('inset', f < 1);
+    if (f < 1) {
+      ov.style.width = ov.style.height = (f * 100) + '%';
+      ov.style.left = ov.style.top = ((1 - f) / 2 * 100) + '%';
+    } else { ov.style.width = ov.style.height = ''; ov.style.left = ov.style.top = ''; }
+  }
+}
+
+function sizeStage(a) {
+  const stage = $('stage');
+  stage.style.aspectRatio = a.w + ' / ' + a.h;
+  const maxH = Math.min(window.innerHeight * 0.58, 620);
+  stage.style.maxWidth = Math.round(maxH * a.w / a.h) + 'px';
+}
+
+function updateReadout() {
+  if (!anim) return;
+  const a = cur(), f = Math.min(Math.floor(anim.currentFrame), a.op - 1);
+  $('scrub').value = f;
+  $('readout').innerHTML = `f <b>${f}</b> / ${a.op - 1} · ${(f / a.fr).toFixed(2)} s`;
+}
+
+function setPlaying(p) {
+  playing = p;
+  $('play').textContent = p ? 'Pause' : (anim && !anim.loop && Math.floor(anim.currentFrame) >= cur().op - 1 ? 'Replay' : 'Play');
+  $('play').setAttribute('aria-label', $('play').textContent);
+}
+
+function cur() { return ANIMS.find(a => a.id === state.id); }
+
+function load(keepFrame) {
+  const a = cur();
+  const frame = keepFrame && anim ? anim.currentFrame : 0;
+  if (anim) anim.destroy();
+  const loop = state.loop === null ? a.loop : state.loop;
+  $('loop').checked = loop;
+  anim = lottie.loadAnimation({ container: $('anim'), renderer: 'svg', loop, autoplay: false,
+    animationData: patched(a, state), rendererSettings: { preserveAspectRatio: 'xMidYMid meet' } });
+  anim.setSpeed(state.speed);
+  anim.addEventListener('enterFrame', updateReadout);
+  anim.addEventListener('complete', () => { setPlaying(false); updateReadout(); });
+  anim.addEventListener('DOMLoaded', () => {
+    if (keepFrame && !playing) { anim.goToAndStop(frame, true); updateReadout(); setPlaying(false); }
+    else { anim.goToAndPlay(frame, true); setPlaying(true); }
+  });
+}
+
+function select(id, push) {
+  state.id = id; state.loop = null;
+  const a = cur();
+  document.querySelectorAll('.card').forEach(c => c.setAttribute('aria-current', c.dataset.id === id ? 'true' : 'false'));
+  $('title').textContent = a.title;
+  $('file').textContent = 'motion/' + a.file;
+  $('desc').textContent = a.desc;
+  $('scrub').max = a.op - 1;
+  $('tintGroup').hidden = !a.tint;
+  $('doorGroup').hidden = !a.door;
+  $('itemGroup').hidden = !a.brew;
+  const spec = [['Canvas', `${a.w} × ${a.h}`], ['Frame rate', `${a.fr} fps`], ['Length', `${(a.op / a.fr).toFixed(2)} s · ${a.op} frames`],
+    ['Loops', a.loop ? 'yes, seamless' : 'no, plays once'], ['File size', `${a.kb.toFixed(1)} KB <span class="ok">· under 100 KB</span>`],
+    ['Layers', a.layers], ['Spec', a.spec]];
+  $('spec').innerHTML = spec.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('');
+  $('notes').innerHTML = a.notes + (a.snippet ? `<div class="code"><pre><code>${a.snippet.replace(/</g, '&lt;')}</code></pre><button class="btn copy" type="button">Copy</button></div>` : '');
+  const cp = $('notes').querySelector('.copy');
+  if (cp) cp.addEventListener('click', () => {
+    const txt = a.snippet;
+    navigator.clipboard?.writeText(txt).then(() => { cp.textContent = 'Copied'; setTimeout(() => cp.textContent = 'Copy', 1400); },
+      () => { const r = document.createRange(); r.selectNodeContents($('notes').querySelector('pre')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); });
+  });
+  sizeStage(a); applyBackdrop(a);
+  playing = true; load(false);
+  store.set('hw26.anim', id);
+  if (push) history.replaceState(null, '', '#' + id);
+}
+
+function segment(id, key, onChange) {
+  const el = $(id);
+  el.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    el.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+    state[key] = b.dataset.v === '' ? '' : (key === 'speed' ? parseFloat(b.dataset.v) : b.dataset.v);
+    onChange();
+  });
+}
+
+// cards with still thumbnails that play on hover
+const thumbs = {};
+ANIMS.forEach(a => {
+  const b = document.createElement('button');
+  b.className = 'card'; b.type = 'button'; b.dataset.id = a.id;
+  b.innerHTML = `<div class="thumb"><div></div></div><div><div class="name">${a.title}</div>
+    <div class="sub">${(a.op / a.fr).toFixed(2)} s ${a.loop ? '<span class="badge loop">loop</span>' : '<span class="badge">once</span>'}</div></div>`;
+  b.addEventListener('click', () => select(a.id, true));
+  if (a.ctx.under) b.querySelector('.thumb').style.backgroundImage = `url(${IMG[a.ctx.under]})`;
+  $('cards').appendChild(b);
+  const t = lottie.loadAnimation({ container: b.querySelector('.thumb > div'), renderer: 'svg', loop: true, autoplay: false,
+    animationData: patched(a, { tint: '#FFAA33', door: 'z1', item: 'item-3' }), rendererSettings: { preserveAspectRatio: 'xMidYMid meet' } });
+  const still = Math.round(a.op * (a.thumbAt ?? 0.45));
+  t.addEventListener('DOMLoaded', () => t.goToAndStop(still, true));
+  b.addEventListener('mouseenter', () => t.play());
+  b.addEventListener('mouseleave', () => t.goToAndStop(still, true));
+  thumbs[a.id] = t;
+});
+
+// brew items
+DATA.items.forEach(([k, label]) => { const o = document.createElement('option'); o.value = k; o.textContent = label; $('item').appendChild(o); });
+$('item').value = state.item;
+$('item').addEventListener('change', e => { state.item = e.target.value; load(true); });
+
+$('play').addEventListener('click', () => {
+  if (playing) { anim.pause(); setPlaying(false); }
+  else { if (!anim.loop && Math.floor(anim.currentFrame) >= cur().op - 1) anim.goToAndStop(0, true); anim.play(); setPlaying(true); }
+});
+const step = d => { anim.pause(); setPlaying(false); const n = (Math.floor(anim.currentFrame) + d + cur().op) % cur().op; anim.goToAndStop(n, true); updateReadout(); };
+$('prev').addEventListener('click', () => step(-1));
+$('next').addEventListener('click', () => step(1));
+$('scrub').addEventListener('input', e => { anim.pause(); setPlaying(false); anim.goToAndStop(+e.target.value, true); updateReadout(); });
+$('loop').addEventListener('change', e => { state.loop = e.target.checked; anim.loop = state.loop; if (state.loop && !playing) { anim.play(); setPlaying(true); } });
+segment('speed', 'speed', () => anim.setSpeed(state.speed));
+segment('bg', 'bg', () => { applyBackdrop(cur()); store.set('hw26.bg', state.bg); });
+segment('tint', 'tint', () => load(true));
+segment('door', 'door', () => { applyBackdrop(cur()); load(true); });
+document.querySelectorAll('#bg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === state.bg ? 'true' : 'false'));
+
+document.addEventListener('keydown', e => {
+  if (e.target.closest('input, select, textarea')) return;
+  if (e.code === 'Space') { e.preventDefault(); $('play').click(); }
+  else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+  else if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+  else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    const i = ANIMS.findIndex(a => a.id === state.id) + (e.key === 'ArrowDown' ? 1 : -1);
+    const n = ANIMS[(i + ANIMS.length) % ANIMS.length];
+    select(n.id, true); document.querySelector(`.card[data-id="${n.id}"]`).focus({ preventScroll: true });
+  }
+});
+window.addEventListener('resize', () => sizeStage(cur()));
+
+const start = (location.hash || '').slice(1);
+select(ANIMS.some(a => a.id === start) ? start : (ANIMS.some(a => a.id === store.get('hw26.anim')) ? store.get('hw26.anim') : ANIMS[0].id), false);
+</script>
