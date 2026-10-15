@@ -101,3 +101,11 @@ glowing trail, a house at every stop, the castle-manor at the top right) in Goat
 Exports: `trailmap/hw26-trailmap{,-clean}.png` (2752×1536), `masters/hw26-trailmap{,-clean}@native.png`
 (5504×3072) and `trailmap/hw26-trailmap-markers.json` (the 12 marker centres measured on the clean map,
 as fractions of the image so they hold at any size).
+
+## Round 7: house scenes (16:9, no fog)
+
+Each approved house in its lit state (Z1 A, Z2 B, Z3 A, Z4 B) painted into its own zone scene at 4K, 16:9
+(`halloween/concepts/round7.json`). The approved house is sent first with "keep it exactly as designed",
+plus the Goated style reference. All four kept their designs.
+
+Exports: `scene/hw26-house-z{1-4}-scene.png` (2752×1536) and `masters/hw26-house-z{1-4}-scene@native.png` (5504×3072).

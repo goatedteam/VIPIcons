@@ -1,0 +1,42 @@
+{
+  "round": "round7",
+  "inherit": "round1.json",
+  "model": "gemini-3.1-flash-image",
+  "layouts": {
+    "house_scene": "COMPOSITION: a wide, opaque, painted night-time scene filling the whole 16:9 canvas edge to edge. The house is the clear hero: centred, seen from the front in a slight 3/4 view, standing on its ground about two thirds of the way down the frame, its full height taking about 60% of the canvas height, nothing cropped. A short glowing dirt path leads from the bottom of the frame to its front door. The setting around it sets the scene but stays simpler and slightly darker than the house so the house reads first. A starry night sky with the moon.\nNO FOG: no mist, haze, fog banks or ground smoke anywhere; the air is perfectly clear and the whole scene is crisp and readable."
+  },
+  "designs": {
+    "house_scene": {
+      "layout": "house_scene",
+      "aspect": "16:9",
+      "size": "4K",
+      "ref_max": 2048,
+      "variants": {
+        "z1": {
+          "name": "Pumpkin Fields house",
+          "refs": ["halloween/variants/round1/house_z1/A.png", "reference/style/chest_open.png"],
+          "prefix": "The FIRST attached image is an approved house for Goated's Halloween trail. Paint it into a full scene, keeping the house EXACTLY as designed: same shape, roof, windows, door, colours, decorations and proportions. Do not redesign it. The SECOND image is only the Goated art style reference.",
+          "subject": "The Pumpkin Fields house in its home zone: rolling autumn farmland at night, a glowing pumpkin patch full of carved jack-o'-lanterns in pumpkin orange (#FFAA33), tall golden corn rows, a scarecrow, a crooked wooden fence, a windmill silhouette and autumn trees with red and orange leaves, a big full moon. Warm orange glow from the house windows and the lanterns."
+        },
+        "z2": {
+          "name": "Hollow Woods house",
+          "refs": ["halloween/variants/round1/house_z2/B.png", "reference/style/chest_open.png"],
+          "prefix": "The FIRST attached image is an approved house for Goated's Halloween trail. Paint it into a full scene, keeping the house EXACTLY as designed: same shape, roof, windows, door, colours, decorations and proportions. Do not redesign it. The SECOND image is only the Goated art style reference.",
+          "subject": "The Hollow Woods house in its home zone: a deep enchanted forest at night, giant twisted ancient trees with hanging moss and roots, glowing toadstools and fireflies in ghostly green (#02DE82), hanging lanterns in the branches, a small stream with a little waterfall to one side, an owl on a branch, the moon glimpsed through the canopy."
+        },
+        "z3": {
+          "name": "Graveyard house",
+          "refs": ["halloween/variants/round1/house_z3/A.png", "reference/style/chest_open.png"],
+          "prefix": "The FIRST attached image is an approved house for Goated's Halloween trail. Paint it into a full scene, keeping the house EXACTLY as designed: same shape, roof, windows, door, colours, decorations and proportions. Do not redesign it. The SECOND image is only the Goated art style reference.",
+          "subject": "The Graveyard house in its home zone: an old moonlit cemetery at night, rows of cracked leaning tombstones and stone crosses, wrought-iron fences and a gothic gate, clusters of melting candles, dead twisted trees with crows, little floating will-o'-wisps glowing candy pink-red (#FF3B69), a big full moon with bats."
+        },
+        "z4": {
+          "name": "The Haunted House",
+          "refs": ["halloween/variants/round5/house_z4/B.png", "reference/style/chest_open.png"],
+          "prefix": "The FIRST attached image is the approved Haunted House, the grand finale of Goated's Halloween trail. Paint it into a full scene, keeping the building EXACTLY as designed: same towers, roofs, stained-glass window, staircase, open glowing doors, colours, decorations and proportions. Do not redesign it. The SECOND image is only the Goated art style reference.",
+          "subject": "The Haunted House on top of a rocky hill at the end of the trail: a winding stone stairway lined with flickering lanterns and jack-o'-lanterns leads up to it, old tombstones and dead trees on the slopes, a rusted iron fence with an open gate at the bottom, a huge full moon directly behind the house with bats circling the towers, a dramatic deep purple night sky. Grand and spooky, but spooky-cute, not gory."
+        }
+      }
+    }
+  }
+}
