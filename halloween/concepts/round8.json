@@ -1,0 +1,66 @@
+{
+  "round": "round8",
+  "inherit": "round1.json",
+  "model": "gemini-3.1-flash-image",
+  "layouts": {
+    "house_scene_lvl": "COMPOSITION: a wide, opaque, painted night-time scene filling the whole 16:9 canvas edge to edge. The building is the clear hero: centred, seen from the front in a slight 3/4 view, standing on its ground in the lower part of the frame, nothing cropped. A dirt path leads from the bottom of the frame to its front door. The setting around it sets the scene but stays a little simpler and darker than the building so the building reads first. Night sky.\nNO FOG: no mist, haze, fog banks or ground smoke anywhere; the air is perfectly clear and the whole scene is crisp and readable."
+  },
+  "designs": {
+    "woods": {
+      "layout": "house_scene_lvl",
+      "aspect": "16:9",
+      "size": "4K",
+      "refs": ["halloween/variants/round7/house_scene/z2.png", "halloween/variants/round1/house_z2/B.png", "reference/style/chest_open.png"],
+      "variants": {
+        "1": {
+          "name": "Woods 1: toadstool cottage",
+          "prefix": "The FIRST attached image is the approved Hollow Woods scene and the SECOND its approved house: match their art style, palette, linework, lighting and finish exactly, so this reads as part of the same set. This is a NEW, different house for the same zone (house 1 of 4 in the Hollow Woods; each one is bigger and creepier than the last). The THIRD image is the Goated art style reference.",
+          "subject": "HOLLOW WOODS HOUSE 1 of 4, the smallest and least scary: a small, cosy cottage built inside a giant red-and-white spotted toadstool, a round wooden door, two little round windows glowing warm, a crooked tiny chimney with a wisp of smoke, small mushrooms and ferns around its base. Set in a friendly corner of the enchanted forest: mossy roots, glowing ghostly-green (#02DE82) fireflies and small glowing mushrooms, a crescent moon through the trees. Charming and only lightly spooky. The house takes about 45% of the canvas height."
+        },
+        "2": {
+          "name": "Woods 2: stilted treehouse cabin",
+          "prefix": "The FIRST attached image is the approved Hollow Woods scene and the SECOND its approved house: match their art style, palette, linework, lighting and finish exactly, so this reads as part of the same set. This is a NEW, different house for the same zone (house 2 of 4 in the Hollow Woods; each one is bigger and creepier than the last). The THIRD image is the Goated art style reference.",
+          "subject": "HOLLOW WOODS HOUSE 2 of 4, bigger and a little creepier: a crooked, moss-covered log cabin perched on twisted stilts among huge gnarled roots, a rickety ladder and rope bridge, a lopsided shingled roof, windows glowing ghostly green (#02DE82), hanging lanterns, a crow on the roof and a few cobwebs. Set deeper in the dark forest: taller twisted trees with hanging moss, glowing green mushrooms and fireflies, an owl watching from a branch. The house takes about 55% of the canvas height."
+        },
+        "3": {
+          "name": "Woods 3: hollow-oak manor",
+          "prefix": "The FIRST attached image is the approved Hollow Woods scene and the SECOND its approved house: match their art style, palette, linework, lighting and finish exactly, so this reads as part of the same set. This is a NEW, different house for the same zone (house 3 of 4 in the Hollow Woods; each one is bigger and creepier than the last). The THIRD image is the Goated art style reference.",
+          "subject": "HOLLOW WOODS HOUSE 3 of 4, large and creepy: a two-storey manor carved into an enormous ancient hollow oak, its twisted branches reaching out like clawed hands, knotholes that look like watching eyes glowing green (#02DE82), several crooked windows, a heavy arched door, rusty hanging cages and lanterns, bats circling the crown, thick roots coiling across the path. Set in a dark, dense part of the woods with dead twisted trees, thorny brambles, glowing toadstools and green fireflies. The house takes about 65% of the canvas height."
+        },
+        "4": {
+          "name": "Woods 4: twisted witch-tree fortress",
+          "prefix": "The FIRST attached image is the approved Hollow Woods scene and the SECOND its approved house: match their art style, palette, linework, lighting and finish exactly, so this reads as part of the same set. This is a NEW, different house for the same zone (house 4 of 4 in the Hollow Woods, the biggest and creepiest). The THIRD image is the Goated art style reference.",
+          "subject": "HOLLOW WOODS HOUSE 4 of 4, the biggest and creepiest: a towering, gnarled dead-tree fortress with several crooked levels, balconies and pointed witch-hat roofs, huge roots writhing like tentacles, a giant face carved into the trunk with two glowing green (#02DE82) eyes and a wide, toothy open mouth that forms the front doorway, glowing green light inside, a bubbling cauldron of green brew by the door, giant spider webs between the branches, small skull-topped posts along the path, many bats against a large pale moon. Set in the darkest heart of the forest among black dead trees. Very creepy, but spooky-cute, not gory. The house takes about 80% of the canvas height."
+        }
+      }
+    },
+    "grave": {
+      "layout": "house_scene_lvl",
+      "aspect": "16:9",
+      "size": "4K",
+      "refs": ["halloween/variants/round7/house_scene/z3.png", "halloween/variants/round1/house_z3/A.png", "reference/style/chest_open.png"],
+      "variants": {
+        "1": {
+          "name": "Graveyard 1: gravedigger's crypt hut",
+          "prefix": "The FIRST attached image is the approved Graveyard scene and the SECOND its approved house: match their art style, palette, linework, lighting and finish exactly, so this reads as part of the same set. This is a NEW, different house for the same zone (house 1 of 4 in the Graveyard; each one is bigger and creepier than the last). The THIRD image is the Goated art style reference.",
+          "subject": "GRAVEYARD HOUSE 1 of 4, the smallest and least scary: a small, squat stone gravedigger's hut built like a little crypt, a pointed slate roof with a small cross, one round window glowing warm, a wooden door with a lantern beside it, a shovel leaning on the wall, a couple of melting candles on the step. Set at the quiet edge of the cemetery: a few small tombstones, a low iron fence, one bare tree, a small pink-red (#FF3B69) will-o'-wisp, a full moon. Charming and only lightly spooky. The house takes about 45% of the canvas height."
+        },
+        "2": {
+          "name": "Graveyard 2: gothic chapel",
+          "prefix": "The FIRST attached image is the approved Graveyard scene and the SECOND its approved house: match their art style, palette, linework, lighting and finish exactly, so this reads as part of the same set. This is a NEW, different house for the same zone (house 2 of 4 in the Graveyard; each one is bigger and creepier than the last). The THIRD image is the Goated art style reference.",
+          "subject": "GRAVEYARD HOUSE 2 of 4, bigger and a little creepier: a small, crooked gothic chapel with a leaning bell tower and a cracked bell, a pink-red (#FF3B69) stained-glass rose window, pointed arched windows glowing, ravens on the roof ridge, ivy on the stone walls, clusters of candles by the door. Set among rows of leaning tombstones and stone crosses, a wrought-iron fence, dead trees, a few pink-red will-o'-wisps, a full moon with bats. The house takes about 55% of the canvas height."
+        },
+        "3": {
+          "name": "Graveyard 3: grand mausoleum",
+          "prefix": "The FIRST attached image is the approved Graveyard scene and the SECOND its approved house: match their art style, palette, linework, lighting and finish exactly, so this reads as part of the same set. This is a NEW, different house for the same zone (house 3 of 4 in the Graveyard; each one is bigger and creepier than the last). The THIRD image is the Goated art style reference.",
+          "subject": "GRAVEYARD HOUSE 3 of 4, large and creepy: a grand, crumbling two-storey stone mausoleum-manor with heavy columns, a domed roof with a cracked spire, weeping angel statues with cracked faces on each side, skull carvings over the arched doorway, iron gates, glowing pink-red (#FF3B69) windows with ghostly faces peeking out, gargoyles on the corners. Set in an old, overgrown part of the cemetery: crowded tilted tombstones, open graves with shovels, dead trees with crows, swirling pink-red will-o'-wisps, a big moon. The house takes about 65% of the canvas height."
+        },
+        "4": {
+          "name": "Graveyard 4: necropolis cathedral",
+          "prefix": "The FIRST attached image is the approved Graveyard scene and the SECOND its approved house: match their art style, palette, linework, lighting and finish exactly, so this reads as part of the same set. This is a NEW, different house for the same zone (house 4 of 4 in the Graveyard, the biggest and creepiest). The THIRD image is the Goated art style reference.",
+          "subject": "GRAVEYARD HOUSE 4 of 4, the biggest and creepiest: a towering black gothic necropolis cathedral with many sharp crooked spires, flying buttresses and gargoyles, a huge carved stone skull above giant arched double doors that glow pink-red (#FF3B69) from within, a vast pink-red stained-glass window, rows of glowing crypts and a grand stone staircase lined with skull candles leading up to it, a ring of floating pink-red ghosts swirling around the spires, a huge moon behind it with a swarm of bats. Set on a hill above a dense sea of tombstones and iron fences. Very creepy, but spooky-cute, not gory. The house takes about 80% of the canvas height."
+        }
+      }
+    }
+  }
+}

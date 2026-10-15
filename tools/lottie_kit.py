@@ -156,17 +156,22 @@ class Comp:
     def add_image_asset(self, ref, w, h, filename):
         self.d["assets"].append({"id": ref, "w": w, "h": h, "u": "", "p": filename, "e": 0})
 
-    def add_image(self, ref, im, max_side=None):
-        """Embed a PIL RGBA image as a base64 PNG asset; returns its (w, h)."""
+    def add_image(self, ref, im, max_side=None, jpeg=None):
+        """Embed a PIL image as a base64 PNG asset (or JPEG at quality `jpeg`, for opaque
+        backgrounds); returns its (w, h)."""
         import base64
         import io
         if max_side and max(im.size) > max_side:
             im = im.copy()
             im.thumbnail((max_side, max_side))
         buf = io.BytesIO()
-        im.save(buf, "PNG", optimize=True)
+        if jpeg:
+            im.convert("RGB").save(buf, "JPEG", quality=jpeg, optimize=True, progressive=True)
+        else:
+            im.save(buf, "PNG", optimize=True)
+        mime = "jpeg" if jpeg else "png"
         self.d["assets"].append({"id": ref, "w": im.width, "h": im.height, "u": "",
-                                 "p": "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode(), "e": 1})
+                                 "p": f"data:image/{mime};base64," + base64.b64encode(buf.getvalue()).decode(), "e": 1})
         return im.width, im.height
 
     def marker(self, frame, name):

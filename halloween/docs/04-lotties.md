@@ -42,3 +42,11 @@ Feedback: the vector Lotties didn't match the painted art, and the G3 walk was p
 - **Fog lift** breaks the approved shroud into soft-edged pieces that part from the centre.
 - **Door opens:** the door swap to "done" now happens under the light burst (marker `swap_to_done`, frame 10).
 - Size limit set aside for this pass (see the notes for current sizes). Estimated image spend for the new assets: $0.48.
+
+## Door-opening scenes (one per house, with background)
+
+`tools/lottie_door_scenes.py` builds `motion/scenes/hw26-door-scene-z{1-4}.json` from the round 7 house scenes.
+Nano Banana 2 made the missing door state for each scene (`round7.json` → `house_scene_door`: Z1 and Z2 opened,
+Z3 and Z4 closed). The Lottie keeps the approved scene as the background and takes only a feathered patch
+around the door (where the two states differ, inside a per-house box) from each state: the closed patch rattles,
+then an iris matte reveals the open patch under a gold flash, rays, a zone-colour ring, sparkles and a Candy fan.

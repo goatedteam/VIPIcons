@@ -14,29 +14,84 @@
       "variants": {
         "z1": {
           "name": "Pumpkin Fields house",
-          "refs": ["halloween/variants/round1/house_z1/A.png", "reference/style/chest_open.png"],
+          "refs": [
+            "halloween/variants/round1/house_z1/A.png",
+            "reference/style/chest_open.png"
+          ],
           "prefix": "The FIRST attached image is an approved house for Goated's Halloween trail. Paint it into a full scene, keeping the house EXACTLY as designed: same shape, roof, windows, door, colours, decorations and proportions. Do not redesign it. The SECOND image is only the Goated art style reference.",
           "subject": "The Pumpkin Fields house in its home zone: rolling autumn farmland at night, a glowing pumpkin patch full of carved jack-o'-lanterns in pumpkin orange (#FFAA33), tall golden corn rows, a scarecrow, a crooked wooden fence, a windmill silhouette and autumn trees with red and orange leaves, a big full moon. Warm orange glow from the house windows and the lanterns."
         },
         "z2": {
           "name": "Hollow Woods house",
-          "refs": ["halloween/variants/round1/house_z2/B.png", "reference/style/chest_open.png"],
+          "refs": [
+            "halloween/variants/round1/house_z2/B.png",
+            "reference/style/chest_open.png"
+          ],
           "prefix": "The FIRST attached image is an approved house for Goated's Halloween trail. Paint it into a full scene, keeping the house EXACTLY as designed: same shape, roof, windows, door, colours, decorations and proportions. Do not redesign it. The SECOND image is only the Goated art style reference.",
           "subject": "The Hollow Woods house in its home zone: a deep enchanted forest at night, giant twisted ancient trees with hanging moss and roots, glowing toadstools and fireflies in ghostly green (#02DE82), hanging lanterns in the branches, a small stream with a little waterfall to one side, an owl on a branch, the moon glimpsed through the canopy."
         },
         "z3": {
           "name": "Graveyard house",
-          "refs": ["halloween/variants/round1/house_z3/A.png", "reference/style/chest_open.png"],
+          "refs": [
+            "halloween/variants/round1/house_z3/A.png",
+            "reference/style/chest_open.png"
+          ],
           "prefix": "The FIRST attached image is an approved house for Goated's Halloween trail. Paint it into a full scene, keeping the house EXACTLY as designed: same shape, roof, windows, door, colours, decorations and proportions. Do not redesign it. The SECOND image is only the Goated art style reference.",
           "subject": "The Graveyard house in its home zone: an old moonlit cemetery at night, rows of cracked leaning tombstones and stone crosses, wrought-iron fences and a gothic gate, clusters of melting candles, dead twisted trees with crows, little floating will-o'-wisps glowing candy pink-red (#FF3B69), a big full moon with bats."
         },
         "z4": {
           "name": "The Haunted House",
-          "refs": ["halloween/variants/round5/house_z4/B.png", "reference/style/chest_open.png"],
+          "refs": [
+            "halloween/variants/round5/house_z4/B.png",
+            "reference/style/chest_open.png"
+          ],
           "prefix": "The FIRST attached image is the approved Haunted House, the grand finale of Goated's Halloween trail. Paint it into a full scene, keeping the building EXACTLY as designed: same towers, roofs, stained-glass window, staircase, open glowing doors, colours, decorations and proportions. Do not redesign it. The SECOND image is only the Goated art style reference.",
           "subject": "The Haunted House on top of a rocky hill at the end of the trail: a winding stone stairway lined with flickering lanterns and jack-o'-lanterns leads up to it, old tombstones and dead trees on the slopes, a rusted iron fence with an open gate at the bottom, a huge full moon directly behind the house with bats circling the towers, a dramatic deep purple night sky. Grand and spooky, but spooky-cute, not gory."
         }
       }
+    },
+    "house_scene_door": {
+      "aspect": "16:9",
+      "size": "2K",
+      "ref_max": 2752,
+      "edit_brief": "map_edit_brief",
+      "variants": {
+        "z1": {
+          "name": "Z1 door open",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round7/house_scene/z1.png"
+          ],
+          "change": "Open the blue front door of the red farmhouse. The front door swings WIDE OPEN (opened inwards), and the doorway is filled with bright warm golden light pouring out, spilling a soft golden glow onto the step and the path in front. Only the door and its immediate light change."
+        },
+        "z2": {
+          "name": "Z2 door open",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round7/house_scene/z2.png"
+          ],
+          "change": "Open the round orange wooden door in the tree trunk: it swings inwards, revealing a round doorway. The front door swings WIDE OPEN (opened inwards), and the doorway is filled with bright warm golden light pouring out, spilling a soft golden glow onto the step and the path in front. Only the door and its immediate light change."
+        },
+        "z3": {
+          "name": "Z3 door shut",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round7/house_scene/z3.png"
+          ],
+          "change": "The doorway is SHUT: a single dark purple-grey wooden gothic door, pointed-arch shaped to fit the doorway exactly, with iron hinges and a ring handle; NO light comes from the doorway and there is no golden light spill on the steps or path in front of it. The windows stay lit exactly as they are. Only the door and the light spill change."
+        },
+        "z4": {
+          "name": "Z4 doors shut",
+          "mode": "edit",
+          "refs": [
+            "halloween/variants/round7/house_scene/z4.png",
+            "halloween/variants/round5/house_z4_dark_fix/B.png"
+          ],
+          "roles": "the second image shows the same house with these doors closed; use it only for the closed door design.",
+          "change": "The doorway is SHUT: the big arched double doors at the top of the stairs are closed, both heavy dark wooden doors meeting in the middle, with iron hinges and a ring handle; NO light comes from the doorway and there is no golden light spill on the steps or path in front of it. The windows stay lit exactly as they are. Only the door and the light spill change."
+        }
+      }
     }
-  }
+  },
+  "map_edit_brief": "Edit the FIRST attached image: an approved, finished game scene for Goated's Halloween event, painted in a hand-painted 2.5D style with bold dark ink outlines and cel shading.\n\nCHANGE: {change}\n{roles}\nPRESERVE: everything not named in CHANGE, exactly as it is, pixel for pixel where possible: the framing and camera, the house's shape and every detail, the windows, the background, every prop, colours, linework and lighting. Keep the full 16:9 frame with nothing cropped or shifted.\n\nCONSTRAINTS: add nothing that is not asked for. No text, no watermark."
 }

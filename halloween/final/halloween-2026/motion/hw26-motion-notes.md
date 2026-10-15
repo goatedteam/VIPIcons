@@ -58,3 +58,18 @@ The burst plays behind the Candy icon. The icon's own scale curve (1 → 1.45 �
 ## G3 walk: ground speed
 While one boot is planted it slides back 48 px per 0.3 s on the 256 px canvas. At the on-screen size (128 px), move G3
 along the trail at about **80 px/s** so her feet don't skate.
+
+## Door opens, full scenes (`scenes/hw26-door-scene-z{1-4}.json`)
+One file per house, background included: 1920×1080, 30 fps, 3.2 s (96 frames), plays once and holds the open
+state on the last frame. The background is the approved house scene (`scene/hw26-house-z{n}-scene.png`); only a
+soft-edged patch around the door changes, so nothing else in the frame moves.
+
+| Frames | What happens |
+|---|---|
+| 0–26 | Idle; warm light flickers at the door seam, then the closed door rattles |
+| 26–40 | Gold flash; an iris reveal opens the door; the camera pushes in slowly (to 105% by the end) |
+| 27–72 | Light rays, a ring in the zone colour, sparkles and a fan of 12 Candy landing in front |
+| 34–95 | Door stays open with a breathing warm glow |
+
+Marker `door_open` at frame 30. Ring colours: Z1 #FFAA33, Z2 #02DE82, Z3 #FF3B69, Z4 #D4FF00 (Goated lime, finale).
+Sizes 1.8–3.5 MB: the 1920×1080 background is an embedded JPEG; serve it externally to cut that.

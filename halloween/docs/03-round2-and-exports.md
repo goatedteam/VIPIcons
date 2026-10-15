@@ -109,3 +109,11 @@ Each approved house in its lit state (Z1 A, Z2 B, Z3 A, Z4 B) painted into its o
 plus the Goated style reference. All four kept their designs.
 
 Exports: `scene/hw26-house-z{1-4}-scene.png` (2752×1536) and `masters/hw26-house-z{1-4}-scene@native.png` (5504×3072).
+
+## Round 8: four more houses each for Hollow Woods and the Graveyard
+
+One-shot, 4K, 16:9 scenes (`halloween/concepts/round8.json`), each set getting bigger and creepier, styled from
+the approved zone house and scene. Woods: 1 toadstool cottage, 2 stilted treehouse cabin, 3 hollow-oak manor,
+4 witch-tree fortress with a face. Graveyard: 1 gravedigger's crypt hut, 2 gothic chapel, 3 grand mausoleum,
+4 necropolis cathedral. Exports: `scene/hw26-{woods,grave}-house-{1-4}-scene.png` (2752×1536) and
+`masters/…@native.png` (5504×3072).

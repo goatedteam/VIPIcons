@@ -292,6 +292,12 @@ def build():
         rel = f"variants/round7/house_scene/{z}"
         yield f"scene/hw26-house-{z}-scene.png", lambda rel=rel: Image.open(src(rel)).convert("RGBA").resize((2752, 1536), Image.LANCZOS)
         yield f"masters/hw26-house-{z}-scene@native.png", lambda rel=rel: Image.open(src(rel)).convert("RGBA")
+    # Round 8: four more houses per zone (Hollow Woods, Graveyard), each bigger and creepier
+    for zone in ("woods", "grave"):
+        for i in "1234":
+            rel = f"variants/round8/{zone}/{i}"
+            yield f"scene/hw26-{zone}-house-{i}-scene.png", lambda rel=rel: Image.open(src(rel)).convert("RGBA").resize((2752, 1536), Image.LANCZOS)
+            yield f"masters/hw26-{zone}-house-{i}-scene@native.png", lambda rel=rel: Image.open(src(rel)).convert("RGBA")
     yield "shop/hw26-sold-out.png", lambda: place(cutout(f"{R1}/soldout/A"), (192, 192), (176, 176))
 
 
@@ -300,6 +306,6 @@ if __name__ == "__main__":
     for rel, fn in build():
         if only and not any(rel.startswith(o) for o in only):
             continue
-        q = (0, 95) if rel.startswith(("map/hw26-map", "masters/hw26-map", "trailmap/", "masters/hw26-trailmap", "scene/", "masters/hw26-house-z", "modal/", "shop/hw26-shop")) else (65, 92)
+        q = (0, 95) if rel.startswith(("map/hw26-map", "masters/hw26-map", "trailmap/", "masters/hw26-trailmap", "scene/", "masters/hw26-house-z", "masters/hw26-woods-", "masters/hw26-grave-", "modal/", "shop/hw26-shop")) else (65, 92)
         # dithering shows as grain on soft semi-transparent textures
         save(fn(), rel, quality=q, dither=0.0 if rel in ("map/hw26-fog.png", "meter/hw26-meter-fill.png") else 1.0)
